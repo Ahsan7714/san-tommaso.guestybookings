@@ -4,6 +4,7 @@ import { RiMailOpenFill } from 'react-icons/ri';
 import { FaWhatsapp } from 'react-icons/fa6';
 import { Link } from 'react-router-dom';
 import GoogleTranslateButton from '../Translator/Translator';
+import "./Navbar.css"
 
 const Navbar = () => {
   return (
@@ -22,7 +23,7 @@ const Navbar = () => {
       </div>
       <div className='flex'>
         <div>
-          {/* <GoogleTranslateButton/> */}
+          <GoogleTranslateButton/>
         </div>
         <div className='bg-[#9d155c] h-[70px] lg:h-[90px] w-[100px] lg:w-[140px] flex justify-center items-center'>
           <Link className='text-[20px] text-white'>Book</Link>

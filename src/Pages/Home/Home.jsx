@@ -13,7 +13,7 @@ const Home = () => {
         <h1 className='text-[40px] font-bold'>Booking Agriturismo San Tommaso</h1>
         <p className='text-[25px] font-semibold absolute lg:left-[40%] left-[29%]'>Enjoy your stay</p>
         </div>
-        <div className='absolute lg:left-[7%] lg:top-[112%] top-[85%] left-[10%]'>
+        <div className='absolute lg:left-[7%] lg:top-[24%] top-[20%] left-[10%]'>
           <DatePicker/>
         </div>
       </div>
