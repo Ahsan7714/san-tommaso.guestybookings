@@ -32,20 +32,23 @@ const DatePocker = () => {
   }
 
   return (
-    <div className="flex lg:flex-row flex-col lg:h-[100px] lg:w-[100%] lg:ml-24 bg-white shadow-lg rounded-lg justify-center items-center gap-3 lg:gap-7 mb-10 pt-3 lg:pt-0 pb-6 lg:pb-0">
+    <div className="bg-white flex lg:flex-row md:flex-row items-center justify-between  gap-10 w-fit mx-auto rounded-md   px-6 flex-col" >
       <div style={{ margin: 20 }}>
         <RangePicker
           className="h-[50px] lg:w-[550px] focus:border-blue-500"
           onChange={handleDateChange}
         />
       </div>
+      <div className="flex gap-4 lg:flex-row md:flex-row flex-col">
+
+     
       <div>
         <select
           id="guests"
           name="guests"
           value={selectedGuests}
           onChange={handleGuestsChange}
-          className="h-[50px] w-[300px] lg:w-[150px] text-[18px] px-5 text-[#00000091] outline-none focus:border-blue-500 border border-[#00000035]"
+          className="h-[50px] w-[200px] lg:w-[130px] text-[18px] pl-2 text-[#00000091] outline-none focus:border-blue-500 border border-[#00000035]"
         >
           <option value="" disabled hidden>
             Guest
@@ -60,6 +63,7 @@ const DatePocker = () => {
         >
           Search
         </button>
+      </div>
       </div>
     </div>
   );

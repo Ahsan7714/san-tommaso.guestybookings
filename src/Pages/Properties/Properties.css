@@ -1,0 +1,188 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+.banner_container {
+  background-image: url("../../../public/images/IMG_1928\ 2.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 65vh;
+  width: 100%;
+  object-fit: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.banner_container .banner{
+    background-color: rgba(2, 2, 2, 0.411);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+.banner_container .banner .banner_text{
+    color: white;
+    font-size: 3.2rem;
+    font-weight: 800;
+    width: 59%;
+    text-align: center;
+    text-transform: capitalize;
+    font-family: 'Inter', sans-serif;
+}
+
+
+/* Styles for filter options */
+.filter_options {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 40px;
+  }
+  
+  
+  .filter_option label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .filter_option input,
+  .filter_option select {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  /* Additional styles for the form */
+  .bottom_form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+  }
+
+  .cards_container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 60px;
+  }
+  
+  .card {
+    border: 1px solid #ccc;
+    margin: 10px;
+    width: 80%;
+    display: flex;
+    margin: 30px auto;
+    gap: 50px;
+  }
+  .card_img{
+    flex: 0.6;
+  }
+  .card_img img {
+    height: 100%;
+
+  }
+  
+  .card_text {
+    display: flex;
+    flex-direction: column;
+    padding: 30px 0px;
+    justify-content: space-between;
+    flex: 1;
+
+  }
+  .card_text .title{
+    font-size: 20px;
+    font-weight: 600;
+    color: #007bff;
+  }
+  
+  .upper {
+    margin-bottom: 10px;
+  }
+  
+  .upper p {
+    margin: 0;
+    font-weight: bold;
+  }
+  
+  .description p {
+    margin: 0;
+    color: #555;
+  }
+  
+  .bottom {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    margin-top: 20px;
+  }
+.bottom span{
+  display: flex;
+  font-size: 20px;
+  gap: 5px;
+  align-items: center;
+  color: gray;
+}  
+.bottom span p{
+
+  font-size: 15px;
+  color: #007bff;
+  color: gray;
+  font-weight: 100;
+
+}
+  .bottom p {
+    margin: 0;
+    font-weight: bold;
+  }
+  /* Styles for the pricing section */
+  .pricing {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50%;
+    justify-content: center;
+    flex: 0.4;
+
+
+  }
+  
+  .pricing h2 {
+    margin: 0;
+  }
+  
+  .pricing h3 {
+    margin: 0;
+    color: #555;
+}
+  .pricing p {
+    margin: 0;
+    font-weight: bold;
+    font-size: 22px;
+    color: #007bff; /* or your preferred color */
+  }
+  
+  .pricing button {
+    margin-top: 10px;
+    background-color: #007bff; /* or your preferred color */
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+  }
+  .pricing .details_btn{
+    background-color: #ff6600; /* or your preferred color */
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    padding: 10px 15px;
+  }
+  
+  .pricing button:hover {
+    background-color: #0056b3; /* or your preferred color on hover */
+  }
+  
