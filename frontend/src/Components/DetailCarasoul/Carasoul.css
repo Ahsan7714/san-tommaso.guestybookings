@@ -1,0 +1,19 @@
+/* Carasoul.css */
+
+/* Styling for left and right slider buttons */
+.slick-prev{
+    margin-left: 30px;
+    display: block;
+}
+.slick-next {
+  color: black;
+  margin-right: 30px;
+
+}
+/* Carasoul.css */
+
+.image-transition {
+    transition: opacity 0.8s ease-in-out;
+  }
+  
+/* Optional: Add styling for other elements as needed */

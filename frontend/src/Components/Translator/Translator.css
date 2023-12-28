@@ -1,0 +1,31 @@
+/* GoogleTranslateButton.css */
+
+.goog-te-combo {
+    height: 20px !important;
+    width: 20px !important;
+    border: none !important;
+    background-color: transparent !important;
+    color: black !important;
+    font-size: 12px !important;
+  }
+  .indicator{
+    display: none !important; 
+  }
+  .text{
+    color: black !important;
+    background-color: aqua !important;
+  }
+
+  .goog-te-combo-arrow, .goog-te-gadget-icon {
+    display: none !important;
+  }
+  
+  .goog-te-menu-value {
+    color: black !important;
+    font-size: 12px !important;
+  }
+  
+  .goog-te-menu-frame.skiptranslate {
+    display: none !important;
+  }
+  
