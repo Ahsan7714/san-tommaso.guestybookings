@@ -1,4 +1,3 @@
-import React from 'react'
 import bg from '../../assets/vilabg.jpg'
 import DatePicker from '../../Components/DatePicker/DatePicker'
 import About from '../../Components/About/About'
@@ -13,7 +12,7 @@ const Home = () => {
         <h1 className='text-[40px] font-bold'>Booking Agriturismo San Tommaso</h1>
         <p className='text-[25px] font-semibold absolute lg:left-[40%] left-[29%]'>Enjoy your stay</p>
         </div>
-        <div className='absolute lg:left-[7%] lg:top-[112%] top-[85%] left-[10%]'>
+        <div className='  -translate-y-16  shadow-2xl w-fit mx-auto'>
           <DatePicker/>
         </div>
       </div>
