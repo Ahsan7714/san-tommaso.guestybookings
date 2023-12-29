@@ -34,7 +34,6 @@ const GoogleTranslateButton = () => {
   return (
     <div id="google_translate_element" >
       <style>
-       
       </style>
     </div>
   );

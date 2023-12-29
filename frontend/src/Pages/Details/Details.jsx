@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect } from "react";
 import Carasoul from "../../Components/DetailCarasoul/Carasoul";
 import about from "../../assets/about.jpg";
 import con from "../../assets/bgcon.jpg";
@@ -7,23 +7,40 @@ import { MdMeetingRoom } from "react-icons/md";
 import { FaBed } from "react-icons/fa";
 import { FaBath } from "react-icons/fa";
 import BookingModel from "./BookingModel";
-
-
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 
 const Details = () => {
-    const images = Array.from({ length: 5 }, (_, index) => index);
-    const [isSmallModalOpen, setIsSmallModalOpen] = useState(false);
+  useEffect(() => {
+    // Check if the map container already has a map
+    if (!document.getElementById('leafletMap')._leaflet_id) {
+      // Create a map centered around a random location
+      const map = L.map('leafletMap').setView([37.7749, -122.4194], 11);
 
-    const openModal = () => {
-      setIsSmallModalOpen(true);
-    };
-  
-    const closeModal = () => {
-      setIsModalOpen(false);
-    };
+      // Add a tile layer (you can use other tile providers or your own)
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors',
+      }).addTo(map);
+
+      // Add a marker to the map
+      L.marker([37.7749, -122.4194]).addTo(map)
+        .bindPopup('Random Location')
+        .openPopup();
+    }
+  }, []);
+  const images = Array.from({ length: 5 }, (_, index) => index);
+  const [isSmallModalOpen, setIsSmallModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsSmallModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   return (
-    <div className="bg-[#e5e7eb]">
+    <div className="bg-[#e5e7eb] mb-20 font-poppins">
       {/* Carasoul */}
       <div className=" mt-22">
         <Carasoul />
@@ -117,7 +134,7 @@ const Details = () => {
             </div>
           </div>
           <div className="flex-1 hidden lg:block md:block">
-            <img src={con} alt="" className="w-[100%] h-[100vh] rounded-sm" />
+            <img src={con} alt="" className="w-[100%] h-[140vh] rounded-sm" />
           </div>
         </div>
       </div>
@@ -188,31 +205,47 @@ const Details = () => {
         </div>
         {/* Amenities */}
         <div>
-          <h1 className="pt-6 pb-2 text-[20px] font-semibold">
-            Amenities
-          </h1>
-          <p>private pool, air conditioning, espresso machine, nespresso machine, hob/stove, oven, fridge with freezer, dishwasher, washing machine, tumble dryer, iron+board, television, wifi, cot, barbeque, hairdryer</p>
+          <h1 className="pt-6 pb-2 text-[20px] font-semibold">Amenities</h1>
+          <p>
+            private pool, air conditioning, espresso machine, nespresso machine,
+            hob/stove, oven, fridge with freezer, dishwasher, washing machine,
+            tumble dryer, iron+board, television, wifi, cot, barbeque, hairdryer
+          </p>
         </div>
-        
+        {/* map */}
+        <div className="lg:w-[60%] py-5 opacity-90">
+          <h1 className="text-[30px] font-semibold pb-4">Map</h1>
+        <div id="leafletMap" className=" h-[400px] " />;
+        </div>
         {/* images */}
         <div className="pb-10">
           <h1 className="text-[30px] font-semibold pb-4">Images</h1>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
-      {images.map((index) => (
-        <div key={index}>
-          <img src={about} alt="" className="lg:h-[300px] lg:w-[380px]  shadow-xl" />
-        </div>
-      ))}
-    </div>
+            {images.map((index) => (
+              <div key={index}>
+                <img
+                  src={about}
+                  alt=""
+                  className="lg:h-[300px] lg:w-[380px]  shadow-xl"
+                />
+              </div>
+            ))}
+          </div>
         </div>
         {/* Book now button */}
         <div className="fixed bottom-5 right-5 ">
-          <button className="bg-[#9d155c] shadow-lg text-white px-6 py-3 rounded-md" onClick={openModal}>
-           Click to Book Now
+          <button
+            className="bg-[#9d155c] shadow-lg text-white px-6 py-3 rounded-md"
+            onClick={openModal}
+          >
+            Click to Book Now
           </button>
         </div>
         {/* Modal */}
-        <BookingModel isSmallModalOpen={isSmallModalOpen} setIsSmallModalOpen={setIsSmallModalOpen} />
+        <BookingModel
+          isSmallModalOpen={isSmallModalOpen}
+          setIsSmallModalOpen={setIsSmallModalOpen}
+        />
       </div>
     </div>
   );
