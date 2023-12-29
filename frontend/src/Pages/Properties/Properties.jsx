@@ -5,27 +5,14 @@ import { FaPerson ,FaBuilding   } from "react-icons/fa6";
 import { FaBath, FaBed } from "react-icons/fa6";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useLocalContext } from '../../context/contextProvider'
 const Properties = () => {
-    const [allproperties, setProperties] = useState([]);
-    const [loading, setLoading] = useState(true);
+const {allProperties,getProperties,loading} = useLocalContext();
   
-    const fetchProperties = async () => {
-      try {
-        const res = await axios.get("http://localhost:5000/api/v1/processingOrders");
-        console.log(res.data);
-  
-        // Assuming the property you want is 'results'
-        const propertiesFromServer = res.data.results || [];
-        setProperties(propertiesFromServer);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-  
+    
     useEffect(() => {
-      fetchProperties();
+      getProperties("2021-10-10","2021-10-11",2);
+      console.log({allProperties});
     }, []);
   
     if (loading) {
@@ -46,58 +33,16 @@ const Properties = () => {
     </div>
 </div>
 
-<form className="search_form  flex flex-col items-center w-fit   justify-center mx-auto shadow-md ">
-    <div className="upper_form -translate-y-16 ">
+<form className="search_form  -translate-y-16 py-4 flex flex-col items-center w-fit   justify-center mx-auto shadow-xl ">
+    <div className="upper_form  ">
 <DatePicker/>
-    </div>
-    <div className="bottom_form  w-[100%] -translate-y-10">
-
-<div className="filter_options">
-    <div className="filter_option">
-        <label htmlFor="min_price">Min Price</label>
-        <input type="number" name="min_price" id="min_price" placeholder="Min Price"/>
-    </div>
-    <div className="filter_option">
-        <label htmlFor="max_price">Max Price</label>
-        <input type="number" name="max_price" id="max_price" placeholder="Max Price"/>
-    </div>
-    <div className="filter_option">
-        <label htmlFor="property_type">Property Type</label>
-        <select name="property_type" id="property_type">
-            <option value="all">All</option>
-            <option value="house">House</option>
-            <option value="apartment">Apartment</option>
-            <option value="condo">Condo</option>
-        </select>
-    </div>
-    <div className="filter_option">
-        <label htmlFor="amenties">Amenties</label>
-        <select name="amenties" id="amenties">
-            <option value="all">All</option>
-            <option value="gym">Gym</option>
-            <option value="pool">Pool</option>
-            <option value="parking">Parking</option>
-            <option value="elevator">Elevator</option>
-        </select>
-    </div>
-    <div className="filter_option">
-        <label htmlFor="bedrooms">Bedrooms</label>
-        <select name="bedrooms" id="bedrooms">
-            <option value="all">All</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-        </select>
-    </div>
-</div>
     </div>
 </form>
 
 
 <div className="cards_container">
 {
-    allproperties &&  allproperties.map((property, index) => {
+    allProperties &&  allProperties.map((property, index) => {
         return (
             <div className="card" key={index}>
                 <div className="card_img">
