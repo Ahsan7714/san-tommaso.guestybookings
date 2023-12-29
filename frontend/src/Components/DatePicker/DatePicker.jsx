@@ -1,30 +1,31 @@
 import { DatePicker } from "antd";
 import { useState } from "react";
 import moment from "moment";
+import { useLocalContext } from "../../context/contextProvider";
 
 
 const { RangePicker } = DatePicker;
 
 const DatePocker = () => {
-  const [dates, setDates] = useState([]);
-  const [selectedGuests, setSelectedGuests] = useState('');
+const {dates,setDates,selectedGuests,setSelectedGuests,getProperties}=useLocalContext()
 
-  const handleDateChange = (values) => {
-    setDates(
-      values.map((item) => {
-        return moment(item).format("YYYY-DD-MM");
-      })
-    );
-  };
+const handleDateChange = (values) => {
+console.log(values);
+// convert this value into the format that you want is YYYY-MM-DD
+const checkIn = moment(values[0].$d).format("YYYY-MM-DD");
+const checkOut = moment(values[1].$d).format("YYYY-MM-DD");
+setDates([checkIn,checkOut])
+};
+
 
   const handleGuestsChange = (e) => {
     setSelectedGuests(e.target.value);
   };
 
-  const handleSearch = () => {
-    // Perform actions with dates and selectedGuests
-    console.log("Selected Dates:", dates);
-    console.log("Selected Guests:", selectedGuests);
+  const handleSearch = (e) => {
+    e.preventDefault();
+    
+getProperties(dates[0],dates[1],selectedGuests)
   };
 
   const options = [];
@@ -35,10 +36,10 @@ const DatePocker = () => {
   return (
     <div className="bg-white flex lg:flex-row md:flex-row items-center justify-between  lg:gap-10 w-fit mx-auto rounded-md   px-6 flex-col" >
       <div style={{ margin: 20 }}>
-        <RangePicker
-          className="h-[50px] lg:w-[550px] focus:border-blue-500"
-          onChange={handleDateChange}
-        />
+      <RangePicker
+  className="h-[50px] lg:w-[550px] focus:border-blue-500"
+  onChange={(dates) => handleDateChange(dates)}
+/>
       </div>
       <div className="flex gap-4 lg:flex-row md:flex-row flex-col">
 
@@ -60,7 +61,8 @@ const DatePocker = () => {
       <div>
         <button
           className="h-[50px] w-[300px] lg:w-[130px] bg-[#9d155c] text-white mb-6 lg:mb-0"
-          onClick={handleSearch}
+          onClick={(e)=>handleSearch(e)}
+
         >
           Search
         </button>

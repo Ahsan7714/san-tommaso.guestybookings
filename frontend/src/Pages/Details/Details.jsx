@@ -1,35 +1,49 @@
-import React, { useState ,useEffect } from "react";
+import React, { useState ,useEffect,useContext} from "react";
 import Carasoul from "../../Components/DetailCarasoul/Carasoul";
 import about from "../../assets/about.jpg";
 import con from "../../assets/bgcon.jpg";
-import { FaEuroSign } from "react-icons/fa";
+import { FaBuilding, FaEuroSign } from "react-icons/fa";
 import { MdMeetingRoom } from "react-icons/md";
 import { FaBed } from "react-icons/fa";
 import { FaBath } from "react-icons/fa";
 import BookingModel from "./BookingModel";
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import { useParams } from "react-router-dom";
+import { Context } from "../../context/Context";
+
 
 const Details = () => {
-  useEffect(() => {
-    // Check if the map container already has a map
-    if (!document.getElementById('leafletMap')._leaflet_id) {
-      // Create a map centered around a random location
-      const map = L.map('leafletMap').setView([37.7749, -122.4194], 11);
+    const images = Array.from({ length: 5 }, (_, index) => index);
+    const [isSmallModalOpen, setIsSmallModalOpen] = useState(false);
+const {getSinglePropertyDetails,property,loading}= useContext(Context);
+const {id}= useParams();
+useEffect(() => {
+  window.scrollTo(0, 0);
+   getSinglePropertyDetails(id);
+  console.log({property})
+}, [id]);
 
-      // Add a tile layer (you can use other tile providers or your own)
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap contributors',
-      }).addTo(map);
+useEffect(() => {
+  // Check if the map container already has a map
+  const mapContainer = document.getElementById('leafletMap');
+  if (mapContainer && !mapContainer._leaflet_id) {
+    // Create a map centered around a random location
+    const map = L.map('leafletMap').setView([37.7749, -122.4194], 11);
 
-      // Add a marker to the map
-      L.marker([37.7749, -122.4194]).addTo(map)
-        .bindPopup('Random Location')
-        .openPopup();
-    }
-  }, []);
-  const images = Array.from({ length: 5 }, (_, index) => index);
-  const [isSmallModalOpen, setIsSmallModalOpen] = useState(false);
+    // Add a tile layer
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors',
+    }).addTo(map);
+
+    // Add a marker to the map
+    L.marker([37.7749, -122.4194])
+      .addTo(map)
+      .bindPopup('Random Location')
+      .openPopup();
+  }
+}, []);
+
 
   const openModal = () => {
     setIsSmallModalOpen(true);
@@ -38,6 +52,16 @@ const Details = () => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
+    if(loading){
+      return <h1>Loading...</h1>
+    }
+    const formatHeading = (heading) => {
+      // Convert camelCase to space-separated format
+      const spacedString = heading.replace(/([a-z])([A-Z])/g, '$1 $2');
+      // Capitalize the first letter of each word
+      return spacedString.charAt(0).toUpperCase() + spacedString.slice(1);
+    };
 
   return (
     <div className="bg-[#e5e7eb] mb-20 font-poppins">
@@ -53,14 +77,14 @@ const Details = () => {
           {/* left side image */}
           <div>
             <img
-              src={about}
+              src={property?.pictures[0].large}
               alt=""
               className="h-[400px] w-[600px] rounded-lg shadow-md object-fit hidden lg:block md:block"
             />
           </div>
           {/* right side details */}
           <div className="flex  gap-5 px-4 lg:px-0 lg:pl-20 pt-3">
-            <div className="flex flex-col gap-5">
+            <div className="flex flex-col gap-6">
               <h1 className="text-[22px] font-semibold">Property Features</h1>
               <div className="flex gap-3 items-center">
                 <div className="text-[20px]">
@@ -86,14 +110,30 @@ const Details = () => {
                 </div>
                 <p className="text-[20px] font-semibold">Bathrooms</p>
               </div>
+              <div className="flex gap-3 items-center">
+                <div className="text-[20px]">
+                  <FaBuilding />
+                </div>
+                <p className="text-[20px] font-semibold">Property Type</p>
+              </div>
+              <div className="flex gap-3 items-center mt-1">
+                <div className="text-[20px]">
+                  <FaBuilding />
+                </div>
+                <p className="text-[20px] font-semibold">Address</p>
+              </div>
             </div>
             {/* price, bedrooms, beds, bathrooms */}
-            <div className="flex flex-col gap-7 text-[16px] pt-6">
+            <div className="flex flex-col gap-8 text-[16px] pt-4">
               <p></p>
-              <p className="pl-8 text-[17px]"> € 500 per week</p>
-              <p className="pl-8 text-[17px]">8</p>
-              <p className="pl-8 text-[17px]">16</p>
-              <p className="pl-8 text-[17px]">4</p>
+              <p className="pl-8 text-[17px]">{property?.prices?.currency} {property?.prices?.basePrice}</p>
+              <p className="pl-8 text-[17px]">{property?.bedrooms}</p>
+              <p className="pl-8 text-[17px]">{property?.beds}</p>
+              <p className="pl-8 text-[17px]">{property?.bathrooms}</p>
+              <p className="pl-8 text-[17px]">{property?.propertyType}</p>
+              <p className="pl-8 text-[17px]">{property?.address?.full}</p>
+
+
             </div>
           </div>
         </div>
@@ -137,71 +177,27 @@ const Details = () => {
             <img src={con} alt="" className="w-[100%] h-[140vh] rounded-sm" />
           </div>
         </div>
+
       </div>
       {/* Accommodation */}
       <div className="flex flex-col lg:px-24 px-5">
-        <div>
-          <h1 className="pt-4 pb-2 text-[30px]">Guest Access</h1>
-          <p>
-            Villa AL SOLE is part of the Agriturismo San Tommaso, 2.5 km from
-            the town of Pomarance, on the sunny side of a hill 200 m above sea
-            level The absolute protagonist is the panorama of the endless valley
-            and the SUN, which from morning to evening creates a wonderful light
-            atmosphere until sunset with breathtaking landscapes. The typical
-            Tuscan countryside with cultivated hills, olive trees and vineyards
-            will immerse you in an atmosphere of relaxation and enjoying a
-            holiday with friends and family.
-          </p>
-        </div>
-        <div>
-          <h1 className="pt-4 pb-2 text-[30px]">Space</h1>
-          <p>
-            The villa has been recently renovated and equipped to offer its
-            guests the best hospitality in a refined Tuscan style. Stone, beams
-            and terracotta ceilings left exposed. All apartments have air
-            conditioning, a comfortable loggia and a gazebo for outdoor dining.
-          </p>
-          <p>
-            All around an evergreen garden, a terrace with table and brazier for
-            dining under the stars. Villa represents an ideal location to
-            appreciate privacy and tranquility without having to give up the
-            comforts located in the immediate vicinity. In fact, it is located 2
-            km from the village of Pomarance with shops, restaurants and cafes.
-            We are among the unique landscapes of the Val di Cecina, the land of
-            the ancient villages (Pomarance, Volterra, Montecatini Val di
-            Cecina), as well as the numerous oases and reserves, such as
-            Berignone and Monterufoli, that surround the immediate surroundings.
-            A few kilometres away are the sources of the Cecina River with
-            beautiful waters for swimming and enjoying untouched nature. The
-            villa is part of an organic farm producing extra virgin olive oil
-            and quality wine, which can be tasted in the villa upon request.
-          </p>
-          <p>
-            Upon request, we can organise breakfasts, lunches, dinners or
-            tastings of local products.
-          </p>
-        </div>
-        <div>
-          <h1 className="pt-4 pb-2 text-[25px]">Interaction</h1>
-          <p>
-            I live here and take care of the garden, the pool, the vineyard and
-            the olive trees. I am always at your disposal for any need and
-            information.
-          </p>
-        </div>
-        <div>
-          <h1 className="pt-4 pb-2 text-[25px]">Other things to note</h1>
-          <p>
-            this apartment is located near a road and at certain times of the
-            day there may be noises
-          </p>
-        </div>
+      <h1 className="text-[35px] font-semibold pb-3">{property?.title}</h1>
+        
+        <div className="flex flex-col ">
+  {property?.publicDescription &&
+    Object.entries(property.publicDescription).map(([key, value]) => (
+      <div key={key}>
+        <h1 className="pt-4 pb-2 text-[30px] capitalize">{ formatHeading(key)}</h1>
+        <p>{value}</p>
+      </div>
+    ))}
+</div>
         <div>
           <h1 className="pt-6 pb-2 text-[20px] font-semibold">
             Check in and out
           </h1>
-          <p>Check in:15:00</p>
-          <p>Check out:10:00</p>
+          <p>Check In {property?.defaultCheckInTime}</p>
+          <p>Check Out {property?.defaultCheckOutTime}</p>
         </div>
         {/* Amenities */}
         <div>
@@ -216,6 +212,15 @@ const Details = () => {
         <div className="lg:w-[60%] py-5 opacity-90">
           <h1 className="text-[30px] font-semibold pb-4">Map</h1>
         <div id="leafletMap" className=" h-[400px] " />;
+          <h1 className="pt-6 pb-2 text-[20px] font-semibold">
+            Amenities
+          </h1>
+          <ul className="list_contianer_amenities">
+            {property?.amenities?.map((amenity)=>(
+              <li key={amenity}>{amenity}</li>
+            ))}
+
+          </ul>
         </div>
         {/* images */}
         <div className="pb-10">
@@ -231,6 +236,13 @@ const Details = () => {
               </div>
             ))}
           </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8">
+      {property?.pictures.map((pic,index) => (
+        <div key={index} className="w-full h-[270px]">
+          <img src={pic?.large} alt="" className="h-full  shadow-xl w-full " />
+        </div>
+      ))}
+    </div>
         </div>
         {/* Book now button */}
         <div className="fixed bottom-5 right-5 ">

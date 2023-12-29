@@ -7,7 +7,8 @@ const router = express.Router();
 
 
 router.get('/listings', async(req, res) => {
-    const {checkIn,checkOut,count}=req.body
+    const {checkIn,checkOut,count}=req.query
+    console.log(checkIn,checkOut,count);
     try {
         const response = await fetch(`https://open-api.guesty.com/v1/listings?checkIn=${checkIn}&checkOut=${checkOut}&minOccupancy=${count}`, {
             headers: {
@@ -18,7 +19,7 @@ router.get('/listings', async(req, res) => {
     
         
         const data = await response.json();
-        console.log(data);
+        
         
         res.status(200).json(data);
       } catch (error) {

@@ -9,13 +9,12 @@ import Thanks from './Pages/ThankYou/Thanks'
 
 import Properties from './Pages/Properties/Properties'
 function App() {
-
   return (
     <>
     <Navbar/>
     <Routes>
       <Route path='/' element={<Home/>} />
-      <Route path='/details' element={<Details/>} />
+      <Route path='/properties/:id' element={<Details/>} />
       <Route path='/booking-form' element={<BookingForm/>} />
       <Route path='/thank-you' element={<Thanks/>} />
       <Route exact path='/' element={<Home/>} />

@@ -74,6 +74,7 @@
     border: 1px solid #ccc;
     margin: 10px;
     width: 80%;
+    height: 300px;
     display: flex;
     margin: 30px auto;
     gap: 50px;
