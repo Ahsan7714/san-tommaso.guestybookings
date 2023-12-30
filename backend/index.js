@@ -6,7 +6,7 @@ app.use(express.json());
 require("dotenv").config({ path: "./config/.env" });
 app.use(cors(
     {
-        origin:"https://booking-ecru-phi.vercel.app",
+        origin:"*",
         withCredentials:true,
     }
 
