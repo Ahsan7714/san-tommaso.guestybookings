@@ -123,8 +123,7 @@ const Details = () => {
                 <p className="text-[20px] font-semibold">Address</p>
               </div>
             </div>
-            {/* price, bedrooms, beds, bathrooms */}
-            <div className="flex flex-col gap-8 text-[16px] pt-4">
+            <div className="flex flex-col gap-8 text-[16px] lg:pt-12 pt-16">
               <p></p>
               <p className="pl-8 text-[17px]">{property?.prices?.currency} {property?.prices?.basePrice}</p>
               <p className="pl-8 text-[17px]">{property?.bedrooms}</p>
@@ -135,6 +134,7 @@ const Details = () => {
 
 
             </div>
+
           </div>
         </div>
         {/* name and description */}

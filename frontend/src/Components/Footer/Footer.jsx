@@ -6,16 +6,16 @@ import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
-    <div className="flex flex-col  bg-gray-200">
-      <div className=" flex lg:flex-row flex-col justify-between px-7 py-14 items-start border-b-[1px] border-gray-700">
-        <div className="flex lg:flex-col gap-3 lg:w-[20%] text-[14px] text-[#000000be]">
+    <div className="flex flex-col  bg-gray-200 font-poppins">
+      <div className=" flex lg:flex-row flex-col gap-8 lg:gap-0 justify-between px-7 py-14 items-start border-b-[1px] border-gray-700">
+        <div className="flex flex-col gap-3 lg:w-[20%] text-[14px] text-[#000000be]">
           <p className="">
             Strada Comunale di Montegemoli, 148, 56045 Pomarance PI, Italië
           </p>
           <p>info@santommaso.com</p>
           <p className="font-semibold underline">+393394085200</p>
         </div>
-        <div className="flex flex-col gap-3 lg:-ml-[10rem] items-center">
+        <div className="flex flex-col gap-3 lg:-ml-[10rem] items-center ml-14">
           <img
             src="https://www.santommaso.com/wp-content/uploads/2021/03/logo2021.png"
             alt=""

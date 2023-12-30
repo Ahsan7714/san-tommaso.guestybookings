@@ -39,7 +39,7 @@ const Properties = () => {
         </div>
       </div>
 
-      <form className="search_form -translate-y-16 pb-4 flex flex-col items-center w-fit justify-center mx-auto shadow-md">
+      <form className="search_form -translate-y-16  flex flex-col items-center w-fit justify-center mx-auto shadow-md">
         <div className="upper_form ">
           <DatePicker />
         </div>

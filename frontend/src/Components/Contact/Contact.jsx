@@ -28,7 +28,7 @@ const {sendEmail}=useLocalContext()
       subject: "",
       message: "",
     });
-    
+
     toast.success("Email sent successfully");
     
   };
@@ -130,3 +130,5 @@ const {sendEmail}=useLocalContext()
 };
 
 export default Contact;
+
+

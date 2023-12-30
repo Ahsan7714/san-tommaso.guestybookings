@@ -59,7 +59,7 @@ const universalDescription='A good plcae to stay, just like heaven on earth with
           </div>
         ))}
       </Slider>
-      <div className='absolute lg:top-[35%] top-[60%] bg-[#ffffff56] w-fit rounded-sm backdrop-filter backdrop-blur-[4px] lg:py-8 lg:px-7 px-4 py-2 w-[80%]  lg:w-[40%] shadow-xl'>
+      <div className='absolute lg:top-[30%] top-[35%] bg-[#ffffff56]  rounded-sm backdrop-filter backdrop-blur-[4px] lg:py-3 lg:px-7 px-4 py-2 w-[80%]  lg:w-[50%] shadow-xl'>
         <h1 className="lg:text-[35px] text-[20px]">{property?.title}</h1>
         <p className='lg:text-[20px] text-[16px] pb-4'>{property?.address?.city}, {property?.address?.country} </p>
         <p className='lg:text-[18px] text-[14px] text-[#000000b4] border-t border-[#0000003a] lg:py-4'>
