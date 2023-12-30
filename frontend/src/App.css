@@ -51,6 +51,10 @@
   body{
     top: 0px !important;
   }
+  .leafletMap {
+    height: 300px;
+    width: 100%;
+  }
   /* Style for the language dropdown */
 .goog-te-menu-value {
     color: #333;

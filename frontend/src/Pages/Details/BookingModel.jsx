@@ -112,7 +112,6 @@ const handleSearch = async () => {
                   className="h-[50px] lg:w-[400px] focus:border-blue-500"
                   required
                   onChange={(dates) => handleDateChange(dates)}
-                  disabledDate={isDateDisabled}
                 
                 />
               </div>

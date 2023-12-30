@@ -8,14 +8,11 @@ import { useLocalContext } from '../../context/contextProvider'
 import Loading from "../../Components/Loading/Loading";
 
 const Properties = () => {
-  const [allproperties, setProperties] = useState([]);
-  // const [loading, setLoading] = useState(true);
   const { allProperties, getProperties, loading } = useLocalContext();
   
     
     useEffect(() => {
       getProperties();
-      console.log({allProperties});
     }, []);
   
     if (loading) {
@@ -26,12 +23,8 @@ const Properties = () => {
       }      
 
 
-;
 
 
-  if (loading) {
-    return <p>Loading...</p>; // You can replace this with a loading spinner or any other UI indication
-  }
 
   const universalDescription =
     "This Property is amazing and you will love it. It is located in the heart of the city and you will love it. The reasons to choose this property are also countless. Beautiful valley, modern architecture and many more. Nature is just side by you. You will love it. Just try it once else you will have a regret to not visit the heaven on earth.";
@@ -50,70 +43,12 @@ const Properties = () => {
         <div className="upper_form -translate-y-16">
           <DatePicker />
         </div>
-        <div className="bottom_form w-[100%] -translate-y-10">
-          <div className="filter_options">
-            <div className="filter_option">
-              <label htmlFor="min_price">Min Price</label>
-              <input
-                type="number"
-                name="min_price"
-                id="min_price"
-                placeholder="Min Price"
-              />
-            </div>
-            <div className="filter_option">
-              <label htmlFor="max_price">Max Price</label>
-              <input
-                type="number"
-                name="max_price"
-                id="max_price"
-                placeholder="Max Price"
-              />
-            </div>
-            <div className="filter_option">
-              <label htmlFor="property_type">Property Type</label>
-              <select name="property_type" id="property_type">
-                <option value="all">All</option>
-                <option value="house">House</option>
-                <option value="apartment">Apartment</option>
-                <option value="condo">Condo</option>
-              </select>
-            </div>
-            <div className="filter_option">
-              <label htmlFor="amenities">Amenities</label>
-              <select name="amenities" id="amenities">
-                <option value="all">All</option>
-                <option value="gym">Gym</option>
-                <option value="pool">Pool</option>
-                <option value="parking">Parking</option>
-                <option value="elevator">Elevator</option>
-              </select>
-            </div>
-            <div className="filter_option">
-              <label htmlFor="bedrooms">Bedrooms</label>
-              <select name="bedrooms" id="bedrooms">
-                <option value="all">All</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-              </select>
-            </div>
-          </div>
-        </div>
+      
       </form>
 
       <div className="cards_container">
-        {allproperties &&
-          allproperties.map((property, index) => (
-            <div className="card" key={index}>
-              <form className="search_form -translate-y-16 py-4 flex flex-col items-center w-fit justify-center mx-auto shadow-xl">
-                <div className="upper_form">
-                  <DatePicker />
-                </div>
-              </form>
+        
 
-              <div className="cards_container">
                 {allProperties &&
                   allProperties.map((property, index) => (
                     <div className="card" key={index}>
@@ -176,9 +111,6 @@ const Properties = () => {
                   ))}
               </div>
             </div>
-          ))}
-      </div>
-    </div>
   );
 };
 
