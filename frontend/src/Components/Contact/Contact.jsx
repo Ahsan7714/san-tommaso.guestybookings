@@ -54,9 +54,9 @@ const Contact = () => {
   };
 
   return (
-    <div className="bg-gray-200 flex justify-center">
-      <div className="flex lg:flex-row flex-col bg-white shadow-xl rounded-lg w-[80%]  my-20 ">
-        <div className=" flex-1">
+    <div className="bg-gray-200 flex justify-center mb-20">
+      <div className="flex lg:flex-row flex-col bg-white shadow-xl rounded-lg lg:w-[45%] w-[90%]   my-20 ">
+        <div className=" ">
           <form onSubmit={submit} className="flex flex-col px-8 gap-8 py-5">
             <div>
               <h1 className="text-[35px] text-[#10275b] font-bold py-4">
@@ -79,7 +79,7 @@ const Contact = () => {
                 value={state.name}
                 required
                 placeholder="Your name"
-                className=" outline-none border-b-2 border-[#00000046]  py-2 w-[90%]"
+                className=" outline-none border-b-2 border-[#00000046]  py-2 w-[100%]"
               />
             </div>
             <div className="flex flex-col gap-2">
@@ -94,7 +94,7 @@ const Contact = () => {
                 value={state.email}
                 required
                 placeholder="Your Email"
-                className=" outline-none border-b-2 border-[#00000046]  py-2 w-[90%]"
+                className=" outline-none border-b-2 border-[#00000046]  py-2 w-[100%]"
               />
             </div>
 
@@ -110,7 +110,7 @@ const Contact = () => {
                 value={state.subject}
                 required
                 placeholder="Your Subject"
-                className=" outline-none border-b-2 border-[#00000046]  py-2 w-[90%]"
+                className=" outline-none border-b-2 border-[#00000046]  py-2 w-[100%]"
               />
             </div>
 
@@ -127,7 +127,7 @@ const Contact = () => {
                 cols="10"
                 rows="3"
                 placeholder="Enter your message"
-                className=" outline-none border-b-2 border-[#00000046]  py-2 w-[90%]"
+                className=" outline-none border-b-2 border-[#00000046]  py-2 w-[100%]"
               ></textarea>
             </div>
 
@@ -138,9 +138,9 @@ const Contact = () => {
             </div>
           </form>
         </div>
-        <div className="flex-1">
+        {/* <div className="flex-1">
           <img src={img} alt="" className=" rounded-e-lg hidden lg:block" />
-        </div>
+        </div> */}
       </div>
 
       {/* Toast container */}

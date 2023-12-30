@@ -30,7 +30,7 @@ const Carasoul = () => {
     centerMode: true,
     centerPadding: '0', // Adjust the padding as needed
     autoplay: true,
-    autoplaySpeed: 3000, // Adjust as needed for timing
+    autoplaySpeed: 2000, // Adjust as needed for timing
     fade: true, // Enable fade transition
     cssEase: 'linear', // Use linear easing for smoother fade
     responsive: [
