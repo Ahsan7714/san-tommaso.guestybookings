@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import img from "../../assets/bgcon.jpg";
+import { useLocalContext } from "../../context/contextProvider";
 
 const Contact = () => {
   const [state, setState] = useState({
@@ -10,7 +11,7 @@ const Contact = () => {
     subject: "",
     message: "",
   });
-
+const {sendEmail}=useLocalContext()
   const inputHandle = (e) => {
     setState({
       ...state,
@@ -20,37 +21,16 @@ const Contact = () => {
 
   const submit = async (e) => {
     e.preventDefault();
-    console.log(state);
-
-    try {
-      const res = await fetch("http://localhost:8004/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(state),
-      });
-
-      const data = await res.json();
-      console.log(data);
-
-      if (data.status === 401 || !data) {
-        console.log("error");
-        toast.error("Failed to send email");
-      } else {
-        toast.success("Email sent successfully");
-        setState({
-          name: "",
-          email: "",
-          subject: "",
-          message: "",
-        });
-        console.log("Email sent");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      toast.error("Failed to send email");
-    }
+    await  sendEmail(state.email,state.name,state.subject,state.message)
+    setState({
+      name: "",
+      email: "",
+      subject: "",
+      message: "",
+    });
+    
+    toast.success("Email sent successfully");
+    
   };
 
   return (

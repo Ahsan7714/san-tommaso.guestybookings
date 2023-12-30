@@ -93,8 +93,22 @@ const getCalendarData=async(id)=>{
 
     }
 }
+const sendEmail=async(email,name,subject,message)=>{
+    try{
+        const res=await axios.post(`${baseUrl}/send-Email`,{email,name,subject,message},{
+            withCredentials:true
+        })
+
+
+    }catch(error){
+        console.log(error);
+
+    }
+
+}
+
     return (
-        <Context.Provider value={{ allProperties, getProperties, loading,dates,selectedGuests,setDates,setSelectedGuests,getSinglePropertyDetails,property,getQuote,quote,createInquiry,getCalendarData,calendarData}}>
+        <Context.Provider value={{ allProperties, getProperties, loading,dates,selectedGuests,setDates,setSelectedGuests,getSinglePropertyDetails,property,getQuote,quote,createInquiry,getCalendarData,calendarData,sendEmail}}>
             {children}
         </Context.Provider>
     );
