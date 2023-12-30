@@ -21,11 +21,10 @@
   }
   
   .goog-te-menu-value {
-    color: black !important;
+    color: rgb(243, 243, 243) !important;
     font-size: 12px !important;
   }
   
   .goog-te-menu-frame.skiptranslate {
     display: none !important;
   }
-  

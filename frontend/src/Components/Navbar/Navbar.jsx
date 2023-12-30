@@ -8,7 +8,7 @@ import "./Navbar.css"
 
 const Navbar = () => {
   return (
-    <div className='flex w-full justify-between lg:justify-between items-center h-[70px] lg:h-[90px] bg-white shadow-lg sticky lg:w-full top-0 z-50'>
+    <div className='flex w-full justify-between lg:justify-between items-center h-[70px] lg:h-[80px] bg-white shadow-lg sticky lg:w-full top-0 z-50'>
       <div className='flex lg:pl-10  lg:gap-10 text-[#9d155c] lg:text-[#f8aa48] text-[40px] lg:text-[30px] items-center'>
         <Link><FaPhone className='hover:text-[#9d155c] transition-colors duration-500 hidden lg:block md:block '/></Link>
         <Link><RiMailOpenFill className='hover:text-[#9d155c] transition-colors duration-500 hidden lg:block md:block'/></Link>
@@ -24,11 +24,11 @@ const Navbar = () => {
         />
       </Link>
       </div>
-      <div className='flex'>
-        <div>
+      <div className='flex items-center gap-6'>
+        
           <GoogleTranslateButton/>
-        </div>
         <Link to={"/properties"} className='bg-[#9d155c] h-[70px] lg:h-[90px] w-[100px] lg:w-[140px] flex justify-center items-center'>
+
           <span className='text-[20px] text-white' >Book</span>
         </Link>
       </div>

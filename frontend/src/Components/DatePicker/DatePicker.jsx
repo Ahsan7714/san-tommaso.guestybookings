@@ -2,11 +2,13 @@ import { DatePicker } from "antd";
 import { useState } from "react";
 import moment from "moment";
 import { useLocalContext } from "../../context/contextProvider";
+import { useNavigate } from "react-router-dom";
 
 
 const { RangePicker } = DatePicker;
 
-const DatePocker = () => {
+const DatePocker = ({source}) => {
+  const navigate=useNavigate();
 const {dates,setDates,selectedGuests,setSelectedGuests,getProperties}=useLocalContext()
 
 const handleDateChange = (values) => {
@@ -23,9 +25,13 @@ setDates([checkIn,checkOut])
   };
 
   const handleSearch = (e) => {
+    if(source=="Home"){
+      navigate('/properties')
+    }
     e.preventDefault();
     
-getProperties(dates[0],dates[1],selectedGuests)
+    getProperties(dates[0],dates[1],selectedGuests)
+    
   };
 
   const options = [];
@@ -34,7 +40,7 @@ getProperties(dates[0],dates[1],selectedGuests)
   }
 
   return (
-    <div className="bg-white flex lg:flex-row md:flex-row items-center justify-between  gap-10 w-fit mx-auto rounded-md   px-6 flex-col " >
+    <div className="bg-white flex lg:flex-row md:flex-row items-center justify-between  lg:gap-10 w-fit mx-auto rounded-md   px-6 flex-col" >
       <div style={{ margin: 20 }}>
       <RangePicker
   className="h-[50px] lg:w-[550px] focus:border-blue-500"
@@ -50,9 +56,9 @@ getProperties(dates[0],dates[1],selectedGuests)
           name="guests"
           value={selectedGuests}
           onChange={handleGuestsChange}
-          className="h-[50px] w-[200px] lg:w-[130px] text-[18px] pl-2 text-[#00000091] outline-none focus:border-blue-500 border border-[#00000035]"
+          className="h-[50px] w-full lg:w-[130px] text-[18px] pl-2 text-[#00000091] outline-none focus:border-blue-500 border border-[#00000035]"
         >
-          <option value="" disabled hidden>
+          <option value="" disabled hidden >
             Guest
           </option>
           {options}
@@ -60,7 +66,7 @@ getProperties(dates[0],dates[1],selectedGuests)
       </div>
       <div>
         <button
-          className="h-[50px] w-[300px] lg:w-[130px] bg-[#9d155c] text-white"
+          className="h-[50px] w-[300px] lg:w-[130px] bg-[#9d155c] text-white mb-6 lg:mb-0"
           onClick={(e)=>handleSearch(e)}
 
         >

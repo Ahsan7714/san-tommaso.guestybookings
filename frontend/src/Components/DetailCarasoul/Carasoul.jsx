@@ -8,10 +8,11 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 import './Carasoul.css'; // Add your custom styles here
-import { Context } from '../../context/Context';
+import { useLocalContext } from '../../context/contextProvider';
+;
 
 const Carasoul = () => {
-  const {property}=useContext(Context);
+  const {property}=useLocalContext()  ;
   const data = [];
 // Push all the images into the array
   property?.pictures.map((p)=>data.push({img:p.original?p.original:p.thumbnail}))
@@ -30,7 +31,7 @@ const Carasoul = () => {
     centerMode: true,
     centerPadding: '0', // Adjust the padding as needed
     autoplay: true,
-    autoplaySpeed: 3000, // Adjust as needed for timing
+    autoplaySpeed: 2000, // Adjust as needed for timing
     fade: true, // Enable fade transition
     cssEase: 'linear', // Use linear easing for smoother fade
     responsive: [

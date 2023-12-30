@@ -2,12 +2,21 @@ import React,{useState} from "react";
 import PhoneInput from "react-phone-input-2";
 import 'react-phone-input-2/lib/style.css';
 import "./BookingForm.css"
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import about from "../../assets/about1.jpg"
+import { useLocalContext } from "../../context/contextProvider";
+import moment from "moment";
 
 const BookingForm = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [valid, setValid] = useState(true);
+  const [firstName,setFirstName]=useState('')
+  const [lastName,setLastName]=useState('')
+  const [email,setEmail]=useState('')
+  const [acceptedPolicy, setAcceptedPolicy] = useState(false);
+
+
+  const {quote,property,}=useLocalContext()
 
   const handleChange = (value) => {
     setPhoneNumber(value);
@@ -19,8 +28,24 @@ const BookingForm = () => {
 
     return phoneNumberPattern.test(phoneNumber);
   };
+  const navigate=useNavigate()
+const {createInquiry}=useLocalContext()
+const handleInquiry=async()=>{
+
+try{
+
+  await createInquiry(quote._id,firstName,lastName,email,phoneNumber,quote.rates.ratePlans[0].ratePlan._id)  
+  navigate("/thank-you")
+}catch(error){
+  console.log(error)
+  alert("Error fetching quote. Please try again.")
+}
+
+}
+
+
   return (
-    <div className="mt-24 flex lg:flex-row flex-col">
+    <form className="mt-24 flex justify-between px-5 lg:flex-row flex-col">
       <div className="lg:pl-20 px-5 pt-10">
         <h1 className="text-[#10275b] text-[33px] font-bold pb-2">
           Fill-in your details
@@ -37,6 +62,9 @@ const BookingForm = () => {
                 required
                 placeholder="Guest first name*"
                 className="h-[44px] w-full lg:w-[280px] border rounded-sm border-[#0000004e] px-3 outline-none focus:border-blue-400 hover:border-blue-400 focus:shadow-lg focus:shadow-blue-100 transition-shadow duration-700"
+                value={firstName}
+                onChange={(e)=>setFirstName(e.target.value)}
+
               />
             </div>
             <div className="flex flex-col gap-4">
@@ -48,6 +76,8 @@ const BookingForm = () => {
                 required
                 placeholder="Guest last name*"
                 className="h-[44px] w-full lg:w-[280px] border rounded-sm border-[#0000004e] px-3 outline-none focus:border-blue-400 hover:border-blue-400 focus:shadow-lg focus:shadow-blue-100 transition-shadow duration-700"
+                value={lastName}
+                onChange={(e)=>setLastName(e.target.value)}
               />
             </div>
           </div>
@@ -61,6 +91,9 @@ const BookingForm = () => {
                 required
                 placeholder="email address*"
                 className="h-[44px] w-full lg:w-[280px] border rounded-sm border-[#0000004e] px-3 outline-none focus:border-blue-400 hover:border-blue-400 focus:shadow-lg focus:shadow-blue-100 transition-shadow duration-700"
+                value={email}
+                onChange={(e)=>setEmail(e.target.value)}
+
               />
             </div>
             <div className="flex flex-col gap-4">
@@ -85,18 +118,14 @@ const BookingForm = () => {
               Add a special request
               </label>
               <textarea
-                className=" w-full lg:w-[280px] border rounded-sm pt-3 border-[#0000004e] px-3 outline-none focus:border-blue-400 hover:border-blue-400 focus:shadow-lg focus:shadow-blue-100 transition-shadow duration-700"
+                className=" w-full  border rounded-sm pt-3 border-[#0000004e] px-3 outline-none focus:border-blue-400 hover:border-blue-400 focus:shadow-lg focus:shadow-blue-100 transition-shadow duration-700"
 
-               name="" id="" cols="30" rows="5" placeholder="Add a special request"></textarea>
+               name="" id="" cols="40" rows="5" placeholder="Add a special request"></textarea>
             </div>
             <div className="flex flex-col gap-8">
                 <div className="flex items-start ">
-                    <input type="checkbox" name="" id="" className=" cursor-pointer h-[16px] w-10 mt-1"  />
+                    <input type="checkbox" name="" onChange={() => setAcceptedPolicy(!acceptedPolicy)} id="" className=" cursor-pointer h-[16px] w-10 mt-1"  />
                     <label className=" text-[16px]">I have read and accept the Privacy Policy | Agriturismo San Tommaso Terms and Conditions</label>
-                </div>
-                <div className="flex items-start ">
-                    <input type="checkbox" name="" id="" className=" cursor-pointer h-[16px] w-10 mt-1"  />
-                    <label className=" text-[16px]">I am interested in receiving discounts, promotions and news about Agriturismo San Tommaso</label>
                 </div>
             </div>
         </form>
@@ -109,48 +138,62 @@ const BookingForm = () => {
             {/* Your large modal content goes here */}
         <div><img src={about} alt="" className="h-[200px] w-[500px] rounded-sm"/></div>
             <h1 className="text-[#10275b] text-[22px] font-semibold pt-4">
-              Agriturismo San Tommaso - Leccio
+             {property?.title}
             </h1>
             <div className="flex justify-between py-7 text-center border-b border-[#00000050]">
               <div className="flex flex-col gap-1">
                 <p className="text-[#87919a] text-[17px]">Check In</p>
-                <p>Jan 01, 2024</p>
+                <p>{quote?.checkInDateLocalized}</p>
               </div>
               <div className="flex flex-col gap-1">
                 <p className="text-[#87919a] text-[17px]">Check Out</p>
-                <p>Jan 08, 2024</p>
+                <p>{quote?.checkOutDateLocalized}</p>
               </div>
               <div className="flex flex-col gap-1">
                 <p className="text-[#87919a] text-[17px]">Nights</p>
-                <p>7 nights</p>
+                <p>{
+                  moment(quote?.checkOutDateLocalized).diff(moment(quote?.checkInDateLocalized), 'days')
+                }</p>
               </div>
               <div className="flex flex-col gap-1">
                 <p className="text-[#87919a] text-[17px]">Guest</p>
-                <p>2</p>
+                <p>{quote?.guestsCount}</p>
               </div>
             </div>
             <div className="flex flex-col pt-8 pb-2">
               <div className="flex justify-between items-center pb-4 border-b border-[#00000050]">
                 <h1 className="text-[18px] font-semibold">Subtotal</h1>
-                <p>€1,400</p>
+                <p>EUR ${quote?.rates?.ratePlans[0]?.ratePlan?.money?.subTotalPrice}</p>
+
               </div>
               <div className="flex justify-between items-center text-[#10275b] text-[22px] font-semibold py-6">
                 <h1>Total</h1>
-                <p>€1,400</p>
+                <p>EUR ${quote?.rates?.ratePlans[0]?.ratePlan?.money?.subTotalPrice}</p>
+
               </div>
             </div>
             <div className="flex items-center gap-3 ">
-              <Link to="/thank-you" className="bg-[#9d155c] text-white h-[45px] w-[100%]" >
-              <button className="bg-[#9d155c] text-white text-[20px] font-semibold h-[45px] w-[100%]">
+            {
+              acceptedPolicy ? (
+                <button type="button"  className="bg-[#9d155c] text-white h-[45px] w-[100%]" >
+              <button type="button" onClick={()=>handleInquiry()} className="bg-[#9d155c] text-white text-[20px] font-semibold h-[45px] w-[100%]">
                 Request to Book
               </button>
-              </Link>
+              </button>):
+              <button type="button" disabled className="bg-[#e4549e] text-white h-[45px] w-[100%]" >
+              <button type="button" disabled={true} className="bg-[#e24f9b] cursor-not-allowed text-white text-[20px] font-semibold h-[45px] w-[100%]">
+                Request to Book
+              </button>
+              </button>
+
+              
+            }
             </div>
           </div>
         </div>
         </div>
       </div>
-    </div>
+    </form>
   );
 };
 

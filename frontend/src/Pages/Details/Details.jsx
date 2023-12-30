@@ -1,48 +1,70 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Carasoul from "../../Components/DetailCarasoul/Carasoul";
-import about from "../../assets/about.jpg";
-import con from "../../assets/bgcon.jpg";
-import { FaBuilding, FaEuroSign } from "react-icons/fa";
+import { FaBuilding, FaEuroSign, FaLocationArrow } from "react-icons/fa";
 import { MdMeetingRoom } from "react-icons/md";
 import { FaBed } from "react-icons/fa";
 import { FaBath } from "react-icons/fa";
 import BookingModel from "./BookingModel";
+import L from 'leaflet';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
 import { useParams } from "react-router-dom";
-import { Context } from "../../context/Context";
-
-
+import { Context } from "../../context/context";
+import Loading from "../../Components/Loading/Loading";
 
 const Details = () => {
-    const images = Array.from({ length: 5 }, (_, index) => index);
-    const [isSmallModalOpen, setIsSmallModalOpen] = useState(false);
-const {getSinglePropertyDetails,property,loading}= useContext(Context);
-const {id}= useParams();
-useEffect(() => {
-  window.scrollTo(0, 0);
-   getSinglePropertyDetails(id);
-  console.log({property})
-}, [id]);
+  const [isSmallModalOpen, setIsSmallModalOpen] = useState(false);
+  const { getSinglePropertyDetails, property, loading } = useContext(Context);
+  const { id } = useParams();
+  const [mapInitialized, setMapInitialized] = useState(false);
 
-    const openModal = () => {
-      setIsSmallModalOpen(true);
-    };
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    getSinglePropertyDetails(id);
+  }, [id]);
+
+  const langitude=property?.address?.lng || 2.349014;
+  const latittude=property?.address?.lat || 48.864716 ;
+  useEffect(() => {
+    const mapContainer = document.getElementById('leafletMap');
+    if (mapContainer && !mapInitialized && property?.address?.lat !== undefined && property?.address?.lng !== undefined) {
+      const { lat, lng } = property.address;
   
-    const closeModal = () => {
-      setIsModalOpen(false);
-    };
-
-    if(loading){
-      return <h1>Loading...</h1>
+      if (lat !== undefined && lng !== undefined) {
+        const map = L.map('leafletMap').setView([latittude, langitude], 11);
+  
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '© OpenStreetMap contributors',
+        }).addTo(map);
+  
+        L.marker([lat, lng])
+          .addTo(map)
+          .bindPopup('Property Location')
+          .openPopup();
+  
+        setMapInitialized(true);
+      } else {
+        console.error('Latitude or longitude is undefined.');
+      }
     }
-    const formatHeading = (heading) => {
-      // Convert camelCase to space-separated format
-      const spacedString = heading.replace(/([a-z])([A-Z])/g, '$1 $2');
-      // Capitalize the first letter of each word
-      return spacedString.charAt(0).toUpperCase() + spacedString.slice(1);
-    };
+  }, [property, mapInitialized]);
 
+  const openModal = () => {
+    setIsSmallModalOpen(true);
+  };
+
+  if (loading) {
+    return <Loading />;
+  }
+
+  const formatHeading = (heading) => {
+    // Convert camelCase to space-separated format
+    const spacedString = heading.replace(/([a-z])([A-Z])/g, '$1 $2');
+    // Capitalize the first letter of each word
+    return spacedString.charAt(0).toUpperCase() + spacedString.slice(1);
+  };
   return (
-    <div className="bg-[#e5e7eb]">
+    <div className="bg-[#e5e7eb] mb-20 font-poppins">
       {/* Carasoul */}
       <div className=" mt-22">
         <Carasoul />
@@ -55,7 +77,7 @@ useEffect(() => {
           {/* left side image */}
           <div>
             <img
-              src={property?.pictures[0].large}
+              src={property?.pictures[0]?.large?property?.pictures[2].large:property?.pictures[2].original}
               alt=""
               className="h-[400px] w-[600px] rounded-lg shadow-md object-fit hidden lg:block md:block"
             />
@@ -96,7 +118,7 @@ useEffect(() => {
               </div>
               <div className="flex gap-3 items-center mt-1">
                 <div className="text-[20px]">
-                  <FaBuilding />
+                  <FaLocationArrow />
                 </div>
                 <p className="text-[20px] font-semibold">Address</p>
               </div>
@@ -114,6 +136,10 @@ useEffect(() => {
 
             </div>
           </div>
+        </div>
+        {/* name and description */}
+        <div className="flex pt-20 gap-20">
+         
         </div>
 
       </div>
@@ -137,8 +163,27 @@ useEffect(() => {
           <p>Check In {property?.defaultCheckInTime}</p>
           <p>Check Out {property?.defaultCheckOutTime}</p>
         </div>
-        {/* Amenities */}
-        <div>
+
+        <div className="lg:w-[100%] py-5 opacity-90">
+          <h1 className="text-[30px] font-semibold pb-4">Map</h1>
+          <div className="mb-10">
+
+<MapContainer
+center={{lat:latittude,lng:langitude}}
+zoom={19}
+style={{ height: '400px', width: '90%',margin:'auto',borderRadius:'10px',overflow:'hidden', }}
+>
+<TileLayer
+url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+attribution='© OpenStreetMap contributors'
+/>
+<Marker position={{lat:property?.address?.lat,lng:property?.address?.lng}}>
+<Popup>
+  A dummy location in San Francisco, CA.
+</Popup>
+</Marker>
+</MapContainer>
+</div>
           <h1 className="pt-6 pb-2 text-[20px] font-semibold">
             Amenities
           </h1>
@@ -149,29 +194,37 @@ useEffect(() => {
 
           </ul>
         </div>
-        
         {/* images */}
         <div className="pb-10">
           <h1 className="text-[30px] font-semibold pb-4">Images</h1>
+       
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8">
       {property?.pictures.map((pic,index) => (
         <div key={index} className="w-full h-[270px]">
-          <img src={pic?.large} alt="" className="h-full  shadow-xl w-full " />
+          <img src={pic?.large?pic?.large:pic.original?pic.original:pic.thumbnail} alt="" className="h-full  shadow-xl w-full " />
         </div>
       ))}
     </div>
         </div>
         {/* Book now button */}
         <div className="fixed bottom-5 right-5 ">
-          <button className="bg-[#9d155c] shadow-lg text-white px-6 py-3 rounded-md" onClick={openModal}>
-           Click to Book Now
+          <button
+            className="bg-[#9d155c] shadow-lg text-white px-6 py-3 rounded-md"
+            onClick={openModal}
+          >
+            Click to Book Now
           </button>
         </div>
         {/* Modal */}
-        <BookingModel isSmallModalOpen={isSmallModalOpen} setIsSmallModalOpen={setIsSmallModalOpen} />
+        <BookingModel
+          isSmallModalOpen={isSmallModalOpen}
+          setIsSmallModalOpen={setIsSmallModalOpen}
+        />
       </div>
     </div>
   );
 };
 
 export default Details;
+
+

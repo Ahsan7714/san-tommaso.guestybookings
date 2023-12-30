@@ -3,11 +3,10 @@ import { FaPhone } from 'react-icons/fa';
 import { RiMailOpenFill } from 'react-icons/ri';
 import { FaWhatsapp } from 'react-icons/fa6';
 import { Link } from 'react-router-dom';
-import GoogleTranslateButton from "../Translator/Translator";
 
 const Footer = () => {
   return (
-    <div className="flex flex-col  bg-gray-200 mt-10 ">
+    <div className="flex flex-col  bg-gray-200">
       <div className=" flex lg:flex-row flex-col justify-between px-7 py-14 items-start border-b-[1px] border-gray-700">
         <div className="flex lg:flex-col gap-3 lg:w-[20%] text-[14px] text-[#000000be]">
           <p className="">
