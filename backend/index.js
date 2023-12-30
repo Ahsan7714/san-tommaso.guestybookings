@@ -8,6 +8,7 @@ app.use(cors(
     {
         origin:"https://booking-ecru-phi.vercel.app",
         withCredentials:true,
+        credentials:true
     }
 
 ));
