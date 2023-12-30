@@ -207,6 +207,7 @@
     .pricing button{
       padding: 10px 15px;
       border-radius: 3px;
+      width: 100%;
     }
     .card_text{
       padding: 0px 10px;
