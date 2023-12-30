@@ -9,7 +9,7 @@ import L from 'leaflet';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useParams } from "react-router-dom";
-import { Context } from "../../context/Context";
+import { Context } from "../../context/context";
 import Loading from "../../Components/Loading/Loading";
 
 const Details = () => {
