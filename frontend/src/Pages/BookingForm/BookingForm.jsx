@@ -45,7 +45,7 @@ try{
 
 
   return (
-    <form className="mt-24 flex justify-between px-5 lg:flex-row flex-col">
+    <form className="lg:mt-10 mt-14 mb-20 flex justify-between px-5 lg:flex-row flex-col">
       <div className="lg:pl-20 px-5 pt-10">
         <h1 className="text-[#10275b] text-[33px] font-bold pb-2">
           Fill-in your details

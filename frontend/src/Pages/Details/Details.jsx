@@ -84,7 +84,7 @@ const Details = () => {
           </div>
           {/* right side details */}
           <div className="flex  gap-5 px-4 lg:px-0 lg:pl-20 pt-3">
-            <div className="flex flex-col gap-6">
+            <div className="flex flex-col gap-6 w-[40%]">
               <h1 className="text-[22px] font-semibold">Property Features</h1>
               <div className="flex gap-3 items-center">
                 <div className="text-[20px]">
@@ -123,7 +123,7 @@ const Details = () => {
                 <p className="text-[20px] font-semibold">Address</p>
               </div>
             </div>
-            <div className="flex flex-col gap-8 text-[16px] lg:pt-12 pt-16">
+            <div className="flex flex-col gap-8 text-[16px] lg:pt-8 pt-16 ">
               <p></p>
               <p className="pl-8 text-[17px]">{property?.prices?.currency} {property?.prices?.basePrice}</p>
               <p className="pl-8 text-[17px]">{property?.bedrooms}</p>

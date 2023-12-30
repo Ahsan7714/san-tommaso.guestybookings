@@ -3,6 +3,7 @@ import { Context } from "./context";
 import axios from "axios";
 import baseUrl from "./baseUrl";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const ContextProvider = ({ children }) => {
     const [dates, setDates] = useState([]);
@@ -50,24 +51,31 @@ const ContextProvider = ({ children }) => {
     }
 
 
-    const getQuote=async(checkInDate,checkOutDate,count,listingId)=>{
+    const getQuote = async (checkInDate, checkOutDate, count, listingId) => {
         try {
-            const res = await axios.post(`${baseUrl}/listing/quote`,{checkInDate,checkOutDate,count,listingId}, {
-                withCredentials: true,
-            });
-            if(res.data.error){
-                alert(res.data.error)
-                return Error(res.data.error.message)
-            }else{
-
-                setQuote(res.data);
-            }
+          const res = await axios.post(`${baseUrl}/listing/quote`, {
+            checkInDate,
+            checkOutDate,
+            count,
+            listingId,
+          }, {
+            withCredentials: true,
+          });
+      
+          if (res.data.error ) {
+            // Display error using toast
+            toast.error(res.data.error.message);
+            return Error(res.data.error.message);
+          } else {
+            setQuote(res.data);
+          }
         } catch (error) {
-            console.log(error);
-
+          console.error(error);
+          // Display a generic error message using toast
+          toast.error('An error occurred. Please try again.');
         }
-
-    }
+      };
+      
 
 const createInquiry=async(qouteId,firstName,lastName,email,phone,ratePlanId)=>{
     try {

@@ -2,7 +2,7 @@ import React from "react";
 import about from '../../assets/about2.jpg'
 const About = () => {
   return (
-    <div className="flex lg:flex-row flex-col lg:h-[120vh] py-5 lg:py-0 mt-[160px] lg:mt-[100px] mb-[80px] bg-gray-200 w-full rounded-md">
+    <div className="flex lg:flex-row flex-col lg:h-[120vh] py-5 lg:py-0 mt-[0px] lg:mt-[100px] mb-[80px] bg-gray-200 w-full rounded-md">
       <div className="flex lg:w-[50%] flex-col px-6 lg:px-12 py-10 gap-6">
         <h1 className="lg:text-[35px] text-[33px] font-semibold text-[#10275b]">About San Tommaso</h1>
         <p>
