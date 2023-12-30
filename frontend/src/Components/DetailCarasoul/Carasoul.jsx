@@ -8,10 +8,11 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 import './Carasoul.css'; // Add your custom styles here
-import { Context } from '../../context/Context';
+import { useLocalContext } from '../../context/contextProvider';
+;
 
 const Carasoul = () => {
-  const {property}=useContext(Context);
+  const {property}=useLocalContext()  ;
   const data = [];
 // Push all the images into the array
   property?.pictures.map((p)=>data.push({img:p.original?p.original:p.thumbnail}))
