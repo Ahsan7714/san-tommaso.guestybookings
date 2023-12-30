@@ -40,7 +40,7 @@ setDates([checkIn,checkOut])
   }
 
   return (
-    <div className="bg-white flex lg:flex-row md:flex-row items-center justify-between  lg:gap-10 w-fit mx-auto rounded-md   px-6 flex-col" >
+    <div className="bg-white flex lg:flex-row md:flex-row items-center justify-between  lg:gap-10 w-fit mx-auto rounded-md lg:px-6   px-1 flex-col" >
       <div style={{ margin: 20 }}>
       <RangePicker
   className="h-[50px] lg:w-[550px] focus:border-blue-500 w-[300px]"
