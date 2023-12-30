@@ -4,12 +4,18 @@ const app = express();
 
 app.use(express.json());
 require("dotenv").config({ path: "./config/.env" });
-app.use(cors({
-    origin: "http://localhost:5173",
-    credentials: true,
-}));
+app.use(cors(
+    {
+        origin:"*",
+        withCredentials:true,
+    }
 
+));
 const routes = require('./routes/routes');
+// create a hello route
+app.get('/', (req, res) => {
+    res.send('Hello World!');
+});
 app.use('/api/v1', routes);
 
 const port = process.env.PORT || 8000;

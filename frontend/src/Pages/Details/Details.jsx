@@ -1,4 +1,4 @@
-import React, { useState ,useEffect,useContext} from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Carasoul from "../../Components/DetailCarasoul/Carasoul";
 import { FaBuilding, FaEuroSign, FaLocationArrow } from "react-icons/fa";
 import { MdMeetingRoom } from "react-icons/md";
@@ -12,54 +12,57 @@ import { useParams } from "react-router-dom";
 import { Context } from "../../context/Context";
 import Loading from "../../Components/Loading/Loading";
 
-
 const Details = () => {
-    const [isSmallModalOpen, setIsSmallModalOpen] = useState(false);
-const {getSinglePropertyDetails,property,loading}= useContext(Context);
-const {id}= useParams();
-useEffect(() => {
-  window.scrollTo(0, 0);
-   getSinglePropertyDetails(id);
-  console.log({property})
-}, [id]);
+  const [isSmallModalOpen, setIsSmallModalOpen] = useState(false);
+  const { getSinglePropertyDetails, property, loading } = useContext(Context);
+  const { id } = useParams();
+  const [mapInitialized, setMapInitialized] = useState(false);
 
-useEffect(() => {
-  const mapContainer = document.getElementById('leafletMap');
-  if (mapContainer && !mapContainer._leaflet_id && property?.coordinates) {
-    const latitude=property?.address?.lat;
-    const longitude=property?.address?.lng;
-    const map = L.map('leafletMap').setView([latitude, longitude], 11);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© OpenStreetMap contributors',
-    }).addTo(map);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    getSinglePropertyDetails(id);
+  }, [id]);
 
-    L.marker([latitude, longitude])
-      .addTo(map)
-      .bindPopup('Property Location')
-      .openPopup();
-  }
-}, [property]);
-
+  const langitude=property?.address?.lng || 2.349014;
+  const latittude=property?.address?.lat || 48.864716 ;
+  useEffect(() => {
+    const mapContainer = document.getElementById('leafletMap');
+    if (mapContainer && !mapInitialized && property?.address?.lat !== undefined && property?.address?.lng !== undefined) {
+      const { lat, lng } = property.address;
+  
+      if (lat !== undefined && lng !== undefined) {
+        const map = L.map('leafletMap').setView([latittude, langitude], 11);
+  
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '© OpenStreetMap contributors',
+        }).addTo(map);
+  
+        L.marker([lat, lng])
+          .addTo(map)
+          .bindPopup('Property Location')
+          .openPopup();
+  
+        setMapInitialized(true);
+      } else {
+        console.error('Latitude or longitude is undefined.');
+      }
+    }
+  }, [property, mapInitialized]);
 
   const openModal = () => {
     setIsSmallModalOpen(true);
   };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
+  if (loading) {
+    return <Loading />;
+  }
+
+  const formatHeading = (heading) => {
+    // Convert camelCase to space-separated format
+    const spacedString = heading.replace(/([a-z])([A-Z])/g, '$1 $2');
+    // Capitalize the first letter of each word
+    return spacedString.charAt(0).toUpperCase() + spacedString.slice(1);
   };
-
-    if(loading){
-      return <Loading/>
-    }
-    const formatHeading = (heading) => {
-      // Convert camelCase to space-separated format
-      const spacedString = heading.replace(/([a-z])([A-Z])/g, '$1 $2');
-      // Capitalize the first letter of each word
-      return spacedString.charAt(0).toUpperCase() + spacedString.slice(1);
-    };
-    const defaultLocation = { lat: 37.7749, lng: -122.4194 };
-
   return (
     <div className="bg-[#e5e7eb] mb-20 font-poppins">
       {/* Carasoul */}
@@ -166,7 +169,7 @@ useEffect(() => {
           <div className="mb-10">
 
 <MapContainer
-center={{lat:property?.address?.lat,lng:property?.address?.lng}}
+center={{lat:latittude,lng:langitude}}
 zoom={19}
 style={{ height: '400px', width: '90%',margin:'auto',borderRadius:'10px',overflow:'hidden', }}
 >
