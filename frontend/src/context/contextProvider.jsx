@@ -10,21 +10,13 @@ const ContextProvider = ({ children }) => {
     const [allProperties, setAllProperties] = useState([]);
     const [property, setProperty] = useState();
     const [loading, setLoading] = useState(false);
+    const [quote, setQuote] = useState();
+    const [calendarData, setCalendarData] = useState();
 
-    const today = new Date();
-    const day = today.getDate();
-    const month = today.getMonth() + 1;
-    const year = today.getFullYear();
-    const todayDate = `${year}-${month}-${day}`;
-    const tomorrow = new Date(today);
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    const nextDay = tomorrow.getDate();
-    const nextMonth = tomorrow.getMonth() + 1;
-    const nextYear = tomorrow.getFullYear();
-    const nextDayDate = `${nextYear}-${nextMonth}-${nextDay}`;
+
 
     axios.defaults.withCredentials = true;
-    const getProperties = async (checkIn = todayDate, checkOut = nextDayDate, count = 1) => {
+    const getProperties = async (checkIn , checkOut , count = 1) => {
         setLoading(true);
         try {
             const res = await axios.get(`${baseUrl}/listings`, {
@@ -57,8 +49,52 @@ const ContextProvider = ({ children }) => {
         }
     }
 
+
+    const getQuote=async(checkInDate,checkOutDate,count,listingId)=>{
+        try {
+            const res = await axios.post(`${baseUrl}/listing/quote`,{checkInDate,checkOutDate,count,listingId}, {
+                withCredentials: true,
+            });
+            if(res.data.error){
+                alert(res.data.error)
+                return Error(res.data.error.message)
+            }else{
+
+                setQuote(res.data);
+            }
+        } catch (error) {
+            console.log(error);
+
+        }
+
+    }
+
+const createInquiry=async(qouteId,firstName,lastName,email,phone,ratePlanId)=>{
+    try {
+        const res = await axios.post(`${baseUrl}/listing/quote/${qouteId}/inquiry`,{firstName,lastName,email,phone,ratePlanId}, {
+            withCredentials: true,
+        });
+        console.log(res.data);
+    } catch (error) {
+        console.log(error);
+
+    }
+}
+
+
+const getCalendarData=async(id)=>{
+    try {
+        const res = await axios.get(`${baseUrl}/calendar/${id}`, {
+            withCredentials: true,
+        });
+        setCalendarData(res.data.data.days);
+    } catch (error) {
+        console.log(error);
+
+    }
+}
     return (
-        <Context.Provider value={{ allProperties, getProperties, loading,dates,selectedGuests,setDates,setSelectedGuests,getSinglePropertyDetails,property }}>
+        <Context.Provider value={{ allProperties, getProperties, loading,dates,selectedGuests,setDates,setSelectedGuests,getSinglePropertyDetails,property,getQuote,quote,createInquiry,getCalendarData,calendarData}}>
             {children}
         </Context.Provider>
     );

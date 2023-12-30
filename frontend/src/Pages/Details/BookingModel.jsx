@@ -1,24 +1,50 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { DatePicker } from "antd";
 import moment from "moment";
 import { IoIosArrowRoundBack } from "react-icons/io";
 const { RangePicker } = DatePicker;
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { useLocalContext } from "../../context/contextProvider";
 
 const BookingModel = ({ isSmallModalOpen, setIsSmallModalOpen }) => {
   const [dates, setDates] = useState([]);
   const [selectedGuests, setSelectedGuests] = useState("");
   const [isLargeModalOpen, setIsLargeModalOpen] = useState(false);
   const [isFormValid, setIsFormValid] = useState(false);
+  const [disabledDates, setDisabledDates] = useState([]);
+  const {id}=useParams()
+const {getQuote,property,quote,getCalendarData,calendarData}=useLocalContext()
+
+
+
+const extractDisabledDates = (calendarData) => {
+  const disabledDatesSet = [];
+  for (const date in calendarData) {
+    if (calendarData[date]?.status !== "available") {
+      disabledDatesSet.push(calendarData[date]?.date);
+    }
+  }
+  return disabledDatesSet;
+};
+
+
+React.useEffect(() => {
+  getCalendarData(id);
+}, [id]);
+
+React.useEffect(() => {
+  setDisabledDates(extractDisabledDates(calendarData));
+}, [calendarData]);
 
   const handleDateChange = (values) => {
-    setDates(
-      values.map((item) => {
-        return moment(item).format("YYYY-DD-MM");
-      })
-    );
-  };
-
+    console.log(values);
+    // convert this value into the format that you want is YYYY-MM-DD
+    const checkIn = moment(values[0].$d).format("YYYY-MM-DD");
+    const checkOut = moment(values[1].$d).format("YYYY-MM-DD");
+    setDates([checkIn,checkOut])
+    };
+    
+    
   const handleGuestsChange = (e) => {
     setSelectedGuests(e.target.value);
     checkFormValidity(dates, e.target.value);
@@ -29,16 +55,21 @@ const BookingModel = ({ isSmallModalOpen, setIsSmallModalOpen }) => {
     const isValid = dates.length === 2 && guests !== "";
     setIsFormValid(isValid);
   };
+const handleSearch = async () => {
+  try {
+    await getQuote(dates[0], dates[1], selectedGuests, property._id);
 
-  const handleSearch = () => {
-    // Perform actions with dates and selectedGuests
-    console.log("Selected Dates:", dates);
-    console.log("Selected Guests:", selectedGuests);
 
-    // Close the small modal and open the large modal
+    // Continue with the next steps if no error
     setIsSmallModalOpen(false);
     setIsLargeModalOpen(true);
-  };
+  } catch (error) {
+    console.error("Error fetching quote:", error);
+    alert("Error fetching quote. Please try again.");
+    // Handle the error as needed
+  }
+};
+
 
   const options = [];
   for (let i = 1; i <= 5; i++) {
@@ -61,9 +92,17 @@ const BookingModel = ({ isSmallModalOpen, setIsSmallModalOpen }) => {
     setIsLargeModalOpen(false);
 
     // Also, close the main modal if needed
-    setIsModalOpen(false);
+    setIsLargeModalOpen(false);
   };
 
+  const isDateDisabled = (currentDate) => {
+    if (!currentDate) {
+      return false; // Don't disable if current date is not available
+    }
+  
+    const formattedCurrentDate = moment(currentDate).format("YYYY-MM-DD");
+    return disabledDates.includes(formattedCurrentDate);
+  };
   return (
     <div>
       {isSmallModalOpen && (
@@ -75,7 +114,9 @@ const BookingModel = ({ isSmallModalOpen, setIsSmallModalOpen }) => {
                 <RangePicker
                   className="h-[50px] lg:w-[400px] focus:border-blue-500"
                   required
-                  onChange={handleDateChange}
+                  onChange={(dates) => handleDateChange(dates)}
+                  disabledDate={(current) => isDateDisabled(current)}
+                
                 />
               </div>
               <div className="pb-5">
@@ -114,34 +155,37 @@ const BookingModel = ({ isSmallModalOpen, setIsSmallModalOpen }) => {
           <div className="bg-white p-10 w-[500px] rounded-md">
             {/* Your large modal content goes here */}
             <h1 className="text-[#10275b] text-[22px] font-semibold">
-              Agriturismo San Tommaso - Leccio
+              {property?.title}
             </h1>
             <div className="flex justify-between py-10 text-center border-b border-[#00000050]">
               <div className="flex flex-col gap-1">
                 <p className="text-[#87919a] text-[17px]">Check In</p>
-                <p>Jan 01, 2024</p>
+                <p>{quote?.checkInDateLocalized}</p>
               </div>
               <div className="flex flex-col gap-1">
                 <p className="text-[#87919a] text-[17px]">Check Out</p>
-                <p>Jan 08, 2024</p>
+                <p>{quote?.checkOutDateLocalized}</p>
               </div>
               <div className="flex flex-col gap-1">
-                <p className="text-[#87919a] text-[17px]">Nights</p>
-                <p>7 nights</p>
+                <p className="text-[#87919a] text-[17px]">Days</p>
+                <p>{
+                  moment(quote?.checkOutDateLocalized).diff(moment(quote?.checkInDateLocalized), 'days')
+                }</p>
               </div>
               <div className="flex flex-col gap-1">
                 <p className="text-[#87919a] text-[17px]">Guest</p>
-                <p>2</p>
+                <p>{quote?.guestsCount}</p>
               </div>
             </div>
             <div className="flex flex-col pt-8 pb-2">
               <div className="flex justify-between items-center pb-4 border-b border-[#00000050]">
                 <h1 className="text-[18px] font-semibold">Subtotal</h1>
-                <p>€1,400</p>
+                <p>EUR ${quote?.rates?.ratePlans[0]?.ratePlan?.money?.subTotalPrice}</p>
               </div>
               <div className="flex justify-between items-center text-[#10275b] text-[22px] font-semibold py-6">
                 <h1>Total</h1>
-                <p>€1,400</p>
+                <p>EUR ${quote?.rates?.ratePlans[0]?.ratePlan?.money?.subTotalPrice}</p>
+
               </div>
             </div>
             <div className="flex items-center gap-3 pt-4">

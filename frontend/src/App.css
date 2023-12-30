@@ -18,6 +18,67 @@
     color: #333;
     cursor: pointer;
 }
+
+.goog-te-banner-frame, .goog-te-menu-frame, .goog-te-gadget-icon {
+    display: none !important;
+  }
+  .VIpgJd-ZVi9od-ORHb-OEVmcd {
+    display: none !important;
+    padding: 0px !important;
+
+
+  }
+  .VIpgJd-ZVi9od-aZ2wEe-OiiCO{
+    display: none;
+  }
+  .goog-te-gadget-simple{
+    padding: 10px;
+
+  }
+  #goog-gt-tt{
+    display: none !important;
+  }
+  .VIpgJd-suEOdc{
+    display: none !important;
+  }
+
+  .goog-te-gadget-simple .VIpgJd-ZVi9od-xl07Ob-lTBxed{
+    display: flex;
+  }
+  .VIpgJd-ZVi9od-xl07Ob-lTBxed span:nth-of-type(2){
+    display: none;
+  }
+  body{
+    top: 0px !important;
+  }
+  /* Style for the language dropdown */
+.goog-te-menu-value {
+    color: #333;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 8px;
+    font-size: 14px;
+  }
+  
+  /* Style for the dropdown arrow */
+  .goog-te-menu-arrow {
+    border: none;
+  }
+  
+  /* Style for the language options in the dropdown */
+  .goog-te-menu2-item {
+    padding: 8px;
+    font-size: 14px;
+  }
+  
+  /* Hover effect for language options */
+  .goog-te-menu2-item:hover {
+    background-color: #f0f0f0;
+    cursor: pointer;
+  }
+  
+
 @media screen and (max-width:786px) {
     .list_contianer_amenities{
         grid-template-columns: repeat(2, 1fr);

@@ -2,11 +2,13 @@ import { DatePicker } from "antd";
 import { useState } from "react";
 import moment from "moment";
 import { useLocalContext } from "../../context/contextProvider";
+import { useNavigate } from "react-router-dom";
 
 
 const { RangePicker } = DatePicker;
 
-const DatePocker = () => {
+const DatePocker = ({source}) => {
+  const navigate=useNavigate();
 const {dates,setDates,selectedGuests,setSelectedGuests,getProperties}=useLocalContext()
 
 const handleDateChange = (values) => {
@@ -23,9 +25,13 @@ setDates([checkIn,checkOut])
   };
 
   const handleSearch = (e) => {
+    if(source=="Home"){
+      navigate('/properties')
+    }
     e.preventDefault();
     
-getProperties(dates[0],dates[1],selectedGuests)
+    getProperties(dates[0],dates[1],selectedGuests)
+    
   };
 
   const options = [];

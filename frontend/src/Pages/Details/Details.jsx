@@ -2,13 +2,14 @@ import React, { useContext, useEffect, useState } from "react";
 import Carasoul from "../../Components/DetailCarasoul/Carasoul";
 import about from "../../assets/about.jpg";
 import con from "../../assets/bgcon.jpg";
-import { FaBuilding, FaEuroSign } from "react-icons/fa";
+import { FaBuilding, FaEuroSign, FaLocationArrow } from "react-icons/fa";
 import { MdMeetingRoom } from "react-icons/md";
 import { FaBed } from "react-icons/fa";
 import { FaBath } from "react-icons/fa";
 import BookingModel from "./BookingModel";
 import { useParams } from "react-router-dom";
 import { Context } from "../../context/Context";
+import Loading from "../../Components/Loading/Loading";
 
 
 
@@ -32,7 +33,7 @@ useEffect(() => {
     };
 
     if(loading){
-      return <h1>Loading...</h1>
+      return <Loading/>
     }
     const formatHeading = (heading) => {
       // Convert camelCase to space-separated format
@@ -55,7 +56,7 @@ useEffect(() => {
           {/* left side image */}
           <div>
             <img
-              src={property?.pictures[0].large}
+              src={property?.pictures[0]?.large?property?.pictures[2].large:property?.pictures[2].original}
               alt=""
               className="h-[400px] w-[600px] rounded-lg shadow-md object-fit hidden lg:block md:block"
             />
@@ -96,7 +97,7 @@ useEffect(() => {
               </div>
               <div className="flex gap-3 items-center mt-1">
                 <div className="text-[20px]">
-                  <FaBuilding />
+                  <FaLocationArrow />
                 </div>
                 <p className="text-[20px] font-semibold">Address</p>
               </div>
@@ -156,7 +157,7 @@ useEffect(() => {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8">
       {property?.pictures.map((pic,index) => (
         <div key={index} className="w-full h-[270px]">
-          <img src={pic?.large} alt="" className="h-full  shadow-xl w-full " />
+          <img src={pic?.large?pic?.large:pic.original?pic.original:pic.thumbnail} alt="" className="h-full  shadow-xl w-full " />
         </div>
       ))}
     </div>
@@ -175,3 +176,5 @@ useEffect(() => {
 };
 
 export default Details;
+
+

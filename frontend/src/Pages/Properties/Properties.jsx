@@ -6,17 +6,22 @@ import { FaBath, FaBed } from "react-icons/fa6";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useLocalContext } from '../../context/contextProvider'
+import Loading from "../../Components/Loading/Loading";
 const Properties = () => {
 const {allProperties,getProperties,loading} = useLocalContext();
   
     
     useEffect(() => {
-      getProperties("2021-10-10","2021-10-11",2);
+      getProperties();
       console.log({allProperties});
     }, []);
   
     if (loading) {
-      return <p>Loading...</p>; // You can replace this with a loading spinner or any other UI indication
+      return(
+      <Loading/>
+
+      )
+      
     }
     
     const universalDiscription="This Property is amazing and you will love it.It is located in the heart of the city and you will love it.The reasons to choose this property are alo.Even they are countless.Beautifull valley , modern architecture and many more.Nature is just side by you . you will love it.Just try it once else you will have a regret to not visit the heaven on earth."

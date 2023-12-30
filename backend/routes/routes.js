@@ -1,7 +1,7 @@
 const express = require('express');
 const sendEmail = require('../utils/sendEmail');
 const router = express.Router();
-
+const moment = require('moment');
 
 
 
@@ -10,7 +10,7 @@ router.get('/listings', async(req, res) => {
     const {checkIn,checkOut,count}=req.query
     console.log(checkIn,checkOut,count);
     try {
-        const response = await fetch(`https://open-api.guesty.com/v1/listings?checkIn=${checkIn}&checkOut=${checkOut}&minOccupancy=${count}`, {
+        const response = await fetch(`https://open-api.guesty.com/v1/listings?checkIn=${checkIn}&checkOut=${checkOut}&minOccupancy=${count}&limit=50&skip=0`, {
             headers: {
                 "accept": 'application/json',
                 "authorization": `Bearer ${process.env.GUESTY_API_TOKEN}`,
@@ -135,7 +135,7 @@ const quoteId=req.params.id
 })
 
 
-router.post("/listing/quote/:id/inquriy",async(req,res)=>{
+router.post("/listing/quote/:id/inquiry",async(req,res)=>{
     const quoteId=req.params.id
     const {firstName,lastName,email,phone,ratePlanId}=req.body
         try {
@@ -169,6 +169,32 @@ router.post("/listing/quote/:id/inquriy",async(req,res)=>{
           }
     })
     
+
+    router.get("/calendar/:id",async(req,res)=>{
+        const listingId=req.params.id
+        // get todays date in the format YYYY-MM-DD
+        const today = moment().format("YYYY-MM-DD");
+        // get the date 3 year from now in the format YYYY-MM-DD
+        const threeYearsFromNow = moment().add(3, "years").format("YYYY-MM-DD");
+            try {
+                const response = await fetch(`https://open-api.guesty.com/v1/availability-pricing/api/calendar/listings/${listingId}?startDate=${today}&endDate=${threeYearsFromNow}`, {
+                    headers: {
+                        "accept": 'application/json',
+                        'content-type': 'application/json',
+                        "authorization": `Bearer ${process.env.GUESTY_API_TOKEN}`,
+                    },
+                     
+                });
+        
+                const data = await response.json();
+                console.log(data);
+                
+                res.status(200).json(data);
+              } catch (error) {
+                console.error('Error:', error);
+                res.status(500).json({ "error": error.message });
+              }
+        })
 
 
 module.exports = router;
