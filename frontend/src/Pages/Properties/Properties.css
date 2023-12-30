@@ -197,10 +197,12 @@
     }
     .pricing{
       display: flex;
-      flex-direction: row;
-      justify-content: space-around;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
       width: 100%;
-      padding-bottom: 10px;
+      padding-bottom: 20px;
     }
     .pricing button{
       padding: 10px 15px;
