@@ -95,14 +95,11 @@ const handleSearch = async () => {
     setIsLargeModalOpen(false);
   };
 
-  const isDateDisabled = (currentDate) => {
-    if (!currentDate) {
-      return false; // Don't disable if current date is not available
-    }
-  
-    const formattedCurrentDate = moment(currentDate).format("YYYY-MM-DD");
-    return disabledDates.includes(formattedCurrentDate);
+  const isDateDisabled = (current) => {
+    const formattedDate = moment(current).format("YYYY-MM-DD");
+    return disabledDates.includes(formattedDate);
   };
+  
   return (
     <div>
       {isSmallModalOpen && (
@@ -115,7 +112,7 @@ const handleSearch = async () => {
                   className="h-[50px] lg:w-[400px] focus:border-blue-500"
                   required
                   onChange={(dates) => handleDateChange(dates)}
-                  disabledDate={(current) => isDateDisabled(current)}
+                  disabledDate={isDateDisabled}
                 
                 />
               </div>
