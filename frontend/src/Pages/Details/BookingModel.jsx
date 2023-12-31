@@ -9,6 +9,7 @@ import { IoIosArrowRoundBack } from 'react-icons/io';
 import { Link, useParams } from 'react-router-dom';
 import { useLocalContext } from '../../context/contextProvider';
 import format from 'date-fns/format';
+import { ToastContainer } from 'react-toastify';
 
 const BookingModel = ({ isSmallModalOpen, setIsSmallModalOpen }) => {
   const [dates, setDates] = useState([]);
@@ -17,7 +18,7 @@ const BookingModel = ({ isSmallModalOpen, setIsSmallModalOpen }) => {
   const [isFormValid, setIsFormValid] = useState(false);
   const [disabledDates, setDisabledDates] = useState([]);
   const { id } = useParams();
-  const { getQuote, property, quote, getCalendarData, calendarData } = useLocalContext();
+  const { getQuote, property, quote, getCalendarData, calendarData,flag } = useLocalContext();
 
   const extractDisabledDates = (calendarData) => {
     const disabledDatesSet = [];
@@ -66,7 +67,7 @@ const BookingModel = ({ isSmallModalOpen, setIsSmallModalOpen }) => {
 
   useEffect(() => {
     getCalendarData(id);
-  }, [id]);
+  }, [property]);
 
   useEffect(() => {
     setDisabledDates(extractDisabledDates(calendarData));
@@ -101,16 +102,22 @@ const BookingModel = ({ isSmallModalOpen, setIsSmallModalOpen }) => {
         alert('Please select valid start and end dates.');
         return;
       }
+  
       await getQuote(startDate, endDate, selectedGuests, property._id);
   
-      setIsSmallModalOpen(false);
-      setIsLargeModalOpen(true);
+  
     } catch (error) {
       console.error('Error fetching quote:', error);
-      alert('Error fetching quote. Please try again.');
+      // Display a generic error message
+      alert('An error occurred while fetching the quote. Please try again.');
     }
   };
-
+useEffect(() => { 
+  if(flag){
+    setIsSmallModalOpen(false);
+    setIsLargeModalOpen(true);
+  }
+  },[flag]) 
   const options = [];
   for (let i = 1; i <= 5; i++) {
     options.push(
@@ -236,6 +243,7 @@ const BookingModel = ({ isSmallModalOpen, setIsSmallModalOpen }) => {
           </div>
         </div>
       )}
+      <ToastContainer/>
     </div>
   );
 };

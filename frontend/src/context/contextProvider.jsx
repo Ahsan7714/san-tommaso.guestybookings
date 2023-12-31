@@ -4,6 +4,7 @@ import axios from "axios";
 import baseUrl from "./baseUrl";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { set } from "date-fns";
 
 const ContextProvider = ({ children }) => {
     const [dates, setDates] = useState([]);
@@ -13,6 +14,7 @@ const ContextProvider = ({ children }) => {
     const [loading, setLoading] = useState(false);
     const [quote, setQuote] = useState();
     const [calendarData, setCalendarData] = useState();
+    const [flag,setFlag]=useState(false);
 
 
 
@@ -65,9 +67,12 @@ const ContextProvider = ({ children }) => {
           if (res.data.error ) {
             // Display error using toast
             toast.error(res.data.error.message);
+            setQuote({error: res.data.error});
+            setFlag(false);
             return Error(res.data.error.message);
           } else {
             setQuote(res.data);
+            setFlag(true);
           }
         } catch (error) {
           console.error(error);

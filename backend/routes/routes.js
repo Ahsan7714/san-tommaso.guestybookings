@@ -7,13 +7,12 @@ const moment = require('moment');
 
 
 router.get('/listings', async(req, res) => {
-    const {checkIn,checkOut,count}=req.query
-    console.log(checkIn,checkOut,count);
+    const {count}=req.query
     try {
-        const response = await fetch(`https://open-api.guesty.com/v1/listings?checkIn=${checkIn}&checkOut=${checkOut}&minOccupancy=${count}&limit=50&skip=0`, {
+        const response = await fetch(`https://booking.guesty.com/api/listings?minOccupancy=${count}&limit=100`, {
             headers: {
                 "accept": 'application/json',
-                "authorization": `Bearer ${process.env.GUESTY_API_TOKEN}`,
+                "authorization": `Bearer ${process.env.GUESTY_API_BOOKING_TOKEN}`,
             }
         });
     

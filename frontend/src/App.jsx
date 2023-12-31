@@ -8,6 +8,7 @@ import BookingForm from './Pages/BookingForm/BookingForm'
 import Thanks from './Pages/ThankYou/Thanks'
 
 import Properties from './Pages/Properties/Properties'
+import {  ToastContainer } from 'react-toastify'
 function App() {
   return (
     <>
@@ -21,6 +22,7 @@ function App() {
       <Route path='/properties' element={<Properties/>} />
     </Routes>
     <Footer/>
+    <ToastContainer/>
     </>
   )
 }
