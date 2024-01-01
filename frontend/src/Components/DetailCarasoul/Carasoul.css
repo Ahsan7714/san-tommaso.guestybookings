@@ -17,3 +17,9 @@
   }
   
 /* Optional: Add styling for other elements as needed */
+@media screen and (max-width:786px) {
+  .banner_overlay_caraoulse{
+    display: none;
+  }
+  
+}

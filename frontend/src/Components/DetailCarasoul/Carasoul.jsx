@@ -53,13 +53,13 @@ const universalDescription='A good plcae to stay, just like heaven on earth with
               <img
                 src={d.img}
                 alt=""
-                className="image-transition relative h-[450px] w-full lg:h-[100vh] lg:w-full rounded-sm flex object-cover"
+                className="image-transition relative h-[300px] w-full lg:h-[85vh] lg:w-full rounded-sm flex object-cover"
               />
             </div>
           </div>
         ))}
       </Slider>
-      <div className='absolute lg:top-[30%] top-[35%] bg-[#ffffff56]  rounded-sm backdrop-filter backdrop-blur-[4px] lg:py-3 lg:px-7 px-4 py-2 w-[80%]  lg:w-[50%] shadow-xl'>
+      <div className='absolute lg:top-[30%] top-[35%] bg-[#ffffff56]  rounded-sm backdrop-filter backdrop-blur-[4px] lg:py-3 lg:px-7 px-4 py-2 w-[80%]  lg:w-[50%] shadow-xl banner_overlay_caraoulse'>
         <h1 className="lg:text-[35px] text-[20px]">{property?.title}</h1>
         <p className='lg:text-[20px] text-[16px] pb-4'>{property?.address?.city}, {property?.address?.country} </p>
         <p className='lg:text-[18px] text-[14px] text-[#000000b4] border-t border-[#0000003a] lg:py-4'>
