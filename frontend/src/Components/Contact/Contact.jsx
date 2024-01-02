@@ -34,7 +34,7 @@ const {sendEmail}=useLocalContext()
   };
 
   return (
-    <div className="bg-gray-200 flex justify-center mb-20">
+    <div className="bg-gray-200 flex justify-center mb-20" id="contact-us">
       <div className="flex lg:flex-row flex-col bg-white shadow-xl rounded-lg lg:w-[45%] w-[100%]   my-20 ">
         <div className=" ">
           <form onSubmit={submit} className="flex flex-col px-8 gap-8 py-5">

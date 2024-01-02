@@ -121,7 +121,7 @@ const sendEmail=async(email,name,subject,message)=>{
 }
 
     return (
-        <Context.Provider value={{ allProperties, getProperties, loading,dates,selectedGuests,setDates,setSelectedGuests,getSinglePropertyDetails,property,getQuote,quote,createInquiry,getCalendarData,calendarData,sendEmail}}>
+        <Context.Provider value={{flag, allProperties, getProperties, loading,dates,selectedGuests,setDates,setSelectedGuests,getSinglePropertyDetails,property,getQuote,quote,createInquiry,getCalendarData,calendarData,sendEmail}}>
             {children}
         </Context.Provider>
     );

@@ -5,28 +5,43 @@ const moment = require('moment');
 
 
 
+router.get('/listings', async (req, res) => {
+  const { checkIn, checkOut, count } = req.query;
 
-router.get('/listings', async(req, res) => {
-    const {count}=req.query
-    try {
-        const response = await fetch(`https://booking.guesty.com/api/listings?minOccupancy=${count}&limit=100`, {
-            headers: {
-                "accept": 'application/json',
-                "authorization": `Bearer ${process.env.GUESTY_API_BOOKING_TOKEN}`,
-            }
-        });
-    
-        
-        const data = await response.json();
-        
-        
-        res.status(200).json(data);
-      } catch (error) {
-        console.error('Error:', error);
-        res.status(500).json({ "error": error.message });
-      }
-})
+  const queryObj = {};
 
+  if (checkIn) {
+      queryObj.checkIn = checkIn;
+  }
+  if (checkOut) {
+      queryObj.checkOut = checkOut;
+  }
+  if (count) {
+      queryObj.minOccupancy = count;
+  }
+
+  console.log(queryObj);
+
+  try {
+      const queryParams = new URLSearchParams(queryObj);  // Use URLSearchParams to build query string
+
+      const response = await fetch(`https://booking.guesty.com/api/listings?limit=100&${queryParams}`, {
+          headers: {
+              "accept": 'application/json',
+              "authorization": `Bearer ${process.env.GUESTY_API_BOOKING_TOKEN}`,
+          },
+      });
+
+      const data = await response.json();
+
+      res.status(200).json(data);
+  } catch (error) {
+      console.error('Error:', error);
+      res.status(500).json({ "error": error.message });
+  }
+});
+
+module.exports = router;
 
 
 // Get the single listing

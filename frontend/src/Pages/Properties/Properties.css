@@ -100,7 +100,7 @@
   .card_text .title{
     font-size: 20px;
     font-weight: 600;
-    color: #007bff;
+    color: #C10D32;
   }
   
   .upper {
@@ -166,28 +166,26 @@
     margin: 0;
     font-weight: bold;
     font-size: 22px;
-    color: #007bff; /* or your preferred color */
+    color: black; /* or your preferred color */
   }
   
   .pricing button {
     margin-top: 10px;
-    background-color: #007bff; /* or your preferred color */
+    background-color: #C10D32; /* or your preferred color */
     color: #fff;
     padding: 10px 20px;
     border: none;
     cursor: pointer;
   }
   .pricing .details_btn{
-    background-color: #ff6600; /* or your preferred color */
+    background-color: #C10D32; /* or your preferred color */
     color: #fff;
     border: none;
     cursor: pointer;
     padding: 10px 15px;
   }
   
-  .pricing button:hover {
-    background-color: #0056b3; /* or your preferred color on hover */
-  }
+
   @media screen and (max-width:786px) {
     .card{
       flex-direction: column;

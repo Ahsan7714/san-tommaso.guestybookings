@@ -3,6 +3,7 @@ import { useState } from "react";
 import moment from "moment";
 import { useLocalContext } from "../../context/contextProvider";
 import { useNavigate } from "react-router-dom";
+import { set } from "date-fns";
 
 
 const { RangePicker } = DatePicker;
@@ -12,13 +13,19 @@ const DatePocker = ({source}) => {
 const {dates,setDates,selectedGuests,setSelectedGuests,getProperties}=useLocalContext()
 
 const handleDateChange = (values) => {
-console.log(values);
-// convert this value into the format that you want is YYYY-MM-DD
-const checkIn = moment(values[0].$d).format("YYYY-MM-DD");
-const checkOut = moment(values[1].$d).format("YYYY-MM-DD");
-setDates([checkIn,checkOut])
-};
+  console.log(values);
 
+  // Check if values is not null
+  if (values) {
+    // convert this value into the format that you want is YYYY-MM-DD
+    const checkIn = moment(values[0].$d).format("YYYY-MM-DD");
+    const checkOut = moment(values[1].$d).format("YYYY-MM-DD");
+    setDates([checkIn, checkOut]);
+  } else {
+    // Handle the case when no dates are selected
+    setDates([null, null]);
+  }
+};
 
   const handleGuestsChange = (e) => {
     setSelectedGuests(e.target.value);
@@ -31,6 +38,9 @@ setDates([checkIn,checkOut])
     e.preventDefault();
     
     getProperties(dates[0],dates[1],selectedGuests)
+
+    setSelectedGuests("");
+    setDates([null, null]);
     
   };
 

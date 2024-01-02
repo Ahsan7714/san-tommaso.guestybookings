@@ -11,6 +11,7 @@ import 'leaflet/dist/leaflet.css';
 import { useParams } from "react-router-dom";
 import { Context } from "../../context/context";
 import Loading from "../../Components/Loading/Loading";
+import { FaPeopleGroup } from "react-icons/fa6";
 
 const Details = () => {
   const [isSmallModalOpen, setIsSmallModalOpen] = useState(false);
@@ -84,8 +85,14 @@ const Details = () => {
           </div>
           {/* right side details */}
           <div className="flex  gap-5 px-4 lg:px-0 lg:pl-20 pt-3">
-            <div className="flex flex-col gap-6 w-[40%]">
+            <div className="flex flex-col gap-6 w-[60%]">
               <h1 className="text-[22px] font-semibold">Property Features</h1>
+              <div className="flex gap-3 items-center">
+                <div className="text-[20px]">
+                  <FaPeopleGroup />
+                </div>
+                <p className="text-[20px] font-semibold">Guest</p>
+              </div>
               <div className="flex gap-3 items-center">
                 <div className="text-[20px]">
                   <FaEuroSign />
@@ -123,8 +130,9 @@ const Details = () => {
                 <p className="text-[20px] font-semibold">Address</p>
               </div>
             </div>
-            <div className="flex flex-col gap-8 text-[16px] lg:pt-8 pt-16 ">
+            <div className="flex flex-col gap-7 text-[16px] lg:pt-8 pt-16 ">
               <p></p>
+              <p className="pl-8 text-[17px]">{property?.accommodates}</p>
               <p className="pl-8 text-[17px]">{property?.prices?.currency} {property?.prices?.basePrice}</p>
               <p className="pl-8 text-[17px]">{property?.bedrooms}</p>
               <p className="pl-8 text-[17px]">{property?.beds}</p>
@@ -226,5 +234,12 @@ attribution='© OpenStreetMap contributors'
 };
 
 export default Details;
+
+
+
+
+
+
+
 
 

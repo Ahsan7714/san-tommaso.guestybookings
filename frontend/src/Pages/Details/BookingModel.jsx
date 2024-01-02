@@ -10,6 +10,8 @@ import { Link, useParams } from 'react-router-dom';
 import { useLocalContext } from '../../context/contextProvider';
 import format from 'date-fns/format';
 import { ToastContainer } from 'react-toastify';
+import { FaClosedCaptioning, FaCross } from 'react-icons/fa6';
+import { MdOutlineClose } from 'react-icons/md';
 
 const BookingModel = ({ isSmallModalOpen, setIsSmallModalOpen }) => {
   const [dates, setDates] = useState([]);
@@ -112,14 +114,14 @@ const BookingModel = ({ isSmallModalOpen, setIsSmallModalOpen }) => {
       alert('An error occurred while fetching the quote. Please try again.');
     }
   };
-useEffect(() => { 
-  if(flag){
-    setIsSmallModalOpen(false);
-    setIsLargeModalOpen(true);
-  }
-  },[flag]) 
+  useEffect(() => { 
+    if (flag) {
+      setIsSmallModalOpen(false);
+      setIsLargeModalOpen(true);
+    }
+  }, [flag, setIsSmallModalOpen, setIsLargeModalOpen,quote]);
   const options = [];
-  for (let i = 1; i <= 5; i++) {
+  for (let i = 1; i <= 25; i++) {
     options.push(
       <option key={i} value={i}>
         {i}
@@ -137,10 +139,13 @@ useEffect(() => {
       
       {isSmallModalOpen && (
         <div className="fixed top-0 left-0 w-full h-full bg-[rgba(0,0,0,0.67)] flex flex-col items-center justify-center">
+      
  <div className="calendarWrap z-50 absolute top-[60%] left-1/2 transform -translate-x-1/2 -translate-y-1/2">
 
 <div ref={refOne}>
   {open && (
+    <div className='relative'>
+
     <DateRangePicker
       onChange={(item) => setRange([item.selection])}
       editableDateInputs={true}
@@ -148,17 +153,24 @@ useEffect(() => {
       ranges={range}
       months={2}
       direction={window.innerWidth < 786 ? "vertical" : "horizantal"}
-      className="calendarElement"
+      className="calendarElement "
       minDate={new Date()}
       maxDate={addDays(new Date(), 365)}
       disabledDates={disabledDates.map((date) => new Date(date))}
       isDateBlocked={(date) => isDateDisabled(date)}
       fixedHeight={true}
     />
+      <div className="close absolute  right-2 top-0 " >
+          <MdOutlineClose className="text-2xl text-black cursor-pointer" onClick={()=>setOpen(false)}  />
+        </div>
+    </div>
   )}
 </div>
 </div>
-          <div className="bg-white p-8 rounded-md -z-10">
+          <div className="bg-white p-8 rounded-md -z-10 relative">
+          <div className="close absolute top-2 right-3 text-xl cursor-pointer" onClick={()=>setIsSmallModalOpen(false)} >
+          <MdOutlineClose />
+          </div>
             <div className="flex flex-col justify-center items-center">
 
                 <input

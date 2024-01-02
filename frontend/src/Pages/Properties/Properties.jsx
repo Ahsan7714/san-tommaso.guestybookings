@@ -2,29 +2,25 @@ import { Link } from "react-router-dom";
 import DatePicker from "../../Components/DatePicker/DatePicker";
 import "./Properties.css";
 import { FaPerson, FaBuilding, FaBath, FaBed } from "react-icons/fa6";
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useEffect } from "react";
 import { useLocalContext } from '../../context/contextProvider'
 import Loading from "../../Components/Loading/Loading";
+import Contact from "../../Components/Contact/Contact";
 
 const Properties = () => {
   const { allProperties, getProperties, loading } = useLocalContext();
   
-    
-    useEffect(() => {
-      getProperties();
-    }, []);
+  useEffect(() => {
+    getProperties();
+  }, []);
   
-    if (loading) {
-      return(
-      <Loading/>
+  if (loading) {
+    return <Loading />;
+  }
 
-      )
-      }      
-
-
-
-
+  const sortedProperties = [...allProperties].sort((a, b) => {
+    return a.accommodates - b.accommodates;
+  });
 
   const universalDescription =
     "This Property is amazing and you will love it. It is located in the heart of the city and you will love it. The reasons to choose this property are also countless. Beautiful valley, modern architecture and many more. Nature is just side by you. You will love it. Just try it once else you will have a regret to not visit the heaven on earth.";
@@ -43,74 +39,77 @@ const Properties = () => {
         <div className="upper_form ">
           <DatePicker />
         </div>
-      
       </form>
 
       <div className="cards_container">
-        
+        {sortedProperties.length === 0 ? (
+          <div className="no-results-message w-[100%] " style={{marginTop:"-70px"}}>
+            <p className="text-center text-[#F7A948] mb-14 text-2xl font-bold">No results found. You can contact us for assistance.</p>
+            <Contact/>
+          </div>
+        ) : (
+          sortedProperties.map((property, index) => (
+            <div className="card" key={index}>
+              <div className="card_img">
+                {property.picture.large ? (
+                  <img src={property.picture.large} alt="" />
+                ) : (
+                  <img src={property.picture.thumbnail} alt="" />
+                )}
+              </div>
+              <div className="card_text">
+                <div className="upper">
+                  <h1 className="title">{property.title}</h1>
+                  <span className="address">
+                    <span>{property.address.city}</span>
+                    <span>{property.address.country}</span>
+                  </span>
+                </div>
+                <div className="description">
+                  {property?.publicDescription?.summary ? (
+                    <p>
+                      {property?.publicDescription?.summary?.slice(0, 300)}...
+                    </p>
+                  ) : (
+                    <p>{universalDescription}</p>
+                  )}
+                </div>
+                <div className="bottom">
+                  <span>
+                    <FaBuilding />
+                    <p>{property.propertyType}</p>
+                  </span>
+                  <span>
+                    <FaPerson />
+                    <p>{property.accommodates}</p>
+                  </span>
+                  <span>
+                    <FaBed />
+                    <p>{property.bedrooms}</p>
+                  </span>
+                  <span>
+                    <FaBath />
+                    <p>{property.bathrooms}</p>
+                  </span>
+                </div>
+              </div>
+              <div className="pricing">
+                <p>
+                  {property.prices.basePrice} {property.prices.currency}
+                </p>
 
-                {allProperties &&
-                  allProperties.map((property, index) => (
-                    <div className="card" key={index}>
-                      <div className="card_img">
-                        {property.picture.large ? (
-                          <img src={property.picture.large} alt="" />
-                        ) : (
-                          <img src={property.picture.thumbnail} alt="" />
-                        )}
-                      </div>
-                      <div className="card_text">
-                        <div className="upper">
-                          <h1 className="title">{property.title}</h1>
-                          <span className="address">
-                            <span>{property.address.city}</span>
-                            <span>{property.address.country}</span>
-                          </span>
-                        </div>
-                        <div className="description">
-                          {property?.publicDescription?.summary ? (
-                            <p>
-                              {property?.publicDescription?.summary?.slice(0, 300)}...
-                            </p>
-                          ) : (
-                            <p>{universalDescription}</p>
-                          )}
-                        </div>
-                        <div className="bottom">
-                          <span>
-                            <FaBuilding />
-                            <p>{property.propertyType}</p>
-                          </span>
-                          <span>
-                            <FaPerson />
-                            <p>{property.accommodates}</p>
-                          </span>
-                          <span>
-                            <FaBed />
-                            <p>{property.bedrooms}</p>
-                          </span>
-                          <span>
-                            <FaBath />
-                            <p>{property.bathrooms}</p>
-                          </span>
-                        </div>
-                      </div>
-                      <div className="pricing">
-                        <p>
-                          {property.prices.basePrice} {property.prices.currency}
-                        </p>
-
-                        <Link to={`/properties/${property._id}`}>
-                          <button>Book Now</button>
-                        </Link>
-                        <Link to={`/properties/${property._id}`}>
-                          <button className="details_btn">View Details</button>
-                        </Link>
-                      </div>
-                    </div>
-                  ))}
+                <Link to={`/properties/${property._id}`}>
+                  <button>Book Now</button>
+                </Link>
+                <Link to={`/properties/${property._id}`}>
+                  <button className="details_btn">View Details</button>
+                </Link>
               </div>
             </div>
+          ))
+        )}
+      </div>
+    </div>
   );
 };
 
