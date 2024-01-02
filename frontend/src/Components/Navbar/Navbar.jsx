@@ -26,7 +26,7 @@ const Navbar = () => {
       </div>
       <div className='flex items-center gap-6'>
         
-          <GoogleTranslateButton/>
+          {/* <GoogleTranslateButton/> */}
         <Link to={"/properties"} className='bg-[#9d155c] h-[70px] lg:h-[80px] w-[100px] lg:w-[140px] flex justify-center items-center '>
 
           <span className='text-[20px] text-white' >Book</span>

@@ -10,6 +10,7 @@ import Thanks from './Pages/ThankYou/Thanks'
 import Properties from './Pages/Properties/Properties'
 import {  ToastContainer } from 'react-toastify'
 function App() {
+
   return (
     <>
     <Navbar/>
