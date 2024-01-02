@@ -101,7 +101,7 @@ router.post("/listing/quote",async(req,res)=>{
             headers: {
                 "accept": 'application/json',
                 'content-type': 'application/json',
-                "authorization": `Bearer ${process.env.GUESTY_API_BOOKING_TOKEN}}`,
+                "authorization": `Bearer ${process.env.GUESTY_API_BOOKING_TOKEN}`,
             },
             method:"POST",
              body:JSON.stringify({
@@ -133,7 +133,7 @@ const quoteId=req.params.id
             headers: {
                 "accept": 'application/json',
                 'content-type': 'application/json',
-                "authorization": `Bearer ${process.env.GUESTY_API_BOOKING_TOKEN}}`,
+                "authorization": `Bearer ${process.env.GUESTY_API_BOOKING_TOKEN}`,
             },
              
         });
@@ -156,7 +156,7 @@ router.post("/listing/quote/:id/inquiry",async(req,res)=>{
                 headers: {
                     "accept": 'application/json',
                     'content-type': 'application/json',
-                    "authorization": `Bearer ${process.env.GUESTY_API_BOOKING_TOKEN}}`,
+                    "authorization": `Bearer ${process.env.GUESTY_API_BOOKING_TOKEN}`,
                 },
                 method:'POST',
                 body: JSON.stringify({
