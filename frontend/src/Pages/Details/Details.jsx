@@ -215,12 +215,12 @@ attribution='© OpenStreetMap contributors'
     </div>
         </div>
         {/* Book now button */}
-        <div className="fixed bottom-10 right-5 ">
+        <div className="fixed bottom-14 right-5 ">
           <button
             className="bg-[#9d155c] shadow-lg text-white px-6 py-3 rounded-md"
             onClick={openModal}
           >
-            Click to Book Now
+             Book Now
           </button>
         </div>
         {/* Modal */}
