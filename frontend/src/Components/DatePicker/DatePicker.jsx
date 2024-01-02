@@ -32,15 +32,16 @@ const handleDateChange = (values) => {
   };
 
   const handleSearch = (e) => {
-    if(source=="Home"){
-      navigate('/properties')
-    }
+ 
     e.preventDefault();
     
     getProperties(dates[0],dates[1],selectedGuests)
 
     setSelectedGuests("");
     setDates([null, null]);
+    if(source=="Home"){
+      navigate('/properties')
+    }
     
   };
 

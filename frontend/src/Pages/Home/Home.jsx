@@ -2,8 +2,14 @@ import bg from '../../assets/vilabga.jpg'
 import DatePicker from '../../Components/DatePicker/DatePicker'
 import About from '../../Components/About/About'
 import Contact from '../../Components/Contact/Contact'
+import { useEffect } from 'react'
+import { useLocalContext } from '../../context/contextProvider'
 
 const Home = () => {
+  const {getProperties}=useLocalContext()
+  useEffect(() => {
+    getProperties();
+  }, []);
   return (
     <div>
       <div className=' font-poppins'>

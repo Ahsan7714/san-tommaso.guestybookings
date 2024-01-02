@@ -10,9 +10,7 @@ import Contact from "../../Components/Contact/Contact";
 const Properties = () => {
   const { allProperties, getProperties, loading } = useLocalContext();
   
-  useEffect(() => {
-    getProperties();
-  }, []);
+  
   
   if (loading) {
     return <Loading />;
