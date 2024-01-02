@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import about from "../../assets/about1.jpg"
 import { useLocalContext } from "../../context/contextProvider";
 import moment from "moment";
+import { toast } from "react-toastify";
 
 const BookingForm = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -31,8 +32,12 @@ const BookingForm = () => {
   const navigate=useNavigate()
 const {createInquiry}=useLocalContext()
 const handleInquiry=async()=>{
-
+  if (!firstName || !lastName || !email || !phoneNumber || !acceptedPolicy) {
+    toast.error("Please fill in all required fields.");
+    return;
+  }
 try{
+
 
   await createInquiry(quote._id,firstName,lastName,email,phoneNumber,quote.rates.ratePlans[0].ratePlan._id)  
   navigate("/thank-you")
