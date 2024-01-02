@@ -2,14 +2,11 @@ const express = require('express');
 const sendEmail = require('../utils/sendEmail');
 const router = express.Router();
 const moment = require('moment');
-const generateGuestyToken = require('../utils/generateToken');
-const generateGuestyBookingToken = require('../utils/generateBookingToken');
 
 
 
 
 
-router.get("/listings",generateGuestyBookingToken)
 router.get('/listings', async (req, res) => {
   const { checkIn, checkOut, count } = req.query;
 
@@ -33,7 +30,7 @@ router.get('/listings', async (req, res) => {
       const response = await fetch(`https://booking.guesty.com/api/listings?limit=100&${queryParams}`, {
           headers: {
               "accept": 'application/json',
-              "authorization": `Bearer ${req.guestyBookingToken}`,
+              "authorization": `Bearer ${process.env.GUESTY_API_BOOKING_TOKEN}`,
           },
       });
 
@@ -50,13 +47,12 @@ module.exports = router;
 
 
 // Get the single listing
-router.get("/listing/:id", generateGuestyToken)
 router.get('/listing/:id', async(req, res) => {
 try {
     const response = await fetch(`https://open-api.guesty.com/v1/listings/${req.params.id}`, {
         headers: {
             "accept": 'application/json',
-            "authorization": `Bearer ${req.guestyToken}`,
+            "authorization": `Bearer ${process.env.GUESTY_API_TOKEN}`,
         }
     });
 
@@ -96,7 +92,6 @@ router.post("/send-email",async(req,res)=>{
 })
 
 
-router.post("/listing/quote",generateGuestyBookingToken)
 router.post("/listing/quote",async(req,res)=>{
     const {count,checkInDate,checkOutDate,listingId}=req.body
 
@@ -106,7 +101,7 @@ router.post("/listing/quote",async(req,res)=>{
             headers: {
                 "accept": 'application/json',
                 'content-type': 'application/json',
-                "authorization": `Bearer ${req.guestyBookingToken}`,
+                "authorization": `Bearer ${process.env.GUESTY_API_BOOKING_TOKEN}}`,
             },
             method:"POST",
              body:JSON.stringify({
@@ -130,7 +125,6 @@ router.post("/listing/quote",async(req,res)=>{
 
 
 
-router.get("/listing/quote/:id",generateGuestyBookingToken)
 router.get("/listing/quote/:id",async(req,res)=>{
 
 const quoteId=req.params.id
@@ -139,7 +133,7 @@ const quoteId=req.params.id
             headers: {
                 "accept": 'application/json',
                 'content-type': 'application/json',
-                "authorization": `Bearer ${req.guestyBookingToken}`,
+                "authorization": `Bearer ${process.env.GUESTY_API_BOOKING_TOKEN}}`,
             },
              
         });
@@ -154,7 +148,6 @@ const quoteId=req.params.id
       }
 })
 
-router.post("/listing/quote/:id/inquiry",generateGuestyBookingToken)
 router.post("/listing/quote/:id/inquiry",async(req,res)=>{
     const quoteId=req.params.id
     const {firstName,lastName,email,phone,ratePlanId}=req.body
@@ -163,7 +156,7 @@ router.post("/listing/quote/:id/inquiry",async(req,res)=>{
                 headers: {
                     "accept": 'application/json',
                     'content-type': 'application/json',
-                    "authorization": `Bearer ${req.guestyBookingToken}`,
+                    "authorization": `Bearer ${process.env.GUESTY_API_BOOKING_TOKEN}}`,
                 },
                 method:'POST',
                 body: JSON.stringify({
@@ -189,7 +182,6 @@ router.post("/listing/quote/:id/inquiry",async(req,res)=>{
           }
     })
     
-router.get("/calendar/:id",generateGuestyToken)
     router.get("/calendar/:id",async(req,res)=>{
         const listingId=req.params.id
         // get todays date in the format YYYY-MM-DD
@@ -201,7 +193,7 @@ router.get("/calendar/:id",generateGuestyToken)
                     headers: {
                         "accept": 'application/json',
                         'content-type': 'application/json',
-                        "authorization": `Bearer ${req.guestyToken}`,
+                        "authorization": `Bearer ${GUESTY_API_TOKEN}`,
                     },
                      
                 });
