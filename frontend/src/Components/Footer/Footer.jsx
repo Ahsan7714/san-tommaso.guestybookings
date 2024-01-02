@@ -36,9 +36,9 @@ const Footer = () => {
         <Link><RiMailOpenFill className='hover:text-[#9d155c] transition-colors duration-500'/></Link>
         <Link><FaWhatsapp className='hover:text-[#9d155c] transition-colors duration-500 pl-1 lg:pl-0'/></Link>
         </div>
-        <div className="flex justify-center py-6 text-[14px]">
+        <div className="flex flex-col gap-2 items-center justify-center py-6 text-[14px]">
             <p>©Copyright.All rights reserved</p>
-            {/* <GoogleTranslateButton/> */}
+            <p>Developed By <a href="https://www.fiverr.com/muhammadsarw200" className="underline" target="">Perfect Solutions</a></p>
         </div>
       </div>
     </div>
