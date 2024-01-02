@@ -168,12 +168,12 @@ try{
             <div className="flex flex-col pt-8 pb-2">
               <div className="flex justify-between items-center pb-4 border-b border-[#00000050]">
                 <h1 className="text-[18px] font-semibold">Subtotal</h1>
-                <p>EUR ${quote?.rates?.ratePlans[0]?.ratePlan?.money?.subTotalPrice}</p>
+                <p>EUR {quote?.rates?.ratePlans[0]?.ratePlan?.money?.subTotalPrice}</p>
 
               </div>
               <div className="flex justify-between items-center text-[#10275b] text-[22px] font-semibold py-6">
                 <h1>Total</h1>
-                <p>EUR ${quote?.rates?.ratePlans[0]?.ratePlan?.money?.subTotalPrice}</p>
+                <p>EUR {quote?.rates?.ratePlans[0]?.ratePlan?.money?.subTotalPrice}</p>
 
               </div>
             </div>
