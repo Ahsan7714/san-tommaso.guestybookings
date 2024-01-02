@@ -193,7 +193,7 @@ router.post("/listing/quote/:id/inquiry",async(req,res)=>{
                     headers: {
                         "accept": 'application/json',
                         'content-type': 'application/json',
-                        "authorization": `Bearer ${GUESTY_API_TOKEN}`,
+                        "authorization": `Bearer ${process.env.GUESTY_API_TOKEN}`,
                     },
                      
                 });
