@@ -16,7 +16,7 @@ const Home = () => {
         <div className='bg-[#00000040] z-10'>
         <img src={bg} alt="" className='relative h-[70vh] lg:h-[100vh] w-full object-cover -z-10' />
         </div>
-        <div className='absolute lg:top-[10%] text-white lg:left-[23%] top-[5%] text-center'>
+        <div className='absolute lg:top-[50%] text-white lg:left-[23%] top-[29%] text-center'>
         <h1 className='text-[40px] font-bold'>Booking Agriturismo San Tommaso</h1>
         <p className='text-[25px] font-semibold absolute lg:left-[40%] left-[29%]'>Enjoy your stay</p>
         </div>
