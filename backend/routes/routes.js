@@ -2,11 +2,10 @@ const express = require('express');
 const sendEmail = require('../utils/sendEmail');
 const router = express.Router();
 const moment = require('moment');
+const {guestyBookingToken,bookingToken} = require('../utils/guestyBookingToken');
+const {generateGuestyOpenApiToken,token} = require('../utils/guestyOpenApiToken');
 
-
-
-
-
+// router.get('/listings', generateGuestyOpenApiToken);
 router.get('/listings', async (req, res) => {
   const { checkIn, checkOut, count } = req.query;
 
@@ -23,6 +22,7 @@ router.get('/listings', async (req, res) => {
   }
 
   console.log(queryObj);
+  console.log(req.guestyOpenApiToken);
 
   try {
       const queryParams = new URLSearchParams(queryObj);  // Use URLSearchParams to build query string
@@ -181,8 +181,9 @@ router.post("/listing/quote/:id/inquiry",async(req,res)=>{
             res.status(500).json({ "error": error.message });
           }
     })
-    
+    // router.get("/calendar/:id",generateGuestyOpenApiToken)
     router.get("/calendar/:id",async(req,res)=>{
+        console.log(req.guestyOpenApiToken);
         const listingId=req.params.id
         // get todays date in the format YYYY-MM-DD
         const today = moment().format("YYYY-MM-DD");
@@ -199,7 +200,6 @@ router.post("/listing/quote/:id/inquiry",async(req,res)=>{
                 });
         
                 const data = await response.json();
-                console.log(data);
                 
                 res.status(200).json(data);
               } catch (error) {
