@@ -32,7 +32,7 @@ const About = () => {
         <p>Here are produced extra virgin olive oil and good wine.</p>
       </div>
       <div className="lg:w-[50%] px-2 lg:px-0">
-        <img src={about} alt="" className="w-[100%] lg:h-[120vh]  object-cover"/>
+        <img src={"./images/IMG_4153.jpg"} alt="" className="w-[100%] lg:h-[120vh]  object-cover"/>
       </div>
     </div>
   );
