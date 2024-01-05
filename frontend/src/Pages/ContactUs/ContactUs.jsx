@@ -21,11 +21,8 @@ const {sendEmail}=useLocalContext()
   const submit = async (e) => {
     e.preventDefault();
   
-    try {
-      // Assuming sendEmail returns a response object
-      const response = await sendEmail(state.email, state.name, state.subject, state.message);
+      await sendEmail(state.email, state.name, state.subject, state.message);
   
-      if (response && response.success) {
         setState({
           name: "",
           email: "",
@@ -34,13 +31,8 @@ const {sendEmail}=useLocalContext()
         });
   
         toast.success("Email sent successfully");
-      } else {
-        throw new Error((response && response.error) || "Failed to send message.");
-      }
-    } catch (error) {
-      console.error("Error sending email:", error);
-      toast.error(error.message || "Failed to send message. Please try again later.");
-    }
+
+    
   };
   
 
