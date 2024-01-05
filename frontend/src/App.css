@@ -88,6 +88,17 @@ body{
   display: none;
 }
 
+.react-date-range-picker__calendar 
+  .react-date-range-picker__calendar__day--selected {
+    background-color: green; 
+  }
+
+  .react-date-range-picker__calendar__day--disabled {
+    background-color: red;
+  }
+
+
+
 @media screen and (max-width:786px) {
   .list_contianer_amenities{
       grid-template-columns: repeat(2, 1fr);

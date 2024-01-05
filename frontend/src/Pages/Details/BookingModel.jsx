@@ -1,6 +1,5 @@
-
 import { addDays } from 'date-fns';
-import  { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { DateRangePicker } from 'react-date-range';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
@@ -10,7 +9,6 @@ import { Link, useParams } from 'react-router-dom';
 import { useLocalContext } from '../../context/contextProvider';
 import format from 'date-fns/format';
 import { ToastContainer } from 'react-toastify';
-import { FaClosedCaptioning, FaCross } from 'react-icons/fa6';
 import { MdOutlineClose } from 'react-icons/md';
 
 const BookingModel = ({ isSmallModalOpen, setIsSmallModalOpen }) => {
@@ -20,7 +18,7 @@ const BookingModel = ({ isSmallModalOpen, setIsSmallModalOpen }) => {
   const [isFormValid, setIsFormValid] = useState(false);
   const [disabledDates, setDisabledDates] = useState([]);
   const { id } = useParams();
-  const { getQuote, property, quote, getCalendarData, calendarData,flag } = useLocalContext();
+  const { getQuote, property, quote, getCalendarData, calendarData, flag } = useLocalContext();
 
   const extractDisabledDates = (calendarData) => {
     const disabledDatesSet = [];
@@ -43,6 +41,7 @@ const BookingModel = ({ isSmallModalOpen, setIsSmallModalOpen }) => {
 
   const [open, setOpen] = useState(false);
   const refOne = useRef(null);
+  const [showContactModal, setShowContactModal] = useState(false);
 
   useEffect(() => {
     document.addEventListener('keydown', hideOnEscape, true);
@@ -53,7 +52,6 @@ const BookingModel = ({ isSmallModalOpen, setIsSmallModalOpen }) => {
       document.removeEventListener('click', hideOnClickOutside, true);
     };
   }, []);
-  console.log({range})
 
   const hideOnEscape = (e) => {
     if (e.key === 'Escape') {
@@ -91,35 +89,45 @@ const BookingModel = ({ isSmallModalOpen, setIsSmallModalOpen }) => {
     setIsFormValid(isValid);
   };
 
+  const isDateDisabled = (date) => {
+    const formattedDate = moment(date).format('YYYY-MM-DD');
+    return disabledDates.includes(formattedDate);
+  };
+
   const handleSearch = async (e) => {
     e.preventDefault();
-  
+
     try {
       const startDate = format(range[0].startDate, 'yyyy-MM-dd');
       const endDate = format(range[0].endDate, 'yyyy-MM-dd');
-  
-      // Check if the dates are valid
+
       if (!startDate || !endDate) {
-        // Handle invalid date range
         alert('Please select valid start and end dates.');
         return;
       }
-  
+
       await getQuote(startDate, endDate, selectedGuests, property._id);
-  
-  
+
+      if (quote?.error) {
+        // alert(`Error: ${quote.error}`);
+        setShowContactModal(true);
+      } else {
+        setIsLargeModalOpen(true);
+      }
     } catch (error) {
       console.error('Error fetching quote:', error);
-      // Display a generic error message
       alert('An error occurred while fetching the quote. Please try again.');
+      setShowContactModal(true);
     }
   };
-  useEffect(() => { 
+
+  useEffect(() => {
     if (flag) {
       setIsSmallModalOpen(false);
       setIsLargeModalOpen(true);
     }
-  }, [flag, setIsSmallModalOpen, setIsLargeModalOpen,quote]);
+  }, [flag, setIsSmallModalOpen, setIsLargeModalOpen, quote]);
+
   const options = [];
   for (let i = 1; i <= 25; i++) {
     options.push(
@@ -134,55 +142,50 @@ const BookingModel = ({ isSmallModalOpen, setIsSmallModalOpen }) => {
     setIsSmallModalOpen(true);
   };
 
+
+  
+  
+
   return (
     <div>
-      
       {isSmallModalOpen && (
         <div className="fixed top-0 left-0 w-full h-full bg-[rgba(0,0,0,0.67)] flex flex-col items-center justify-center">
-      
- <div className="calendarWrap z-50 absolute top-[60%] left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-
-<div ref={refOne}>
-  {open && (
-    <div className='relative'>
-
-    <DateRangePicker
-      onChange={(item) => setRange([item.selection])}
-      editableDateInputs={true}
-      moveRangeOnFirstSelection={false}
-      ranges={range}
-      months={2}
-      direction={window.innerWidth < 786 ? "vertical" : "horizantal"}
-      className="calendarElement "
-      minDate={new Date()}
-      maxDate={addDays(new Date(), 365)}
-      disabledDates={disabledDates.map((date) => new Date(date))}
-      isDateBlocked={(date) => isDateDisabled(date)}
-      fixedHeight={true}
-    />
-      <div className="close absolute  right-2 top-0 " >
-          <MdOutlineClose className="text-2xl text-black cursor-pointer" onClick={()=>setOpen(false)}  />
-        </div>
-    </div>
-  )}
-</div>
-</div>
-          <div className="bg-white p-8 rounded-md -z-10 relative">
-          <div className="close absolute top-2 right-3 text-xl cursor-pointer" onClick={()=>setIsSmallModalOpen(false)} >
-          <MdOutlineClose />
+          <div className="calendarWrap z-50 absolute top-[60%] left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            <div ref={refOne}>
+              {open && (
+                <div className='relative'>
+                  <DateRangePicker
+                    onChange={(item) => setRange([item.selection])}
+                    editableDateInputs={true}
+                    moveRangeOnFirstSelection={false}
+                    ranges={range}
+                    months={2}
+                    direction={window.innerWidth < 786 ? "vertical" : "horizantal"}
+                    className="calendarElement "
+                    minDate={new Date()}
+                    maxDate={addDays(new Date(), 365)}
+                    disabledDates={disabledDates.map((date) => new Date(date))}
+                    isDateBlocked={(date) => isDateDisabled(date)}
+                    fixedHeight={true}
+                  />
+                  <div className="close absolute  right-2 top-0 " >
+                    <MdOutlineClose className="text-2xl text-black cursor-pointer" onClick={() => setOpen(false)} />
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
+          <div className="bg-white p-8 rounded-md -z-10 relative">
+            <div className="close absolute top-2 right-3 text-xl cursor-pointer" onClick={() => setIsSmallModalOpen(false)}>
+              <MdOutlineClose />
+            </div>
             <div className="flex flex-col justify-center items-center">
-
-                <input
-                  value={`${format(range[0].startDate, 'MM/dd/yyyy')} to ${format(
-                    range[0].endDate,
-                    'MM/dd/yyyy'
-                  )}`}
-                  readOnly
-                  className="inputBox border text-center  py-7  h-[50px] w-full lg:w-[400px] text-[18px] px-5 text-[#00000091] outline-none focus:border-blue-500 my-5 border-[#00000035]"
-                  onClick={() => setOpen((open) => !open)}
-                />
-                   
+              <input
+                value={`${format(range[0].startDate, 'MM/dd/yyyy')} to ${format(range[0].endDate, 'MM/dd/yyyy')}`}
+                readOnly
+                className="inputBox border text-center  py-7  h-[50px] w-full lg:w-[400px] text-[18px] px-5 text-[#00000091] outline-none focus:border-blue-500 my-5 border-[#00000035]"
+                onClick={() => setOpen((open) => !open)}
+              />
               <div className="pb-5">
                 <select
                   required
@@ -201,12 +204,16 @@ const BookingModel = ({ isSmallModalOpen, setIsSmallModalOpen }) => {
               <div>
                 <button
                   className='h-[50px] w-[250px] lg:w-[400px] bg-[#9d155c] text-white text-[18px] '
-                  onClick={(e)=>handleSearch(e)}
-                  // disabled={!isFormValid}
+                  onClick={(e) => handleSearch(e)}
                 >
                   Search
                 </button>
               </div>
+              {showContactModal && (
+               <Link to='/contact-us' className='text-[blue] mt-5 text-[20px]'>
+              Click to Contact us
+               </Link>
+              )}
             </div>
           </div>
         </div>
@@ -255,7 +262,7 @@ const BookingModel = ({ isSmallModalOpen, setIsSmallModalOpen }) => {
           </div>
         </div>
       )}
-      <ToastContainer/>
+      <ToastContainer />
     </div>
   );
 };

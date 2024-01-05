@@ -171,14 +171,15 @@
   
   .pricing button {
     margin-top: 10px;
-    background-color: #C10D32; /* or your preferred color */
+    background-color: #9d155c; /* or your preferred color */
     color: #fff;
     padding: 10px 20px;
+    width: 150px;
     border: none;
     cursor: pointer;
   }
   .pricing .details_btn{
-    background-color: #C10D32; /* or your preferred color */
+    background-color: #9d155c; /* or your preferred color */
     color: #fff;
     border: none;
     cursor: pointer;

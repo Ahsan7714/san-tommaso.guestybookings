@@ -11,13 +11,14 @@ import { toast } from "react-toastify";
 const BookingForm = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [valid, setValid] = useState(true);
-  const [firstName,setFirstName]=useState('')
-  const [lastName,setLastName]=useState('')
-  const [email,setEmail]=useState('')
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
   const [acceptedPolicy, setAcceptedPolicy] = useState(false);
 
-
-  const {quote,property,}=useLocalContext()
+  const { quote, property } = useLocalContext();
+  const navigate = useNavigate();
+  const { createInquiry } = useLocalContext();
 
   const handleChange = (value) => {
     setPhoneNumber(value);
@@ -26,28 +27,35 @@ const BookingForm = () => {
 
   const validatePhoneNumber = (phoneNumber) => {
     const phoneNumberPattern = /^\+?[1-9]\d{1,14}$/;
-
     return phoneNumberPattern.test(phoneNumber);
   };
-  const navigate=useNavigate()
-const {createInquiry}=useLocalContext()
-const handleInquiry=async()=>{
-  if (!firstName || !lastName || !email || !phoneNumber || !acceptedPolicy) {
-    toast.error("Please fill in all required fields.");
-    return;
-  }
-try{
 
+  const handleInquiry = async () => {
+    if (!firstName || !lastName || !email || !phoneNumber || !acceptedPolicy) {
+      toast.error("Please fill in all required fields.");
+      return;
+    }
 
-  await createInquiry(quote._id,firstName,lastName,email,phoneNumber,quote.rates.ratePlans[0].ratePlan._id)  
-  navigate("/thank-you")
-}catch(error){
-  console.log(error)
-  alert("Error fetching quote. Please try again.")
-}
+    try {
+      await createInquiry(
+        quote._id,
+        firstName,
+        lastName,
+        email,
+        phoneNumber,
+        quote.rates.ratePlans[0].ratePlan._id
+      );
 
-}
+      // Navigate to the home page
+      navigate("/");
+      // Show a success toast
+      toast.success(" We’ll get back at the guest within 24  hours.");
 
+    } catch (error) {
+      console.log(error);
+      alert("Error fetching quote. Please try again.");
+    }
+  };
 
   return (
     <form className="lg:mt-10 mt-14 mb-20 flex justify-between px-5 lg:flex-row flex-col">
@@ -141,7 +149,7 @@ try{
         <div className=" flex items-center justify-center">
           <div className="bg-[#e5e7eb] shadow-xl p-6 w-[500px] rounded-md">
             {/* Your large modal content goes here */}
-        <div><img src={about} alt="" className="h-[200px] w-[500px] rounded-sm"/></div>
+        <div><img src={"./images/IMG_4153.jpg"}alt="" className="h-[250px] w-[500px] rounded-sm object-cover"/></div>
             <h1 className="text-[#10275b] text-[22px] font-semibold pt-4">
              {property?.title}
             </h1>
