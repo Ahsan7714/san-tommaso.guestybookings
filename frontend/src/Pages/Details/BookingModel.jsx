@@ -110,11 +110,8 @@ const BookingModel = ({ isSmallModalOpen, setIsSmallModalOpen }) => {
       await getQuote(startDate, endDate, selectedGuests, property._id);
 
       if (quote?.error) {
-        // alert(`Error: ${quote.error}`);
         setShowContactModal(true);
-      } else {
-        setIsLargeModalOpen(true);
-      }
+      } 
     } catch (error) {
       console.error('Error fetching quote:', error);
       alert('An error occurred while fetching the quote. Please try again.');
