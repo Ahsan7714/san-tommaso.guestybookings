@@ -1,3 +1,8 @@
-.rdrDayNumber{
-    font-size:red !important
-}
+.rdrDayPassive .rdrDayNumber span {
+    color:red;
+    }
+    .rdrDayDisabled .rdrDayNumber span{
+    color:red
+    }
+    .rdrDayNumber span{
+        color:green}

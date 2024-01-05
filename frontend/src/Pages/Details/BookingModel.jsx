@@ -10,6 +10,7 @@ import { useLocalContext } from '../../context/contextProvider';
 import format from 'date-fns/format';
 import { ToastContainer } from 'react-toastify';
 import { MdOutlineClose } from 'react-icons/md';
+import './BookingModel.css'
 
 const BookingModel = ({ isSmallModalOpen, setIsSmallModalOpen }) => {
   const [dates, setDates] = useState([]);
