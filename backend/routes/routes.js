@@ -2,11 +2,11 @@ const express = require('express');
 const sendEmail = require('../utils/sendEmail');
 const router = express.Router();
 const moment = require('moment');
-const {guestyBookingToken,bookingToken} = require('../utils/guestyBookingToken');
-const {generateGuestyOpenApiToken,token} = require('../utils/guestyOpenApiToken');
+const {accessBookingToken} = require('../utils/guestyBookingToken');
+const { accessTokenMiddleware} = require('../utils/guestyOpenApiToken');
 
 // router.get('/listings', generateGuestyOpenApiToken);
-router.get('/listings', async (req, res) => {
+router.get('/listings',accessBookingToken, async (req, res) => {
   const { checkIn, checkOut, count } = req.query;
 
   const queryObj = {};
@@ -30,7 +30,7 @@ router.get('/listings', async (req, res) => {
       const response = await fetch(`https://booking.guesty.com/api/listings?limit=100&${queryParams}`, {
           headers: {
               "accept": 'application/json',
-              "authorization": `Bearer ${process.env.GUESTY_API_BOOKING_TOKEN}`,
+              "authorization": `Bearer ${req.guestyBookingToken}`,
           },
       });
 
@@ -47,12 +47,12 @@ module.exports = router;
 
 
 // Get the single listing
-router.get('/listing/:id', async(req, res) => {
+router.get('/listing/:id', accessTokenMiddleware,async(req, res) => {
 try {
     const response = await fetch(`https://open-api.guesty.com/v1/listings/${req.params.id}`, {
         headers: {
             "accept": 'application/json',
-            "authorization": `Bearer ${process.env.GUESTY_API_TOKEN}`,
+            "authorization": `Bearer ${req.guestyAccessToken}`,
         }
     });
 
@@ -92,7 +92,7 @@ router.post("/send-email",async(req,res)=>{
 })
 
 
-router.post("/listing/quote",async(req,res)=>{
+router.post("/listing/quote",accessBookingToken,async(req,res)=>{
     const {count,checkInDate,checkOutDate,listingId}=req.body
 
 
@@ -101,7 +101,7 @@ router.post("/listing/quote",async(req,res)=>{
             headers: {
                 "accept": 'application/json',
                 'content-type': 'application/json',
-                "authorization": `Bearer ${process.env.GUESTY_API_BOOKING_TOKEN}`,
+                "authorization": `Bearer ${req.guestyBookingToken}`,
             },
             method:"POST",
              body:JSON.stringify({
@@ -125,7 +125,7 @@ router.post("/listing/quote",async(req,res)=>{
 
 
 
-router.get("/listing/quote/:id",async(req,res)=>{
+router.get("/listing/quote/:id",accessBookingToken,async(req,res)=>{
 
 const quoteId=req.params.id
     try {
@@ -133,7 +133,7 @@ const quoteId=req.params.id
             headers: {
                 "accept": 'application/json',
                 'content-type': 'application/json',
-                "authorization": `Bearer ${process.env.GUESTY_API_BOOKING_TOKEN}`,
+                "authorization": `Bearer ${req.guestyBookingToken}`,
             },
              
         });
@@ -148,7 +148,7 @@ const quoteId=req.params.id
       }
 })
 
-router.post("/listing/quote/:id/inquiry",async(req,res)=>{
+router.post("/listing/quote/:id/inquiry",accessBookingToken,async(req,res)=>{
     const quoteId=req.params.id
     const {firstName,lastName,email,phone,ratePlanId}=req.body
         try {
@@ -156,7 +156,7 @@ router.post("/listing/quote/:id/inquiry",async(req,res)=>{
                 headers: {
                     "accept": 'application/json',
                     'content-type': 'application/json',
-                    "authorization": `Bearer ${process.env.GUESTY_API_BOOKING_TOKEN}`,
+                    "authorization": `Bearer ${req.guestyBookingToken}`,
                 },
                 method:'POST',
                 body: JSON.stringify({
@@ -182,7 +182,7 @@ router.post("/listing/quote/:id/inquiry",async(req,res)=>{
           }
     })
     // router.get("/calendar/:id",generateGuestyOpenApiToken)
-    router.get("/calendar/:id",async(req,res)=>{
+    router.get("/calendar/:id",accessTokenMiddleware,async(req,res)=>{
         console.log(req.guestyOpenApiToken);
         const listingId=req.params.id
         // get todays date in the format YYYY-MM-DD
@@ -194,7 +194,7 @@ router.post("/listing/quote/:id/inquiry",async(req,res)=>{
                     headers: {
                         "accept": 'application/json',
                         'content-type': 'application/json',
-                        "authorization": `Bearer ${process.env.GUESTY_API_TOKEN}`,
+                        "authorization": `Bearer ${req.guestyAccessToken}`,
                     },
                      
                 });

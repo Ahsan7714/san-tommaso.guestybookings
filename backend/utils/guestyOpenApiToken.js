@@ -1,84 +1,75 @@
-const https = require('https');
-const querystring = require('querystring');
-let token = null;
-const generateGuestyOpenApiToken = async (req, res, next) => {
-  try {
-    // Assuming you have a function to check if the token is expired
-    const isTokenExpired = (token) => {
-      return token.error && token.error.code === 'UNAUTHORIZED';
-    };
+const express = require('express');
+const request = require('request');
+const NodeCache = require('node-cache');
 
-    // Check if the token is present and not expired
-    if (token && !isTokenExpired(token)) {
-      console.log("Guesty Open API Token is not expired. Reusing existing token.");
-      req.guestyOpenApiToken = token;
+const app = express();
+const tokenCache = new NodeCache();
+
+// Your Guesty API credentials
+const clientId = '0oae4zuh0mzZ7f0cM5d7';
+const clientSecret = 'o-AQ0Jmn9nUUgk8IYUnNVrP7LgTBpFB6A9k2eWaKGwbACK_U4l7ISIw1Okk-ebne';
+
+// Middleware to handle access token
+const accessTokenMiddleware = (req, res, next) => {
+  // Check if the token is already in the cache
+  const cachedToken = tokenCache.get('guestyAccessToken');
+
+  if (cachedToken) {
+    // Token is in the cache, check if it's expired
+    const expirationTime = tokenCache.getTtl('guestyAccessToken');
+    const currentTime = Math.floor(Date.now() / 1000);
+
+    if (expirationTime > currentTime) {
+      // Token is still valid, use it
+      console.log('Using cached token:', cachedToken);
+      req.guestyAccessToken = cachedToken;
       next();
-      return;
+    } else {
+      // Token has expired, request a new one
+      console.log('Cached token expired, requesting a new one...');
+      requestNewAccessToken(req, next);
     }
-
-    console.log("Guesty Open API Token is expired or not present. Generating a new one.");
-
-    const postData = querystring.stringify({
-      'grant_type': 'client_credentials',
-      'scope': 'open-api',
-      'client_secret': 'o-AQ0Jmn9nUUgk8IYUnNVrP7LgTBpFB6A9k2eWaKGwbACK_U4l7ISIw1Okk-ebne', // Replace with your actual client secret
-      'client_id': '0oae4zuh0mzZ7f0cM5d7', // Replace with your actual client ID
-    });
-
-    const options = {
-      method: 'POST',
-      hostname: 'open-api.guesty.com',
-      path: '/oauth2/token',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Cache-Control': 'no-cache',
-        'Content-Length': Buffer.byteLength(postData),
-      },
-    };
-
-    const reqToken = https.request(options, (resToken) => {
-      let data = '';
-
-      resToken.on('data', (chunk) => {
-        data += chunk;
-      });
-
-      resToken.on('end', () => {
-        console.log("Guesty Open API Response:", resToken.statusCode, resToken.headers, data);
-
-        const tokenData = JSON.parse(data);
-
-        if (!tokenData.access_token) {
-          console.error('Failed to obtain Guesty Open API token');
-          res.status(500).json({ error: 'Internal Server Error' });
-          return;
-        }
-
-        token =req.guestyOpenApiToken=  tokenData.access_token;
-        console.log("New Guesty Open API token generated:", req.guestyOpenApiToken);
-
-        // Save the expiration timestamp of the token (optional)
-        req.guestyOpenApiTokenExpiry = Date.now() + (tokenData.expires_in * 1000);
-
-        next();
-      });
-    });
-
-    reqToken.on('error', (error) => {
-      console.error('Error generating Guesty Open API token:', error);
-      res.status(500).json({ error: 'Internal Server Error' });
-    });
-
-    reqToken.write(postData);
-    reqToken.end();
-  } catch (error) {
-    console.error('Error generating Guesty Open API token:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+  } else {
+    // Token is not in the cache, request a new one
+    console.log('No cached token found, requesting a new one...');
+    requestNewAccessToken(req, next);
   }
 };
 
-module.exports={
-  token,
-  generateGuestyOpenApiToken
-}
+// Function to request a new access token
+const requestNewAccessToken = (req,next) => {
+  const options = {
+    method: 'POST',
+    url: 'https://open-api.guesty.com/oauth2/token',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    form: {
+      'grant_type': 'client_credentials',
+      'scope': 'open-api',
+      'client_secret': clientSecret,
+      'client_id': clientId,
+    },
+  };
+
+  request(options, (error, response, body) => {
+    if (error) {
+      console.error('Error getting access token:', error);
+      return res.status(500).json({ error: 'Error getting access token' });
+    }
+
+    const responseBody = JSON.parse(body);
+
+    // Cache the new token with an expiration time (in seconds)
+    tokenCache.set('guestyAccessToken', responseBody.access_token, responseBody.expires_in);
+
+    console.log('New token obtained and cached:', responseBody.access_token);
+    req.guestyAccessToken = responseBody.access_token;
+    next();
+  });
+};
+
+module.exports = {
+  accessTokenMiddleware
+};
