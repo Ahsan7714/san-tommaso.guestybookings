@@ -91,7 +91,7 @@ const Details = () => {
                 <div className="text-[20px]">
                   <FaPeopleGroup />
                 </div>
-                <p className="text-[20px] font-semibold">Guest</p>
+                <p className="text-[20px] font-semibold">Guests</p>
               </div>
               <div className="flex gap-3 items-center">
                 <div className="text-[20px]">
@@ -217,7 +217,7 @@ attribution='© OpenStreetMap contributors'
         {/* Book now button */}
         <div className="fixed bottom-16 right-5 ">
           <button
-            className="bg-[#9d155c] shadow-lg text-white px-4 py-3 rounded-md"
+            className="bg-[#9d155c] shadow-lg text-white px-4 py-3 rounded-md font-poppins"
             onClick={openModal}
           >
              Book Now

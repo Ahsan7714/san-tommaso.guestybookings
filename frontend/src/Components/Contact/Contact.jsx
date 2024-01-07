@@ -112,7 +112,7 @@ const {sendEmail}=useLocalContext()
             </div>
 
             <div>
-              <button className="bg-[#f8aa48] font-semibold text-white h-[50px] w-[160px] rounded-md shadow-lg">
+              <button className="bg-[#f8aa48] font-semibold text-white h-[50px] w-[160px] rounded-md shadow-lg font-poppins">
                 Send Message
               </button>
             </div>

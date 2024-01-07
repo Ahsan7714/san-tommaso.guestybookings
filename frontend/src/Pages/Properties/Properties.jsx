@@ -42,7 +42,7 @@ const Properties = () => {
       <div className="cards_container">
         {sortedProperties.length === 0 ? (
           <div className="no-results-message w-[100%] " style={{marginTop:"-70px"}}>
-            <p className="text-center text-[#F7A948] mb-14 text-2xl font-bold">No results found. You can contact us for assistance.</p>
+            <p className="text-center text-[#F7A948] mb-14 text-2xl font-bold">We’re sorry, we are not able to find any results. Please adjust the dates or send your request with “this” contact form.</p>
             <Contact/>
           </div>
         ) : (
@@ -97,10 +97,7 @@ const Properties = () => {
                 </p>
 
                 <Link to={`/properties/${property._id}`}>
-                  <button>Book Now</button>
-                </Link>
-                <Link to={`/properties/${property._id}`}>
-                  <button className="details_btn">View Details</button>
+                  <button className="details_btn font-poppins mt-5">View Details</button>
                 </Link>
               </div>
             </div>

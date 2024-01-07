@@ -188,13 +188,13 @@ const BookingForm = () => {
             <div className="flex items-center gap-3 ">
             {
               acceptedPolicy ? (
-                <button type="button"  className="bg-[#9d155c] text-white h-[45px] w-[100%]" >
+                <button type="button"  className="bg-[#9d155c] text-white h-[45px] w-[100%] font-poppins" >
               <button type="button" onClick={()=>handleInquiry()} className="bg-[#9d155c] text-white text-[20px] font-semibold h-[45px] w-[100%]">
                 Request to Book
               </button>
               </button>):
-              <button type="button" disabled className="bg-[#e4549e] text-white h-[45px] w-[100%]" >
-              <button type="button" disabled={true} className="bg-[#e24f9b] cursor-not-allowed text-white text-[20px] font-semibold h-[45px] w-[100%]">
+              <button type="button" disabled className="bg-[#e4549e] text-white h-[45px] w-[100%] font-poppins" >
+              <button type="button" disabled={true} className="bg-[#e24f9b] cursor-not-allowed text-white text-[20px] font-semibold h-[45px] w-[100%] font-poppins">
                 Request to Book
               </button>
               </button>

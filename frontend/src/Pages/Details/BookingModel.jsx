@@ -194,14 +194,14 @@ const BookingModel = ({ isSmallModalOpen, setIsSmallModalOpen }) => {
                   className="h-[50px] w-[350px] lg:w-[400px] text-[18px] px-5 text-[#00000091] outline-none focus:border-blue-500 border border-[#00000035]"
                 >
                   <option value="" disabled hidden>
-                    Guest
+                    Guests
                   </option>
                   {options}
                 </select>
               </div>
               <div>
                 <button
-                  className='h-[50px] w-[350px] lg:w-[400px] bg-[#9d155c] text-white text-[18px] '
+                  className='h-[50px] w-[350px] lg:w-[400px] bg-[#9d155c] text-white text-[18px] font-poppins'
                   onClick={(e) => handleSearch(e)}
                 >
                   Search
@@ -211,7 +211,7 @@ const BookingModel = ({ isSmallModalOpen, setIsSmallModalOpen }) => {
                 <>
                 <p className='mt-7 mb-0 w-[100%] mx-auto text-center'>Unfortunately there are no results. please contact us to see if there are any options.</p>
 
-               <Link to='/contact-us' className='text-[white]  10s transition duration-700 ease-in-out  mt-3 text-[16px] shadow-md border rounded   bg-[#9d155c]  px-4 py-3'>
+               <Link to='/contact-us' className='text-[white]  10s transition duration-700 ease-in-out  mt-3 text-[16px] shadow-md border rounded   bg-[#9d155c]  px-4 py-3 font-poppins'>
               Click to Contact us
                </Link>
                 </>
@@ -239,18 +239,22 @@ const BookingModel = ({ isSmallModalOpen, setIsSmallModalOpen }) => {
                 <p>{moment(quote?.checkOutDateLocalized).diff(moment(quote?.checkInDateLocalized), 'days')}</p>
               </div>
               <div className="flex flex-col gap-1">
-                <p className="text-[#87919a] text-[17px]">Guest</p>
+                <p className="text-[#87919a] text-[17px]">Guests</p>
                 <p>{quote?.guestsCount}</p>
               </div>
             </div>
             <div className="flex flex-col pt-8 pb-2">
+            <div className="flex justify-between items-center pb-4 ">
+                <h1 className="text-[18px] font-semibold">per night</h1>
+                <p>€ {quote?.rates?.ratePlans[0]?.ratePlan?.money?.subTotalPrice}</p>
+              </div>
               <div className="flex justify-between items-center pb-4 border-b border-[#00000050]">
                 <h1 className="text-[18px] font-semibold">Subtotal</h1>
-                <p>EUR {quote?.rates?.ratePlans[0]?.ratePlan?.money?.subTotalPrice}</p>
+                <p>€ {quote?.rates?.ratePlans[0]?.ratePlan?.money?.subTotalPrice}</p>
               </div>
               <div className="flex justify-between items-center text-[#10275b] text-[22px] font-semibold py-6">
                 <h1>Total</h1>
-                <p>EUR {quote?.rates?.ratePlans[0]?.ratePlan?.money?.subTotalPrice}</p>
+                <p>€ {quote?.rates?.ratePlans[0]?.ratePlan?.money?.subTotalPrice}</p>
               </div>
             </div>
             <div className="flex items-center gap-3 pt-4">
@@ -258,7 +262,7 @@ const BookingModel = ({ isSmallModalOpen, setIsSmallModalOpen }) => {
                 <IoIosArrowRoundBack className="h-[45px] w-[90%] px-2 border border-[#9d155c] text-[#9d155c] cursor-pointer" />
               </div>
               <Link to="/booking-form" className="bg-[#9d155c] text-white h-[45px] w-[83%]">
-                <button className="bg-[#9d155c] text-white h-[45px] w-[83%]">Request to Book</button>
+                <button className="bg-[#9d155c] text-white h-[45px] w-[83%] font-poppins">Request to Book</button>
               </Link>
             </div>
           </div>
