@@ -173,7 +173,7 @@ const BookingModel = ({ isSmallModalOpen, setIsSmallModalOpen }) => {
               )}
             </div>
           </div>
-          <div className="bg-white p-8 rounded-md -z-10 relative">
+          <div className="bg-white p-8 rounded-md -z-10 relative lg:w-[35%] md:w-[55%] sm:w-[70%] w-[97%]">
             <div className="close absolute top-2 right-3 text-xl cursor-pointer" onClick={() => setIsSmallModalOpen(false)}>
               <MdOutlineClose />
             </div>
@@ -191,7 +191,7 @@ const BookingModel = ({ isSmallModalOpen, setIsSmallModalOpen }) => {
                   name="guests"
                   value={selectedGuests}
                   onChange={handleGuestsChange}
-                  className="h-[50px] w-[250px] lg:w-[400px] text-[18px] px-5 text-[#00000091] outline-none focus:border-blue-500 border border-[#00000035]"
+                  className="h-[50px] w-[350px] lg:w-[400px] text-[18px] px-5 text-[#00000091] outline-none focus:border-blue-500 border border-[#00000035]"
                 >
                   <option value="" disabled hidden>
                     Guest
@@ -201,20 +201,20 @@ const BookingModel = ({ isSmallModalOpen, setIsSmallModalOpen }) => {
               </div>
               <div>
                 <button
-                  className='h-[50px] w-[250px] lg:w-[400px] bg-[#9d155c] text-white text-[18px] '
+                  className='h-[50px] w-[350px] lg:w-[400px] bg-[#9d155c] text-white text-[18px] '
                   onClick={(e) => handleSearch(e)}
                 >
                   Search
                 </button>
               </div>
               {showContactModal && (
-                <div className='text-center'>
-                <p>Unfortunately there are no results. please contact us to see if there are any options.</p>
+                <>
+                <p className='mt-7 mb-0 w-[100%] mx-auto text-center'>Unfortunately there are no results. please contact us to see if there are any options.</p>
 
-               <Link to='/contact-us' className='text-[blue] mt-5 text-[13px] shadow-sm'>
+               <Link to='/contact-us' className='text-[white]  10s transition duration-700 ease-in-out  mt-3 text-[16px] shadow-md border rounded   bg-[#9d155c]  px-4 py-3'>
               Click to Contact us
                </Link>
-                </div>
+                </>
               )}
             </div>
           </div>
