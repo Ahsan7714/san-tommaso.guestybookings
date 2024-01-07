@@ -208,9 +208,13 @@ const BookingModel = ({ isSmallModalOpen, setIsSmallModalOpen }) => {
                 </button>
               </div>
               {showContactModal && (
-               <Link to='/contact-us' className='text-[blue] mt-5 text-[20px]'>
+                <div className='text-center'>
+                <p>Unfortunately there are no results. please contact us to see if there are any options.</p>
+
+               <Link to='/contact-us' className='text-[blue] mt-5 text-[13px] shadow-sm'>
               Click to Contact us
                </Link>
+                </div>
               )}
             </div>
           </div>
