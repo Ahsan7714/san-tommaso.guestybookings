@@ -27,17 +27,17 @@ const accessTokenMiddleware = (req, res, next) => {
     } else {
       // Token has expired, request a new one
       console.log('Cached token expired, requesting a new one...');
-      requestNewAccessToken(req, next);
+      requestNewAccessToken(req, res, next);
     }
   } else {
     // Token is not in the cache, request a new one
     console.log('No cached token found, requesting a new one...');
-    requestNewAccessToken(req, next);
+    requestNewAccessToken(req, res, next);
   }
 };
 
 // Function to request a new access token
-const requestNewAccessToken = (req,next) => {
+const requestNewAccessToken = (req, res, next) => {
   const options = {
     method: 'POST',
     url: 'https://open-api.guesty.com/oauth2/token',
@@ -59,14 +59,24 @@ const requestNewAccessToken = (req,next) => {
       return res.status(500).json({ error: 'Error getting access token' });
     }
 
-    const responseBody = JSON.parse(body);
+    try {
+      const responseBody = JSON.parse(body);
 
-    // Cache the new token with an expiration time (in seconds)
-    tokenCache.set('guestyAccessToken', responseBody.access_token, responseBody.expires_in);
+      if (response.statusCode !== 200 || !responseBody.access_token) {
+        console.error('Error getting access token:', responseBody || 'Unknown error');
+        return res.status(response.statusCode || 500).json({ error: 'Error getting access token' });
+      }
 
-    console.log('New token obtained and cached:', responseBody.access_token);
-    req.guestyAccessToken = responseBody.access_token;
-    next();
+      // Cache the new token with an expiration time (in seconds)
+      tokenCache.set('guestyAccessToken', responseBody.access_token, responseBody.expires_in);
+
+      console.log('New token obtained and cached:', responseBody.access_token);
+      req.guestyAccessToken = responseBody.access_token;
+      next();
+    } catch (parseError) {
+      console.error('Error parsing response body:', parseError);
+      return res.status(500).json({ error: 'Error parsing response body' });
+    }
   });
 };
 
