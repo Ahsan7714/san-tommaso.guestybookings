@@ -246,7 +246,7 @@ const BookingModel = ({ isSmallModalOpen, setIsSmallModalOpen }) => {
             <div className="flex flex-col pt-8 pb-2">
             <div className="flex justify-between items-center pb-4 ">
                 <h1 className="text-[18px] font-semibold">per night</h1>
-                <p>€ {quote?.rates?.days[0]?.price}</p>
+                <p>€ {quote?.rates?.ratePlans[0]?.days[0]?.price}</p>
               </div>
               <div className="flex justify-between items-center pb-4 border-b border-[#00000050]">
                 <h1 className="text-[18px] font-semibold">Subtotal</h1>
@@ -272,5 +272,7 @@ const BookingModel = ({ isSmallModalOpen, setIsSmallModalOpen }) => {
     </div>
   );
 };
+
+
 
 export default BookingModel;
