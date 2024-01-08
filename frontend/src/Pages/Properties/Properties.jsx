@@ -93,7 +93,7 @@ const Properties = () => {
               </div>
               <div className="pricing">
                 <p>
-                  {property.prices.basePrice} {property.prices.currency}
+                € {property.prices.basePrice} 
                 </p>
 
                 <Link to={`/properties/${property._id}`}>
