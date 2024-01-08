@@ -15,6 +15,7 @@ const BookingForm = () => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [acceptedPolicy, setAcceptedPolicy] = useState(false);
+  const [acceptedPaymentTerms, setAcceptedPaymentTerms] = useState(false);
 
   const { quote, property } = useLocalContext();
   const navigate = useNavigate();
@@ -138,7 +139,11 @@ const BookingForm = () => {
             <div className="flex flex-col gap-8">
                 <div className="flex items-start ">
                     <input type="checkbox" name="" onChange={() => setAcceptedPolicy(!acceptedPolicy)} id="" className=" cursor-pointer h-[16px] w-10 mt-1"  />
-                    <label className=" text-[16px]">I have read and accept the Privacy Policy | Agriturismo San Tommaso Terms and Conditions</label>
+                    <label className=" text-[16px]">I have read & accept the Privacy Policy | Agriturismo San Tommaso Terms and Conditions</label>
+                </div>
+                <div className="flex items-start ">
+                    <input type="checkbox" name=""  onChange={() => setAcceptedPaymentTerms(!acceptedPaymentTerms)} id="" className=" cursor-pointer h-[16px] w-10 mt-1"  />
+                    <label className=" text-[16px]">I have read & accept the payment terms & rental conditions | Agriturismo San Tommaso Terms and Conditions</label>
                 </div>
             </div>
         </form>
@@ -187,7 +192,7 @@ const BookingForm = () => {
             </div>
             <div className="flex items-center gap-3 ">
             {
-              acceptedPolicy ? (
+              acceptedPolicy && acceptedPaymentTerms ? (
                 <button type="button"  className="bg-[#9d155c] text-white h-[45px] w-[100%] font-poppins" >
               <button type="button" onClick={()=>handleInquiry()} className="bg-[#9d155c] text-white text-[20px] font-semibold h-[45px] w-[100%]">
                 Request to Book
