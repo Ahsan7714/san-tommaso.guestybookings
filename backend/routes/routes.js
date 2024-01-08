@@ -55,7 +55,7 @@ try {
             "authorization": `Bearer ${process.env.GUESTY_API_TOKEN}`,
         }
     });
-
+console.log(response);
     // Ensure the fetch request is successful
     if (!response.ok) {
         throw new Error(`Request failed with status: ${response.status}`);
