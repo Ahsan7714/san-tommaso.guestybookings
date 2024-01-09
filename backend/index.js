@@ -6,7 +6,7 @@ app.use(express.json());
 require("dotenv").config({ path: "./config/.env" });
 app.use(cors(
     {
-        origin:"https://booking-through-aqib.vercel.app",
+        origin:"https://www.agriturismo-santommaso.com",
         // origin:"http://localhost:5173",
         withCredentials:true,
         credentials:true  
