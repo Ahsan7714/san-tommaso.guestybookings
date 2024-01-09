@@ -8,4 +8,12 @@
         color:green}
         .rdrMonth {
             height: 340px;
-        }    
+        }  
+        
+@media screen and (max-width:414px) {
+    .rdrDayNumber span{
+        color:green}
+        .rdrMonth {
+            height: 300px;
+        } 
+}
