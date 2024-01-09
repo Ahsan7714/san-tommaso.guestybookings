@@ -1,75 +1,92 @@
-const express = require('express');
-const request = require('request');
-const NodeCache = require('node-cache');
-
-const app = express();
-const tokenCache = new NodeCache();
+const fs = require('fs');
+const path = require('path');
+const axios = require('axios');
 
 // Your Guesty API credentials
-const clientId = '0oae4zuh0mzZ7f0cM5d7';
-const clientSecret = 'o-AQ0Jmn9nUUgk8IYUnNVrP7LgTBpFB6A9k2eWaKGwbACK_U4l7ISIw1Okk-ebne';
+const clientId = '0oaecvddoeMoqmpPG5d7';
+const clientSecret = 'URjPah64p2uRvgLGdyBUDAOEv55Vro8DLWkeH3iKCIldsojyGFiGP_s9vxDaU7tZ';
+
+// Path to the configuration file
+const configFilePath = path.join(__dirname, 'config.json');
 
 // Middleware to handle access token
-const accessTokenMiddleware = (req, res, next) => {
-  // Check if the token is already in the cache
-  const cachedToken = tokenCache.get('guestyAccessToken');
+const accessTokenMiddleware = async (req, res, next) => {
+  try {
+    // Check if the token is already in the configuration file
+    const { guestyAccessToken, expirationTime } = getConfig();
 
-  if (cachedToken) {
-    // Token is in the cache, check if it's expired
-    const expirationTime = tokenCache.getTtl('guestyAccessToken');
-    const currentTime = Math.floor(Date.now() / 1000);
-
-    if (expirationTime > currentTime) {
+    if (guestyAccessToken && expirationTime > Date.now()) {
       // Token is still valid, use it
-      console.log('Using cached token:', cachedToken);
-      req.guestyAccessToken = cachedToken;
+      console.log('Using cached token:', guestyAccessToken);
+      req.guestyAccessToken = guestyAccessToken;
       next();
     } else {
-      // Token has expired, request a new one
-      console.log('Cached token expired, requesting a new one...');
-      requestNewAccessToken(req, next);
+      // Token has expired or not found, request a new one
+      console.log('Cached token expired or not found, requesting a new one...');
+      await requestNewAccessToken(req, next);
     }
-  } else {
-    // Token is not in the cache, request a new one
-    console.log('No cached token found, requesting a new one...');
-    requestNewAccessToken(req, next);
+  } catch (error) {
+    console.error('Error:', error.message);
+    // Handle error as needed, e.g., send an error response to the client
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 };
 
 // Function to request a new access token
-const requestNewAccessToken = (req,next) => {
-  const options = {
-    method: 'POST',
-    url: 'https://open-api.guesty.com/oauth2/token',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    form: {
-      'grant_type': 'client_credentials',
-      'scope': 'open-api',
-      'client_secret': clientSecret,
-      'client_id': clientId,
-    },
-  };
+const requestNewAccessToken = async (req, next) => {
+  try {
+    const response = await axios.post(
+      'https://open-api.guesty.com/oauth2/token',
+      new URLSearchParams({
+        grant_type: 'client_credentials',
+        scope: 'open-api',
+        client_id: clientId,
+        client_secret: clientSecret,
+      }),
+      {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Accept': 'application/json',
+        },
+      }
+    );
 
-  request(options, (error, response, body) => {
-    if (error) {
-      console.error('Error getting access token:', error);
-      return res.status(500).json({ error: 'Error getting access token' });
-    }
+    const responseBody = response.data;
 
-    const responseBody = JSON.parse(body);
+    // Save the new token to the configuration file
+    saveConfig({
+      guestyAccessToken: responseBody.access_token,
+      expirationTime: Date.now() + responseBody.expires_in * 1000, // Convert seconds to milliseconds
+    });
 
-    // Cache the new token with an expiration time (in seconds)
-    tokenCache.set('guestyAccessToken', responseBody.access_token, responseBody.expires_in);
-
-    console.log('New token obtained and cached:', responseBody.access_token);
+    console.log('New token obtained and saved:', responseBody.access_token);
     req.guestyAccessToken = responseBody.access_token;
-    next();
-  });
+
+    next(); // Always call next to continue the middleware chain
+  } catch (error) {
+    console.error('Error getting access token:', error.message);
+    // Handle error as needed
+    throw error; // Propagate the error to the calling function
+  }
 };
 
+// Helper function to read configuration from the file
+function getConfig() {
+  try {
+    const configData = fs.readFileSync(configFilePath);
+    return JSON.parse(configData);
+  } catch (error) {
+    // If the file doesn't exist or there's an error reading it, return an empty object
+    return {};
+  }
+}
+
+// Helper function to save configuration to the file
+function saveConfig(config) {
+  const configData = JSON.stringify(config, null, 2);
+  fs.writeFileSync(configFilePath, configData);
+}
+
 module.exports = {
-  accessTokenMiddleware
+  accessTokenMiddleware,
 };

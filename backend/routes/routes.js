@@ -30,7 +30,7 @@ router.get('/listings',accessBookingToken, async (req, res) => {
       const response = await fetch(`https://booking.guesty.com/api/listings?limit=100&${queryParams}`, {
           headers: {
               "accept": 'application/json',
-              "authorization": `Bearer ${process.env.GUESTY_API_BOOKING_TOKEN}`,
+              "authorization": `Bearer ${req.guestyBookingAccessToken}`,
           },
       });
 
@@ -48,21 +48,20 @@ module.exports = router;
 
 // Get the single listing
 router.get('/listing/:id', accessTokenMiddleware,async(req, res) => {
+    console.log(req.guestyAccessToken)
 try {
     const response = await fetch(`https://open-api.guesty.com/v1/listings/${req.params.id}`, {
         headers: {
             "accept": 'application/json',
-            "authorization": `Bearer ${process.env.GUESTY_API_TOKEN}`,
+            "authorization": `Bearer ${req.guestyAccessToken}`,
         }
     });
-console.log(response);
-    // Ensure the fetch request is successful
     if (!response.ok) {
-        throw new Error(`Request failed with status: ${response.status}`);
+        const error = await response.json();
+        console.error('Error:', error);
+        return res.status(500).json({ "error": error.message });
     }
-
     const data = await response.json();
-    console.log(data);
     
     res.status(200).json(data);
   } catch (error) {
@@ -101,7 +100,7 @@ router.post("/listing/quote",accessBookingToken,async(req,res)=>{
             headers: {
                 "accept": 'application/json',
                 'content-type': 'application/json',
-                "authorization": `Bearer ${process.env.GUESTY_API_BOOKING_TOKEN}`,
+                "authorization": `Bearer ${req.guestyBookingAccessToken}`,
             },
             method:"POST",
              body:JSON.stringify({
@@ -133,7 +132,7 @@ const quoteId=req.params.id
             headers: {
                 "accept": 'application/json',
                 'content-type': 'application/json',
-                "authorization": `Bearer ${process.env.GUESTY_API_BOOKING_TOKEN}`,
+                "authorization": `Bearer ${req.guestyBookingAccessToken}`,
             },
              
         });
@@ -156,7 +155,7 @@ router.post("/listing/quote/:id/inquiry",accessBookingToken,async(req,res)=>{
                 headers: {
                     "accept": 'application/json',
                     'content-type': 'application/json',
-                    "authorization": `Bearer ${process.env.GUESTY_API_BOOKING_TOKEN}`,
+                    "authorization": `Bearer ${req.guestyBookingAccessToken}`,
                 },
                 method:'POST',
                 body: JSON.stringify({
@@ -194,7 +193,7 @@ router.post("/listing/quote/:id/inquiry",accessBookingToken,async(req,res)=>{
                     headers: {
                         "accept": 'application/json',
                         'content-type': 'application/json',
-                        "authorization": `Bearer ${process.env.GUESTY_API_TOKEN}`,
+                        "authorization": `Bearer ${req.guestyAccessToken}`,
                     },
                      
                 });

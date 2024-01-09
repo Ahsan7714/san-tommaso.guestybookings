@@ -254,7 +254,7 @@ const BookingModel = ({ isSmallModalOpen, setIsSmallModalOpen }) => {
               </div>
               <div className="flex justify-between items-center text-[#10275b] text-[22px] font-semibold py-6">
                 <h1>Total</h1>
-                <p>€ {quote?.rates?.ratePlans[0]?.ratePlan?.money?.subTotalPrice}</p>
+                <p>€ {quote?.rates?.ratePlans[0]?.ratePlan?.money?.fareAccommodation}</p>
               </div>
             </div>
             <div className="flex items-center gap-3 pt-4">
