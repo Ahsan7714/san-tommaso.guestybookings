@@ -92,9 +92,9 @@ const Properties = () => {
                 </div>
               </div>
               <div className="pricing">
-                <p>
+                {/* <p>
                 € {property.prices.basePrice} 
-                </p>
+                </p> */}
 
                 <Link to={`/properties/${property._id}`}>
                   <button className="details_btn font-poppins mt-5">View Details</button>

@@ -148,7 +148,7 @@ const BookingModel = ({ isSmallModalOpen, setIsSmallModalOpen }) => {
     <div>
       {isSmallModalOpen && (
         <div className="fixed top-0 left-0 w-full h-full bg-[rgba(0,0,0,0.67)] flex flex-col items-center justify-center">
-          <div className="calendarWrap z-50 absolute top-[60%] left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          <div className="calendarWrap z-50 absolute  top-[60%] left-1/2 transform -translate-x-1/2 -translate-y-1/2">
             <div ref={refOne}>
               {open && (
                 <div className='relative'>
@@ -168,6 +168,9 @@ const BookingModel = ({ isSmallModalOpen, setIsSmallModalOpen }) => {
                   />
                   <div className="close absolute  right-2 top-0 " >
                     <MdOutlineClose className="text-2xl text-black cursor-pointer" onClick={() => setOpen(false)} />
+                  </div>
+                  <div className="close absolute  right-2 bottom-0 mt-10" >
+                    <button onClick={() => setOpen(false)} className="bg-[#9d155c] text-white px-4 rounded-lg py-1 text-[15px] mb-2 font-poppins">confirm</button>
                   </div>
                 </div>
               )}
@@ -255,6 +258,10 @@ const BookingModel = ({ isSmallModalOpen, setIsSmallModalOpen }) => {
               <div className="flex justify-between items-center text-[#10275b] text-[22px] font-semibold py-6">
                 <h1>Total</h1>
                 <p>€ {quote?.rates?.ratePlans[0]?.ratePlan?.money?.fareAccommodation}</p>
+              </div>
+              <div className="flex justify-between items-center  text-[14px]  py-6">
+                <h1>* You will recieve a more specified receipt in your mail</h1>
+          
               </div>
             </div>
             <div className="flex items-center gap-3 pt-4">
