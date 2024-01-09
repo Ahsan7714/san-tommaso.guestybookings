@@ -180,11 +180,11 @@ const BookingModel = ({ isSmallModalOpen, setIsSmallModalOpen }) => {
             <div className="close absolute top-2 right-3 text-xl cursor-pointer" onClick={() => setIsSmallModalOpen(false)}>
               <MdOutlineClose />
             </div>
-            <div className="flex flex-col justify-center items-center">
+            <div className="flex flex-col  w-full justify-center items-center">
               <input
                 value={`${format(range[0].startDate, 'MM/dd/yyyy')} to ${format(range[0].endDate, 'MM/dd/yyyy')}`}
                 readOnly
-                className="inputBox border text-center  py-7  h-[50px] w-full lg:w-[400px] text-[18px] px-5 text-[#00000091] outline-none focus:border-blue-500 my-5 border-[#00000035]"
+                className="inputBox border text-center  py-7  h-[50px] w-[340px] lg:w-[400px] text-[18px] px-5 text-[#00000091] outline-none focus:border-blue-500 my-5 border-[#00000035]"
                 onClick={() => setOpen((open) => !open)}
               />
               <div className="pb-5">
@@ -194,7 +194,7 @@ const BookingModel = ({ isSmallModalOpen, setIsSmallModalOpen }) => {
                   name="guests"
                   value={selectedGuests}
                   onChange={handleGuestsChange}
-                  className="h-[50px] w-[350px] lg:w-[400px] text-[18px] px-5 text-[#00000091] outline-none focus:border-blue-500 border border-[#00000035]"
+                  className="h-[50px] w-[340px] lg:w-[400px] text-[18px] px-5 text-[#00000091] outline-none focus:border-blue-500 border border-[#00000035]"
                 >
                   <option value="" disabled hidden>
                     Guests
@@ -204,7 +204,7 @@ const BookingModel = ({ isSmallModalOpen, setIsSmallModalOpen }) => {
               </div>
               <div>
                 <button
-                  className='h-[50px] w-[350px] lg:w-[400px] bg-[#9d155c] text-white text-[18px] font-poppins'
+                  className='h-[50px] w-[340px] lg:w-[400px] bg-[#9d155c] text-white text-[18px] font-poppins'
                   onClick={(e) => handleSearch(e)}
                 >
                   Search
@@ -251,7 +251,7 @@ const BookingModel = ({ isSmallModalOpen, setIsSmallModalOpen }) => {
                 <h1 className="text-[18px] font-semibold">per night</h1>
                 <p>€ {quote?.rates?.ratePlans[0]?.days[0]?.price}</p>
               </div>
-              <div className="flex justify-between items-center pb-4 border-b border-[#00000050]">
+              <div className="flex justify-between items-center pb-2 border-b border-[#00000050]">
                 <h1 className="text-[18px] font-semibold">Subtotal</h1>
                 <p>€ {quote?.rates?.ratePlans[0]?.ratePlan?.money?.subTotalPrice}</p>
               </div>
@@ -259,12 +259,12 @@ const BookingModel = ({ isSmallModalOpen, setIsSmallModalOpen }) => {
                 <h1>Total</h1>
                 <p>€ {quote?.rates?.ratePlans[0]?.ratePlan?.money?.fareAccommodation}</p>
               </div>
-              <div className="flex justify-between items-center  text-[14px]  py-6">
+              <div className="flex justify-between items-center  text-[14px] ">
                 <h1>* You will recieve a more specified receipt in your mail</h1>
           
               </div>
             </div>
-            <div className="flex items-center gap-3 pt-4">
+            <div className="flex items-center gap-3 pt-3">
               <div className="" onClick={handleBackArrowClick}>
                 <IoIosArrowRoundBack className="h-[45px] w-[90%] px-2 border border-[#9d155c] text-[#9d155c] cursor-pointer" />
               </div>
