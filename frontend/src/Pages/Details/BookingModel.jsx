@@ -240,7 +240,7 @@ const BookingModel = ({ isSmallModalOpen, setIsSmallModalOpen }) => {
 
       {isLargeModalOpen && (
         <div className="fixed top-10 left-0 w-full h-full px-3 lg:px-0 bg-[rgba(0,0,0,0.67)] flex items-center justify-center">
-          <div className="bg-white p-10 w-[500px] rounded-md">
+          <div className="bg-white px-10 py-8 w-[500px] rounded-md">
             <h1 className="text-[#10275b] text-[22px] font-semibold">{property?.title}</h1>
             <div className="flex justify-between py-10 text-center border-b border-[#00000050]">
               <div className="flex flex-col gap-1">
@@ -271,7 +271,7 @@ const BookingModel = ({ isSmallModalOpen, setIsSmallModalOpen }) => {
               </div>
               <div className="flex justify-between items-center pb-2 border-b border-[#00000050]">
                 <h1 className="text-[18px] font-semibold">Discount </h1>
-                <p>{quote?.promotions?.rule?.name} {" "}{quote?.promotions?.rule?.discountAmount}%</p>
+                <p>{quote?.promotions?.name} {" / € "}{quote?.rates?.ratePlans[0]?.ratePlan?.money?.invoiceItems[1]?.amount }</p>
               </div>
               <div className="flex justify-between items-center text-[#10275b] text-[22px] font-semibold py-6">
                 <h1>Total</h1>

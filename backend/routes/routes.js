@@ -93,7 +93,7 @@ router.post("/send-email",async(req,res)=>{
 
 router.post("/listing/quote",accessBookingToken,async(req,res)=>{
     const {count,checkInDate,checkOutDate,listingId}=req.body
-
+console.log({message : count})
 
     try {
         const response = await fetch(`https://booking.guesty.com/api/reservations/quotes`, {

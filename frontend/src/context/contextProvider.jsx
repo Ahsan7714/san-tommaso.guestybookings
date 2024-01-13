@@ -54,6 +54,7 @@ const ContextProvider = ({ children }) => {
 
 
     const getQuote = async (checkInDate, checkOutDate, count, listingId) => {
+
         try {
             setLoading(true);
           const res = await axios.post(`${baseUrl}/listing/quote`, {
