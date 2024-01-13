@@ -155,10 +155,9 @@ const BookingForm = () => {
           <div className="bg-[#e5e7eb] shadow-xl p-6 w-[500px] rounded-md">
             {/* Your large modal content goes here */}
         <div><img src={"./images/IMG_4153.jpg"}alt="" className="h-[250px] w-[500px] rounded-sm object-cover"/></div>
-            <h1 className="text-[#10275b] text-[22px] font-semibold pt-4">
-             {property?.title}
-            </h1>
-            <div className="flex justify-between py-7 text-center border-b border-[#00000050]">
+        <div className="bg-white p-10 w-[full] rounded-md">
+            <h1 className="text-[#10275b] text-[22px] font-semibold">{property?.title}</h1>
+            <div className="flex justify-between py-10 text-center border-b border-[#00000050]">
               <div className="flex flex-col gap-1">
                 <p className="text-[#87919a] text-[17px]">Check In</p>
                 <p>{quote?.checkInDateLocalized}</p>
@@ -168,29 +167,35 @@ const BookingForm = () => {
                 <p>{quote?.checkOutDateLocalized}</p>
               </div>
               <div className="flex flex-col gap-1">
-                <p className="text-[#87919a] text-[17px]">Nights</p>
-                <p>{
-                  moment(quote?.checkOutDateLocalized).diff(moment(quote?.checkInDateLocalized), 'days')
-                }</p>
+                <p className="text-[#87919a] text-[17px]">Days</p>
+                <p>{moment(quote?.checkOutDateLocalized).diff(moment(quote?.checkInDateLocalized), 'days')}</p>
               </div>
               <div className="flex flex-col gap-1">
-                <p className="text-[#87919a] text-[17px]">Guest</p>
+                <p className="text-[#87919a] text-[17px]">Guests</p>
                 <p>{quote?.guestsCount}</p>
               </div>
             </div>
             <div className="flex flex-col pt-8 pb-2">
-              <div className="flex justify-between items-center pb-4 border-b border-[#00000050]">
+            <div className="flex justify-between items-center pb-4 ">
+                <h1 className="text-[18px] font-semibold">per night</h1>
+                <p>€ {quote?.rates?.ratePlans[0]?.days[0]?.price}</p>
+              </div>
+              <div className="flex justify-between items-center pb-2 ">
                 <h1 className="text-[18px] font-semibold">Subtotal</h1>
-                <p>EUR {quote?.rates?.ratePlans[0]?.ratePlan?.money?.subTotalPrice}</p>
-
+                <p>€ {quote?.rates?.ratePlans[0]?.days[0]?.price*moment(quote?.checkOutDateLocalized).diff(moment(quote?.checkInDateLocalized), 'days')}</p>
+              </div>
+              <div className="flex justify-between items-center pb-2 border-b border-[#00000050]">
+                <h1 className="text-[18px] font-semibold">Discount </h1>
+                <p>{quote?.promotions?.rule?.discountAmount}%</p>
               </div>
               <div className="flex justify-between items-center text-[#10275b] text-[22px] font-semibold py-6">
                 <h1>Total</h1>
-                <p>EUR {quote?.rates?.ratePlans[0]?.ratePlan?.money?.subTotalPrice}</p>
-
+                <p className='flex gap-3 items-center'>
+                <span className='line-through text-xl    '>€ {quote?.rates?.ratePlans[0]?.ratePlan?.money?.fareAccommodation}</span>
+                € {quote?.rates?.ratePlans[0]?.days[0]?.price*moment(quote?.checkOutDateLocalized).diff(moment(quote?.checkInDateLocalized), 'days')+quote?.rates?.ratePlans[0]?.ratePlan?.money?.invoiceItems[1]?.amount }</p>
               </div>
             </div>
-            <div className="flex items-center gap-3 ">
+          </div>            <div className="flex items-center gap-3 ">
             {
               acceptedPolicy && acceptedPaymentTerms ? (
                 <button type="button"  className="bg-[#9d155c] text-white h-[45px] w-[100%] font-poppins" >

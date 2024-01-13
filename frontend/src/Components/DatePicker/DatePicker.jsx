@@ -67,7 +67,7 @@ const handleDateChange = (values) => {
           name="guests"
           value={selectedGuests}
           onChange={handleGuestsChange}
-          className="h-[50px] w-full lg:w-[130px] text-[18px] pl-2 text-[#00000091] outline-none focus:border-blue-500 border border-[#00000035]"
+          className="h-[50px] w-full lg:w-[130px] text-[14px] pl-2 text-[#00000091] outline-none focus:border-blue-500 border border-[#00000035]"
         >
           <option value="" disabled hidden >
             Guests
