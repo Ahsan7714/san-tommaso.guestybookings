@@ -4,12 +4,18 @@ import About from '../../Components/About/About'
 import Contact from '../../Components/Contact/Contact'
 import { useEffect } from 'react'
 import { useLocalContext } from '../../context/contextProvider'
+import { useNavigate } from 'react-router-dom'
 
 const Home = () => {
   const {getProperties}=useLocalContext()
   useEffect(() => {
     getProperties();
   }, []);
+  const navigate=useNavigate();
+useEffect(() => {
+  navigate("/?scLang=it")
+
+}, [])
   return (
     <div>
       <div className=' font-poppins'>
