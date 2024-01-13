@@ -5,7 +5,7 @@ import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import moment from 'moment';
 import { IoIosArrowRoundBack } from 'react-icons/io';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useLocalContext } from '../../context/contextProvider';
 import format from 'date-fns/format';
 import { ToastContainer } from 'react-toastify';
@@ -142,9 +142,20 @@ const BookingModel = ({ isSmallModalOpen, setIsSmallModalOpen }) => {
   };
 
 
+  const navigate=useNavigate()
+
+  const handleNavigation = () => {
+    setIsLargeModalOpen(false);
+    setIsSmallModalOpen(false);
+    navigate("/booking-form")
+  }
+
+
+
   if(loading){
     return <Loader/>
   }
+
   
 
   return (
@@ -277,7 +288,7 @@ const BookingModel = ({ isSmallModalOpen, setIsSmallModalOpen }) => {
               <div className="" onClick={handleBackArrowClick}>
                 <IoIosArrowRoundBack className="h-[45px] w-[90%] px-2 border border-[#9d155c] text-[#9d155c] cursor-pointer" />
               </div>
-              <Link to="/booking-form" className="bg-[#9d155c] text-white h-[45px] w-[83%]">
+              <Link onClick={()=>handleNavigation()} className="bg-[#9d155c] text-white h-[45px] w-[83%]">
                 <button className="bg-[#9d155c] text-white h-[45px] w-[83%] font-poppins">Request to Book</button>
               </Link>
             </div>
