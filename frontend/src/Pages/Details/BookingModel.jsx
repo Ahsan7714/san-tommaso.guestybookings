@@ -11,6 +11,7 @@ import format from 'date-fns/format';
 import { ToastContainer } from 'react-toastify';
 import { MdOutlineClose } from 'react-icons/md';
 import './BookingModel.css'
+import Loader from '../../Components/Loader/Loader';
 
 const BookingModel = ({ isSmallModalOpen, setIsSmallModalOpen }) => {
   const [dates, setDates] = useState([]);
@@ -19,7 +20,7 @@ const BookingModel = ({ isSmallModalOpen, setIsSmallModalOpen }) => {
   const [isFormValid, setIsFormValid] = useState(false);
   const [disabledDates, setDisabledDates] = useState([]);
   const { id } = useParams();
-  const { getQuote, property, quote, getCalendarData, calendarData, flag } = useLocalContext();
+  const { getQuote, property, quote, getCalendarData, calendarData, flag,loading } = useLocalContext();
 
   const extractDisabledDates = (calendarData) => {
     const disabledDatesSet = [];
@@ -141,7 +142,9 @@ const BookingModel = ({ isSmallModalOpen, setIsSmallModalOpen }) => {
   };
 
 
-  
+  if(loading){
+    return <Loader/>
+  }
   
 
   return (
@@ -257,7 +260,9 @@ const BookingModel = ({ isSmallModalOpen, setIsSmallModalOpen }) => {
               </div>
               <div className="flex justify-between items-center text-[#10275b] text-[22px] font-semibold py-6">
                 <h1>Total</h1>
-                <p>€ {quote?.rates?.ratePlans[0]?.ratePlan?.money?.fareAccommodation}</p>
+                <p className='flex gap-3 items-center'>
+                <span className='line-through text-xl    '>€ {quote?.rates?.ratePlans[0]?.ratePlan?.money?.fareAccommodation}</span>
+                € {quote?.rates?.ratePlans[0]?.ratePlan?.money?.fareAccommodationAdjusted}</p>
               </div>
               <div className="flex justify-between items-center  text-[14px] ">
                 <h1>* You will recieve a more specified receipt in your mail</h1>

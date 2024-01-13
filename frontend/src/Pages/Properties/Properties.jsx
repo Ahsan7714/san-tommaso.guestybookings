@@ -6,14 +6,15 @@ import { useEffect } from "react";
 import { useLocalContext } from '../../context/contextProvider'
 import Loading from "../../Components/Loading/Loading";
 import Contact from "../../Components/Contact/Contact";
+import Loader from "../../Components/Loader/Loader";
 
 const Properties = () => {
-  const { allProperties, getProperties, loading } = useLocalContext();
+  const { allProperties, loading } = useLocalContext();
   
   
   
   if (loading) {
-    return <Loading />;
+    return <Loader/>;
   }
 
   const sortedProperties = [...allProperties].sort((a, b) => {

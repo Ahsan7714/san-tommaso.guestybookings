@@ -4,7 +4,7 @@ import { RiMailOpenFill } from 'react-icons/ri';
 import { FaWhatsapp } from 'react-icons/fa6';
 import { Link } from 'react-router-dom';
 import "./Navbar.css"
-
+import GoogleTranslateButton from '../Translator/Translator';
 const Navbar = () => {
   const phoneNumber = '+393394085200';
   const emailAddress = 'info@santommaso.com';
@@ -25,6 +25,7 @@ const Navbar = () => {
 
   return (
     <div className='flex w-full justify-between lg:justify-between items-center h-[70px] lg:h-[80px] bg-white shadow-lg sticky lg:w-full top-0 z-50 font-poppins'>
+    {/* <GoogleTranslateButton /> */}
       <div className='flex lg:pl-10  lg:gap-10 text-[#9d155c] lg:text-[#f8aa48] text-[40px] lg:text-[30px] items-center'>
         <Link onClick={handlePhoneClick}>
           <FaPhone className='hover:text-[#9d155c] transition-colors duration-500 hidden lg:block md:block' />

@@ -1,5 +1,5 @@
 import './App.css'
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, useNavigate } from 'react-router-dom'
 import Home from './Pages/Home/Home'
 import Details from './Pages/Details/Details'
 import Navbar from './Components/Navbar/Navbar'
@@ -10,8 +10,13 @@ import BookingForm from './Pages/BookingForm/BookingForm'
 import Properties from './Pages/Properties/Properties'
 import {  ToastContainer } from 'react-toastify'
 import ContactUs from './Pages/ContactUs/ContactUs'
+import { useEffect } from 'react'
 function App() {
+const navigate=useNavigate();
+useEffect(() => {
+  navigate("/?scLang=it")
 
+}, [])
   return (
     <>
     <Navbar/>

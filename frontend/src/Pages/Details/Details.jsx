@@ -12,6 +12,7 @@ import { useParams } from "react-router-dom";
 import { Context } from "../../context/context";
 import Loading from "../../Components/Loading/Loading";
 import { FaPeopleGroup } from "react-icons/fa6";
+import Loader from "../../Components/Loader/Loader";
 
 const Details = () => {
   const [isSmallModalOpen, setIsSmallModalOpen] = useState(false);
@@ -22,7 +23,7 @@ const Details = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
     getSinglePropertyDetails(id);
-  }, [id]);
+  }, []);
 
   const langitude=property?.address?.lng || 2.349014;
   const latittude=property?.address?.lat || 48.864716 ;
@@ -55,7 +56,7 @@ const Details = () => {
   };
 
   if (loading) {
-    return <Loading />;
+    return <Loader />;
   }
 
   const formatHeading = (heading) => {

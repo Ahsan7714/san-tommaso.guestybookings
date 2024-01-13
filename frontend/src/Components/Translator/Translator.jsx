@@ -10,7 +10,7 @@ const GoogleTranslateButton = () => {
           pageLanguage: 'en',
           includedLanguages: 'en,it,nl',
           layout: window.google.translate.TranslateElement.InlineLayout.SIMPLE,
-          defaultLanguage: 'en', // Set English as the default language
+          defaultLanguage: 'it', // Set English as the default language
           gaTrack: true, // Enable tracking
           gaId: 'YOUR_GA_ID' // Replace 'YOUR_GA_ID' with your Google Analytics ID
         },
