@@ -1,9 +1,9 @@
 const express = require('express');
-const sendEmail = require('../utils/sendEmail');
+const sendEmail = require('../tmp/sendEmail');
 const router = express.Router();
 const moment = require('moment');
-const {accessBookingToken} = require('../utils/guestyBookingToken');
-const { accessTokenMiddleware} = require('../utils/guestyOpenApiToken');
+const {accessBookingToken} = require('../tmp/guestyBookingToken');
+const { accessTokenMiddleware} = require('../tmp/guestyOpenApiToken');
 
 // router.get('/listings', generateGuestyOpenApiToken);
 router.get('/listings',accessBookingToken, async (req, res) => {
