@@ -184,15 +184,19 @@ const BookingForm = () => {
                 <h1 className="text-[18px] font-semibold">Subtotal</h1>
                 <p>€ {quote?.rates?.ratePlans[0]?.days[0]?.price*moment(quote?.checkOutDateLocalized).diff(moment(quote?.checkInDateLocalized), 'days')}</p>
               </div>
-              <div className="flex justify-between items-center pb-2 border-b border-[#00000050]">
+              {
+                quote?.promotions && (
+                  <div className="flex justify-between items-center pb-2 border-b border-[#00000050]">
                 <h1 className="text-[18px] font-semibold">Discount </h1>
-                <p>{quote?.promotions?.rule?.discountAmount}%</p>
+                <p> {"  € "}{quote?.rates?.ratePlans[0]?.ratePlan?.money?.invoiceItems[1]?.amount }</p>
               </div>
+                )
+              }
               <div className="flex justify-between items-center text-[#10275b] text-[22px] font-semibold py-6">
                 <h1>Total</h1>
                 <p className='flex gap-3 items-center'>
                 <span className='line-through text-xl    '>€ {quote?.rates?.ratePlans[0]?.ratePlan?.money?.fareAccommodation}</span>
-                € {quote?.rates?.ratePlans[0]?.days[0]?.price*moment(quote?.checkOutDateLocalized).diff(moment(quote?.checkInDateLocalized), 'days')+quote?.rates?.ratePlans[0]?.ratePlan?.money?.invoiceItems[1]?.amount }</p>
+                € {quote?.rates?.ratePlans[0]?.ratePlan?.money?.hostPayout}</p>
               </div>
             </div>
           </div>            <div className="flex items-center gap-3 ">
