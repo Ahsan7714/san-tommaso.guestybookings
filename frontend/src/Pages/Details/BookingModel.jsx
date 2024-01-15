@@ -144,11 +144,6 @@ const BookingModel = ({ isSmallModalOpen, setIsSmallModalOpen }) => {
 
   const navigate=useNavigate()
 
-  const handleNavigation = () => {
-    setIsLargeModalOpen(false);
-    setIsSmallModalOpen(false);
-    navigate("/booking-form")
-  }
 
 
 
@@ -288,7 +283,7 @@ const BookingModel = ({ isSmallModalOpen, setIsSmallModalOpen }) => {
               <div className="" onClick={handleBackArrowClick}>
                 <IoIosArrowRoundBack className="h-[45px] w-[90%] px-2 border border-[#9d155c] text-[#9d155c] cursor-pointer" />
               </div>
-              <Link onClick={()=>handleNavigation()} className="bg-[#9d155c] text-white h-[45px] w-[83%]">
+              <Link to={"/booking-form"} className="bg-[#9d155c] text-white h-[45px] w-[83%]">
                 <button className="bg-[#9d155c] text-white h-[45px] w-[83%] font-poppins">Request to Book</button>
               </Link>
             </div>
