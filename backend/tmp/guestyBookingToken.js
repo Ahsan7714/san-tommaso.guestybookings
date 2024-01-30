@@ -2,8 +2,8 @@ const fs = require('fs');
 const path = require('path');
 const axios = require('axios');
 
-const clientId = '0oaenhp8jzwl8VBDn5d7';
-const clientSecret = 'aC6TTUA_Yn65UHk5VW3bhpc3XR-EOwSEVooR0RF_iO4zCB-OAixJjy0L2VKS1W8L';
+const clientId = '0oae4z1uqaTOWNG8Q5d7';
+const clientSecret = 'v-MykY5TDcx9XKdBUCNMbJs4XiAvQYHDRCcGEbdryhmsPLzFF1Gv6O5H3xxS_dmn';
 
 
 const bookingConfigFilePath = path.join(__dirname, 'bookingConfig.json');
@@ -25,7 +25,7 @@ const accessBookingToken = async (req, res, next) => {
       await requestNewBookingAccessToken(req, next);
     }
   } catch (error) {
-    console.error('Error:', error.message);
+    console.error('Error:', error);
     // Handle error as needed, e.g., send an error response to the client
     res.status(500).json({ error: 'Internal Server Error' });
   }
