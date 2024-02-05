@@ -4,6 +4,7 @@ const router = express.Router();
 const moment = require('moment');
 const {accessBookingToken} = require('../tmp/guestyBookingToken');
 const { accessTokenMiddleware} = require('../tmp/guestyOpenApiToken');
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 // router.get('/listings', generateGuestyOpenApiToken);
 router.get('/listings',accessBookingToken, async (req, res) => {
@@ -207,5 +208,43 @@ router.post("/listing/quote/:id/inquiry",accessBookingToken,async(req,res)=>{
               }
         })
 
+        router.post("/booking", async (req, res) => {
+          try {
+            // Extract necessary data from the request body
+            const { checkInDate, checkOutDate, listingId, ratePlanId, price } = req.body;
+        
+            // Create a Stripe Checkout session
+            const session = await stripe.checkout.sessions.create({
+              payment_method_types: ['card'],
+              line_items: [
+                {
+                  price_data: {
+                    currency: 'usd',
+                    product_data: {
+                      name: 'Booking at Santommaso Agriturismo',
+                        images: ['https://www.santommaso.com/wp-content/uploads/2021/03/logo2021.png'],
+
+
+                    },
+                    unit_amount: price * 100,
+                  },
+                  quantity: 1,
+                  
+                },
+              ],
+              mode: 'payment',
+              success_url: `${process.env.CLIENT_URL}/success`,
+              cancel_url: `${process.env.CLIENT_URL}/cancel`,
+            });
+        console.log(session)
+
+            // Send the session ID as a response
+            res.json({ id: session.id });
+          } catch (error) {
+            console.error("Error creating Stripe Checkout session:", error.message);
+            res.status(500).json({ error: "Internal Server Error" });
+          }
+        });
+        
 
 module.exports = router;
