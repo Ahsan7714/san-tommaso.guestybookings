@@ -7,6 +7,13 @@ import about from "../../assets/about1.jpg"
 import { useLocalContext } from "../../context/contextProvider";
 import moment from "moment";
 import { toast } from "react-toastify";
+import axios from "axios";
+import baseUrl from "../../context/baseUrl";
+import { loadStripe } from '@stripe/stripe-js';
+
+const stripePromise = loadStripe('pk_test_51OaAD3FCTbeSmREUWmUSluaYtjtFsOx6zFhBCrQvw5buPyUDUshCYpLGNfBRkVoeJnm3WHKJ4PdmhGH8JBnltvTO00aE9Qz4SG');
+
+
 
 const BookingForm = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -31,32 +38,44 @@ const BookingForm = () => {
     return phoneNumberPattern.test(phoneNumber);
   };
 
-  const handleInquiry = async () => {
-    if (!firstName || !lastName || !email || !phoneNumber || !acceptedPolicy) {
+  
+
+  const handleBook = async () => {
+    if (!firstName || !lastName || !email || !phoneNumber || !acceptedPolicy || !acceptedPaymentTerms) {
       toast.error("Please fill in all required fields.");
       return;
     }
-
+  
     try {
-      await createInquiry(
-        quote._id,
-        firstName,
-        lastName,
-        email,
-        phoneNumber,
-        quote.rates.ratePlans[0].ratePlan._id
-      );
+      const guest=JSON.stringify({
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        phone: phoneNumber
+      })
 
-      // Navigate to the home page
-      navigate("/");
-      // Show a success toast
-      toast.success(" We’ll get back at the guest within 24  hours.");
-
+      // Make a request to your server to create a Stripe Checkout session
+      const response = await axios.post(`${baseUrl}/booking`, {
+      price: quote.rates.ratePlans[0].ratePlan.money.hostPayout,
+      checkInDate: quote?.checkInDateLocalized,
+      checkOutDate: quote?.checkOutDateLocalized,
+      guestsCount: quote.guestsCount,
+      guest,
+      listingId: property._id,
+      fareAccommodation: quote.rates.ratePlans[0].ratePlan.money.fareAccommodation,
+      });
+  
+      // Extract the session ID from the response
+      const url = response.data.url;
+  
+      // Redirect the user to the Stripe Checkout page
+      window.location.href = url;
     } catch (error) {
-      console.log(error);
-      alert("Error fetching quote. Please try again.");
+      console.error("Error creating Stripe Checkout session:", error);
+      // Handle the error, show an error message, or redirect the user to an error page
     }
   };
+  
 
   return (
     <form className="lg:mt-10 mt-14 mb-20 flex justify-between px-5 lg:flex-row flex-col">
@@ -202,14 +221,14 @@ const BookingForm = () => {
           </div>            <div className="flex items-center gap-3 ">
             {
               acceptedPolicy && acceptedPaymentTerms ? (
-                <button type="button"  className="bg-[#9d155c] text-white h-[45px] w-[100%] font-poppins" >
-              <button type="button" onClick={()=>handleInquiry()} className="bg-[#9d155c] text-white text-[20px] font-semibold h-[45px] w-[100%]">
-                Request to Book
+                <button onClick={()=>handleBook()}  type="button"  className="bg-[#9d155c] text-white h-[45px] w-[100%] font-poppins" >
+              <button type="button"  className="bg-[#9d155c] text-white text-[20px] font-semibold h-[45px] w-[100%]">
+                 Book
               </button>
               </button>):
-              <button type="button" disabled className="bg-[#e4549e] text-white h-[45px] w-[100%] font-poppins" >
-              <button type="button" disabled={true} className="bg-[#e24f9b] cursor-not-allowed text-white text-[20px] font-semibold h-[45px] w-[100%] font-poppins">
-                Request to Book
+              <button onClick={()=>handleBook()} type="button" disabled className="bg-[#e4549e] text-white h-[45px] w-[100%] font-poppins" >
+              <button  type="button" disabled={true} className="bg-[#e24f9b] cursor-not-allowed text-white text-[20px] font-semibold h-[45px] w-[100%] font-poppins">
+                 Book
               </button>
               </button>
 

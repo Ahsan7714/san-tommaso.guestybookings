@@ -5,7 +5,7 @@ const moment = require('moment');
 const {accessBookingToken} = require('../tmp/guestyBookingToken');
 const { accessTokenMiddleware} = require('../tmp/guestyOpenApiToken');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-
+const axios = require('axios');
 // router.get('/listings', generateGuestyOpenApiToken);
 router.get('/listings',accessBookingToken, async (req, res) => {
   const { checkIn, checkOut, count } = req.query;
@@ -211,15 +211,19 @@ router.post("/listing/quote/:id/inquiry",accessBookingToken,async(req,res)=>{
         router.post("/booking", async (req, res) => {
           try {
             // Extract necessary data from the request body
-            const { checkInDate, checkOutDate, listingId, ratePlanId, price } = req.body;
-        
+            const { checkInDate, checkOutDate, listingId, ratePlanId, price ,guestsCount,
+                guest
+            } = req.body;
+     
+
+            
             // Create a Stripe Checkout session
             const session = await stripe.checkout.sessions.create({
               payment_method_types: ['card'],
               line_items: [
                 {
                   price_data: {
-                    currency: 'usd',
+                    currency: 'eur',
                     product_data: {
                       name: 'Booking at Santommaso Agriturismo',
                         images: ['https://www.santommaso.com/wp-content/uploads/2021/03/logo2021.png'],
@@ -231,20 +235,140 @@ router.post("/listing/quote/:id/inquiry",accessBookingToken,async(req,res)=>{
                   quantity: 1,
                   
                 },
+                
               ],
+              metadata: {
+                checkInDate,
+                checkOutDate,
+                listingId,
+                ratePlanId,
+                guest,
+                guestsCount
+              },
               mode: 'payment',
-              success_url: `${process.env.CLIENT_URL}/success`,
+              success_url: `${process.env.CLIENT_URL}/success/{CHECKOUT_SESSION_ID}`,
               cancel_url: `${process.env.CLIENT_URL}/cancel`,
             });
         console.log(session)
 
             // Send the session ID as a response
-            res.json({ id: session.id });
+            res.json({ url: session.url });
           } catch (error) {
             console.error("Error creating Stripe Checkout session:", error.message);
             res.status(500).json({ error: "Internal Server Error" });
           }
         });
+
+        // confirm the payment
+        router.post("/confirm-payment",async(req,res)=>{
+          const {sessionId}=req.body
+          try {
+            const session = await stripe.checkout.sessions.retrieve(sessionId);
+            console.log(session)
+            res.status(200).json(session);
+          } catch (error) {
+            console.error("Error confirming payment:", error.message);
+            res.status(500).json({ error: "Internal Server Error" });
+          }
+        })
         
 
+        // create a route for creating the guest 
+        
+        router.post("/create-guest",accessTokenMiddleware, async (req, res) => {
+            const { firstName, lastName, email, phone } = req.body;
+            try {
+              const response = await axios.post("https://open-api.guesty.com/v1/guests-crud", {
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                phone: phone
+              }, {
+                headers: {
+                  "accept": 'application/json',
+                  'content-type': 'application/json',
+                  "authorization": `Bearer ${req.guestyAccessToken}`,
+                },
+              });
+          
+              const data = response.data;
+              console.log(data);
+          
+              res.status(200).json(data);
+            } catch (error) {
+              console.error('Error:', error);
+              res.status(500).json({ "error": error.message });
+            }
+          });
+
+
+
+            router.post("/create-reservation",accessTokenMiddleware, async (req, res) => {
+                const { checkInDateLocalized, checkOutDateLocalized, listingId, ratePlanId, guestId,guest,amount } = req.body;
+                try {
+                  const response = await axios.post("https://open-api.guesty.com/v1/reservations", {
+                    checkInDateLocalized: checkInDateLocalized,
+                    checkOutDateLocalized: checkOutDateLocalized,
+                    listingId: listingId,
+                    ratePlanId: ratePlanId,
+                    guestId: guestId,
+                    status:"confirmed",
+                    guest,
+                    money:{
+                        fareAccommodation:amount,
+                        currency:"EUR"
+                    }
+                  }, {
+                    headers: {
+                      "accept": 'application/json',
+                      'content-type': 'application/json',
+                      "authorization": `Bearer ${req.guestyAccessToken}`,
+                    },
+                  });
+              
+                  const data = response.data;
+                  console.log(data);
+              
+                  res.status(200).json(data);
+                } catch (error) {
+                  console.error('Error:', error);
+                  res.status(500).json({ "error": error.message });
+                }
+              })
+
+
+
+              // add the payment to reservation
+
+              https://open-api.guesty.com/v1/reservations/{id}/payments
+
+                router.post("/add-payment-to-reservation",accessTokenMiddleware, async (req, res) => {
+                    const { reservationId, amount, currency } = req.body;
+                    try {
+                      const response = await axios.post(`https://open-api.guesty.com/v1/reservations/${reservationId}/payments`, {
+                        amount: amount,
+                        paymentMethod:{
+                            method:"STRIPE",
+
+                        },
+                      }, {
+                        headers: {
+                          "accept": 'application/json',
+                          'content-type': 'application/json',
+                          "authorization": `Bearer ${req.guestyAccessToken}`,
+                        },
+                      });
+                  
+                      const data = response.data;
+                      console.log(data);
+                  
+                      res.status(200).json(data);
+                    } catch (error) {
+                      console.error('Error:', error);
+                      res.status(500).json({ "error": error.message });
+                    }
+                  })
+
 module.exports = router;
+
+
