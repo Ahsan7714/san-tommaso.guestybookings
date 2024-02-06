@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom"
 import baseUrl from "../../context/baseUrl"
 import Loader from "../../Components/Loader/Loader"
 import { useEffect } from "react"
+import { toast } from "react-toastify"
 
 const SuccessPage = () => {
   const navigate = useNavigate();
@@ -37,6 +38,9 @@ let guestDetails=     JSON.parse(guest);
             amount: fareAccommodation,
         });
 
+
+        toast.success("Payment Successful, Reservation Created");
+        navigate("/");
 
 
 
