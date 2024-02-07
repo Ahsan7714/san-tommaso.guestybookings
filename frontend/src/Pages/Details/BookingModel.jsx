@@ -128,7 +128,7 @@ const BookingModel = ({ isSmallModalOpen, setIsSmallModalOpen }) => {
   }, [flag, setIsSmallModalOpen, setIsLargeModalOpen, quote]);
 
   const options = [];
-  for (let i = 1; i <= 25; i++) {
+  for (let i = 1; i <= property?.accommodates; i++) {
     options.push(
       <option key={i} value={i}>
         {i}

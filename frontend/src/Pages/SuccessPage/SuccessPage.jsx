@@ -48,7 +48,7 @@ let guestDetails=     JSON.parse(guest);
   setTimeout(async () => {
     const paymentResponse = await axios.post(`${baseUrl}/add-payment-to-reservation`, {
         reservationId: reservationResponse?.data?._id,
-        amount: amount_total,
+        amount: amount_total/100,
         sessionId,
     });
 
