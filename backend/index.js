@@ -11,6 +11,7 @@ app.use(cors(
         withCredentials:true,
         credentials:true  
     }
+    
 
 ));
 const routes = require('./routes/routes');

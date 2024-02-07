@@ -283,9 +283,8 @@ const finalPriceAfterDiscount=finalPrice+discountAmount
               <div className="flex justify-between items-center text-[#10275b] text-[22px] font-semibold py-6">
                 <h1>Total</h1>
                 <p className='flex gap-3 items-center'>
-                <span className='line-through text-xl    '>€ 
-                </span>
-                € {finalPriceAfterDiscount}</p>
+                <span className='line-through text-xl    '>€ {quote?.rates?.ratePlans[0]?.ratePlan?.money?.fareAccommodation}</span>
+                € {quote?.rates?.ratePlans[0]?.ratePlan?.money?.hostPayout}</p>
               </div>
               <div className="flex justify-between items-center  text-[14px] ">
                 <h1>* You will recieve a more specified receipt in your mail</h1>
