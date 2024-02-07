@@ -160,7 +160,7 @@ const BookingForm = () => {
             <div className="flex flex-col gap-8">
                 <div className="flex items-start ">
                     <input type="checkbox" name="" onChange={() => setAcceptedPolicy(!acceptedPolicy)} id="" className=" cursor-pointer h-[16px] w-10 mt-1"  />
-                    <label className=" text-[16px]">I have read & accept the Privacy Policy | Agriturismo San Tommaso Terms and Conditions</label>
+                    <label className=" text-[16px]">I have read & accept the <a href="https://san-tommaso.guestybookings.com/privacy-policy"> Privacy Policy </a>  | Agriturismo San Tommaso <a href="https://san-tommaso.guestybookings.com/terms">Terms and Conditions</a>  </label>
                 </div>
                 <div className="flex items-start ">
                     <input type="checkbox" name=""  onChange={() => setAcceptedPaymentTerms(!acceptedPaymentTerms)} id="" className=" cursor-pointer h-[16px] w-10 mt-1"  />
