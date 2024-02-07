@@ -11,7 +11,7 @@ import axios from "axios";
 import baseUrl from "../../context/baseUrl";
 import { loadStripe } from '@stripe/stripe-js';
 
-const stripePromise = loadStripe('pk_test_51OaAD3FCTbeSmREUWmUSluaYtjtFsOx6zFhBCrQvw5buPyUDUshCYpLGNfBRkVoeJnm3WHKJ4PdmhGH8JBnltvTO00aE9Qz4SG');
+const stripePromise = loadStripe('pk_live_51OFkbpAd2NZzaFPbmwdrBMgl3pgyC2m0m5kpt0cqx6rdcMEHQ6wQkNIABrpRqOvefxYVrE7m59yHTYNY1HpVDHrB005zGu8TBd');
 
 
 
@@ -34,6 +34,7 @@ const BookingForm = () => {
   };
 
   const validatePhoneNumber = (phoneNumber) => {
+alert(quote._id)
     const phoneNumberPattern = /^\+?[1-9]\d{1,14}$/;
     return phoneNumberPattern.test(phoneNumber);
   };
@@ -63,6 +64,8 @@ const BookingForm = () => {
       guest,
       listingId: property._id,
       fareAccommodation: quote.rates.ratePlans[0].ratePlan.money.fareAccommodation,
+      ratePlanId: quote.rates.ratePlans[0].ratePlan._id,
+      qouteId: quote?._id,
       });
   
       // Extract the session ID from the response
@@ -244,3 +247,128 @@ const BookingForm = () => {
 };
 
 export default BookingForm;
+
+
+
+// {
+//   "promotions": {
+//       "_id": "65757446baed60886252bc53",
+//       "name": "D4day discount 29-03",
+//       "type": "los_direct_bookings",
+//       "rule": {
+//           "discountType": "percent",
+//           "discountAmount": 10
+//       }
+//   },
+//   "coupons": [],
+//   "rates": {
+//       "ratePlans": [
+//           {
+//               "ratePlan": {
+//                   "_id": "default-rateplan-id",
+//                   "name": "Standard",
+//                   "priceAdjustment": {
+//                       "type": "flat",
+//                       "direction": "decrease",
+//                       "amount": 0
+//                   },
+//                   "type": "default",
+//                   "mealPlans": [],
+//                   "cancellationPolicy": null,
+//                   "cancellationFee": null,
+//                   "description": "",
+//                   "minNights": 0,
+//                   "rateStrategies": [],
+//                   "money": {
+//                       "_id": "65c2580516eab4000ede8fec",
+//                       "currency": "EUR",
+//                       "fareAccommodation": 540,
+//                       "fareAccommodationAdjusted": 486,
+//                       "fareCleaning": 0,
+//                       "totalFees": 0,
+//                       "subTotalPrice": 486,
+//                       "hostPayout": 486,
+//                       "hostPayoutUsd": 522.21,
+//                       "totalTaxes": 0,
+//                       "invoiceItems": [
+//                           {
+//                               "title": "Accommodation fare",
+//                               "amount": 540,
+//                               "currency": "EUR",
+//                               "type": "ACCOMMODATION_FARE",
+//                               "normalType": "AF"
+//                           },
+//                           {
+//                               "title": "D4day discount 29-03",
+//                               "amount": -54,
+//                               "currency": "EUR",
+//                               "type": "PROMOTION",
+//                               "description": "D4day discount 29-03",
+//                               "normalType": "PRO",
+//                               "partOf": "AF"
+//                           }
+//                       ]
+//                   }
+//               },
+//               "days": [
+//                   {
+//                       "date": "2024-04-14",
+//                       "currency": "EUR",
+//                       "rateStrategy": 0,
+//                       "ratePlan": 0,
+//                       "minNights": 3,
+//                       "maxNights": 30,
+//                       "manualPrice": 135,
+//                       "lengthOfStay": 0,
+//                       "price": 135
+//                   },
+//                   {
+//                       "date": "2024-04-15",
+//                       "currency": "EUR",
+//                       "rateStrategy": 0,
+//                       "ratePlan": 0,
+//                       "minNights": 3,
+//                       "maxNights": 30,
+//                       "manualPrice": 135,
+//                       "lengthOfStay": 0,
+//                       "price": 135
+//                   },
+//                   {
+//                       "date": "2024-04-16",
+//                       "currency": "EUR",
+//                       "rateStrategy": 0,
+//                       "ratePlan": 0,
+//                       "minNights": 3,
+//                       "maxNights": 30,
+//                       "manualPrice": 135,
+//                       "lengthOfStay": 0,
+//                       "price": 135
+//                   },
+//                   {
+//                       "date": "2024-04-17",
+//                       "currency": "EUR",
+//                       "rateStrategy": 0,
+//                       "ratePlan": 0,
+//                       "minNights": 3,
+//                       "maxNights": 30,
+//                       "manualPrice": 135,
+//                       "lengthOfStay": 0,
+//                       "price": 135
+//                   }
+//               ]
+//           }
+//       ]
+//   },
+//   "checkOutDateLocalized": "2024-04-18",
+//   "checkInDateLocalized": "2024-04-14",
+//   "unitTypeId": "65742b62b74f5a0012c81970",
+//   "source": "BE-API",
+//   "channel": "booking_engine",
+//   "guestsCount": 1,
+//   "accountId": "6570dc3898dc495759a57d14",
+//   "expiresAt": "2024-02-07T16:02:13.082Z",
+//   "createdAt": "2024-02-06T16:02:13.082Z",
+//   "_id": "65c25804d4a6c25dc51ae318",
+//   "__v": 0,
+//   "status": "valid"
+// }
