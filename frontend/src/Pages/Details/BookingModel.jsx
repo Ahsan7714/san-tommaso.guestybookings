@@ -283,7 +283,8 @@ const finalPriceAfterDiscount=finalPrice+discountAmount
               <div className="flex justify-between items-center text-[#10275b] text-[22px] font-semibold py-6">
                 <h1>Total</h1>
                 <p className='flex gap-3 items-center'>
-                <span className='line-through text-xl    '>€ {finalPrice}</span>
+                <span className='line-through text-xl    '>€ 
+                </span>
                 € {finalPriceAfterDiscount}</p>
               </div>
               <div className="flex justify-between items-center  text-[14px] ">
