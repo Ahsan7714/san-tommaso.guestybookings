@@ -34,7 +34,6 @@ const BookingForm = () => {
   };
 
   const validatePhoneNumber = (phoneNumber) => {
-alert(quote._id)
     const phoneNumberPattern = /^\+?[1-9]\d{1,14}$/;
     return phoneNumberPattern.test(phoneNumber);
   };

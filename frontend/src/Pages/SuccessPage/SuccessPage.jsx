@@ -16,7 +16,6 @@ const SuccessPage = () => {
 
     const { metadata, amount_total, payment_status } = data;
     const { checkInDate, checkOutDate, listingId, ratePlanId, guestsCount, guest,fareAccommodation,qouteId} = metadata;
-    alert(qouteId)
 
 let guestDetails=     JSON.parse(guest);
 
@@ -43,18 +42,24 @@ let guestDetails=     JSON.parse(guest);
         });
 
 
-        // add payment to reservation
+      if(reservationResponse.data){
 
-        const paymentResponse = await axios.post(`${baseUrl}/add-payment-to-reservation`, {
-            reservationId: reservationResponse?.data?._id,
-            amount: amount_total,
-            sessionId,
-        });
+  // Delay for 3 seconds before checking for reservation
+  setTimeout(async () => {
+    const paymentResponse = await axios.post(`${baseUrl}/add-payment-to-reservation`, {
+        reservationId: reservationResponse?.data?._id,
+        amount: amount_total,
+        sessionId,
+    });
 
-        console.log(paymentResponse.data);
-
+    if(paymentResponse.data._id){
         toast.success("Payment Successful, Reservation Created");
-        // navigate("/");
+    navigate("/");
+    }
+}, 5000); // 3 seconds delay
+      
+
+      }
 
 
 

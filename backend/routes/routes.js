@@ -366,7 +366,8 @@ router.post("/listing/quote/:id/inquiry",accessBookingToken,async(req,res)=>{
                         amount: amount,
                         paymentMethod:{
                             method:"STRIPE",
-
+                            saveForFutureUse:true,
+                            id:"58a1930e85e33bd55ec5c8c3"
                         },
 
                       }, {
