@@ -26,7 +26,7 @@ const Navbar = () => {
   return (
     <div className='flex w-full justify-between lg:justify-between items-center h-[70px] lg:h-[80px] bg-white shadow-lg sticky lg:w-full top-0 z-50 font-poppins'>
  {/* <GoogleTranslateButton />  */}
- <div id="google_translate_element"></div>
+ {/* <div id="google_translate_element"></div> */}
 
       <div className='flex lg:pl-10  lg:gap-10 text-[#9d155c] lg:text-[#f8aa48] text-[40px] lg:text-[30px] items-center'>
         <Link onClick={handlePhoneClick}>
