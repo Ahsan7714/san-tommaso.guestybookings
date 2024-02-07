@@ -212,7 +212,7 @@ router.post("/listing/quote/:id/inquiry",accessBookingToken,async(req,res)=>{
           try {
             // Extract necessary data from the request body
             const { checkInDate, checkOutDate, listingId, ratePlanId, price ,guestsCount,
-                guest
+                guest,qouteId
             } = req.body;
      
 
@@ -243,11 +243,12 @@ router.post("/listing/quote/:id/inquiry",accessBookingToken,async(req,res)=>{
                 listingId,
                 ratePlanId,
                 guest,
-                guestsCount
+                guestsCount,
+                qouteId
               },
               mode: 'payment',
               success_url: `${process.env.CLIENT_URL}/success/{CHECKOUT_SESSION_ID}`,
-              cancel_url: `${process.env.CLIENT_URL}/cancel`,
+              cancel_url: `${process.env.CLIENT_URL}/`,
             });
         console.log(session)
 
@@ -303,40 +304,56 @@ router.post("/listing/quote/:id/inquiry",accessBookingToken,async(req,res)=>{
 
 
 
-            router.post("/create-reservation",accessTokenMiddleware, async (req, res) => {
-                const { checkInDateLocalized, checkOutDateLocalized, listingId, ratePlanId, guestId,guest,amount } = req.body;
-                try {
-                  const response = await axios.post("https://open-api.guesty.com/v1/reservations", {
+          router.post("/create-reservation", accessBookingToken, async (req, res) => {
+            const { checkInDateLocalized, checkOutDateLocalized, listingId, ratePlanId, guestId, guest, amount, qouteId } = req.body;
+            try {
+                const response = await axios.post(`https://booking.guesty.com/api/reservations/quotes/${qouteId}/instant`, {
                     checkInDateLocalized: checkInDateLocalized,
                     checkOutDateLocalized: checkOutDateLocalized,
                     listingId: listingId,
                     ratePlanId: ratePlanId,
                     guestId: guestId,
-                    status:"confirmed",
+                    status: "confirmed",
                     guest,
-                    money:{
-                        fareAccommodation:amount,
-                        currency:"EUR"
-                    }
-                  }, {
-                    headers: {
-                      "accept": 'application/json',
-                      'content-type': 'application/json',
-                      "authorization": `Bearer ${req.guestyAccessToken}`,
+                    qouteId,
+                    money: {
+                        fareAccommodation: amount,
+                        currency: "EUR",
                     },
-                  });
-              
-                  const data = response.data;
-                  console.log(data);
-              
-                  res.status(200).json(data);
-                } catch (error) {
-                  console.error('Error:', error);
-                  res.status(500).json({ "error": error.message });
+                    ccToken: "pm_1J3z3vGy3b4zSj5Gz3z3vGy3",
+                }, {
+                  headers: {
+                    "accept": 'application/json',
+                    'content-type': 'application/json',
+                    "authorization": `Bearer ${req.guestyBookingAccessToken}`,
+                },
+                });
+        
+                const data = response.data;
+                console.log(data);
+        
+                res.status(200).json(data);
+            } catch (error) {
+                console.error('Error:', error);
+                // Handle specific error cases if needed
+                if (error.response) {
+                    // The request was made and the server responded with a status code
+                    // that falls out of the range of 2xx
+                    console.error('Server responded with:', error.response.data.error.data.errors);
+                    console.error('Status code:', error.response.status);
+                    res.status(error.response.status).json({ error: error.response.data });
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    console.error('No response received:', error.request);
+                    res.status(500).json({ error: 'No response received from the server' });
+                } else {
+                    // Something happened in setting up the request that triggered an Error
+                    console.error('Request setup error:', error.message);
+                    res.status(500).json({ error: 'Error setting up the request' });
                 }
-              })
-
-
+            }
+        });
+        
 
               // add the payment to reservation
 
@@ -351,6 +368,7 @@ router.post("/listing/quote/:id/inquiry",accessBookingToken,async(req,res)=>{
                             method:"STRIPE",
 
                         },
+
                       }, {
                         headers: {
                           "accept": 'application/json',
