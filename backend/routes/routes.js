@@ -54,7 +54,7 @@ try {
     const response = await fetch(`https://open-api.guesty.com/v1/listings/${req.params.id}`, {
         headers: {
             "accept": 'application/json',
-            "authorization": `Bearer ${req.guestyAccessToken}`,
+            "authorization":`Bearer ${req.guestyAccessToken}`,
         }
     });
     if (!response.ok) {
