@@ -52,14 +52,7 @@ const Navbar = () => {
         </Link>
       </div>
       <div className='flex items-center gap-6'>
-      <div className="language_options">
-      <select
-          onChange={(e) => changeLanguage(e.target.value)}
-        >
-          <option value="en">{t('english')}</option>
-          <option value="it">{t('italian')}</option>
-        </select>
-      </div>
+
         <Link to={"/properties"} className='bg-[#9d155c] h-[70px] lg:h-[80px] w-[100px] lg:w-[140px] flex justify-center items-center '>
           <span className='text-[20px] text-white font-poppins' >Book</span>
         </Link>
