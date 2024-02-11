@@ -3,8 +3,11 @@ import { FaPhone } from 'react-icons/fa';
 import { RiMailOpenFill } from 'react-icons/ri';
 import { FaWhatsapp } from 'react-icons/fa6';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next'; // Import useTranslation hook
 
 const Footer = () => {
+  const { t } = useTranslation(); // Hook to access translation function
+
   const phoneNumber = '+393394085200';
   const emailAddress = 'info@santommaso.com';
   const whatsappNumber = '+393312128059'; // Change this to your WhatsApp number
@@ -26,10 +29,10 @@ const Footer = () => {
       <div className=" flex lg:flex-row flex-col gap-8 lg:gap-0 justify-between px-7 py-14 items-start border-b-[1px] border-gray-700">
         <div className="flex flex-col gap-3 lg:w-[20%] text-[14px] text-[#000000be]">
           <p className="">
-            Strada Comunale di Montegemoli, 148, 56045 Pomarance PI, Italië
+            {t('address')}
           </p>
-          <p>info@santommaso.com</p>
-          <p className="font-semibold underline">+393394085200</p>
+          <p>{emailAddress}</p>
+          <p className="font-semibold underline">{phoneNumber}</p>
         </div>
         <div className="flex flex-col gap-3 lg:-ml-[10rem] items-center ml-14">
           <img
@@ -38,12 +41,12 @@ const Footer = () => {
             className="h-[80px] w-[150px]"
           />
           <p className="text-[18px] text-[#10275b] font-bold">
-            Agriturismo San Tommaso
+            {t('companyName')}
           </p>
         </div>
         <div className="flex flex-col gap-3 font-semibold">
-          <p>PRIVACY POLICY</p>
-          <p>COOKIE POLICY</p>
+          <p>{t('privacyPolicy')}</p>
+          <p>{t('cookiePolicy')}</p>
         </div>
       </div>
       <div className="flex flex-col">
@@ -53,8 +56,8 @@ const Footer = () => {
           <Link onClick={handleWhatsappClick}><FaWhatsapp className='hover:text-[#9d155c] transition-colors duration-500 pl-1 lg:pl-0'/></Link>
         </div>
         <div className="flex flex-col gap-2 items-center justify-center py-6 text-[14px]">
-            <p>©Copyright.All rights reserved</p>
-            <p>Developed By <a href="https://www.fiverr.com/muhammadsarw200" className="underline" target="_blank" rel="noopener noreferrer">Perfect Solutions</a></p>
+            <p>{t('allRightsReserved')}</p>
+            <p>{t('developedBy')} <a href="https://www.fiverr.com/muhammadsarw200" className="underline" target="_blank" rel="noopener noreferrer">{t('developerName')}</a></p>
         </div>
       </div>
     </div>

@@ -12,6 +12,7 @@ import Properties from './Pages/Properties/Properties'
 import {  ToastContainer } from 'react-toastify'
 import ContactUs from './Pages/ContactUs/ContactUs'
 import React, { useEffect } from 'react'
+
 function App() {
 
   return (

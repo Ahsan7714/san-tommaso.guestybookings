@@ -5,7 +5,9 @@ import { FaWhatsapp } from 'react-icons/fa6';
 import { Link } from 'react-router-dom';
 import "./Navbar.css"
 import GoogleTranslateButton from '../Translator/Translator';
+import { useTranslation } from 'react-i18next'; 
 const Navbar = () => {
+  const { t, i18n } = useTranslation();
   const phoneNumber = '+393394085200';
   const emailAddress = 'info@santommaso.com';
   const whatsappNumber = '+393312128059'; // Change this to your WhatsApp number
@@ -22,11 +24,12 @@ const Navbar = () => {
   const handleWhatsappClick = () => {
     window.open(`https://wa.me/${whatsappNumber}`, '_blank');
   };
-
+  const changeLanguage = (language) => {
+    i18n.changeLanguage(language);
+  };
   return (
     <div className='flex w-full justify-between lg:justify-between items-center h-[70px] lg:h-[80px] bg-white shadow-lg sticky lg:w-full top-0 z-50 font-poppins'>
- {/* <GoogleTranslateButton />  */}
- {/* <div id="google_translate_element"></div> */}
+
 
       <div className='flex lg:pl-10  lg:gap-10 text-[#9d155c] lg:text-[#f8aa48] text-[40px] lg:text-[30px] items-center'>
         <Link onClick={handlePhoneClick}>
@@ -49,6 +52,14 @@ const Navbar = () => {
         </Link>
       </div>
       <div className='flex items-center gap-6'>
+      <div className="language_options">
+      <select
+          onChange={(e) => changeLanguage(e.target.value)}
+        >
+          <option value="en">{t('english')}</option>
+          <option value="it">{t('italian')}</option>
+        </select>
+      </div>
         <Link to={"/properties"} className='bg-[#9d155c] h-[70px] lg:h-[80px] w-[100px] lg:w-[140px] flex justify-center items-center '>
           <span className='text-[20px] text-white font-poppins' >Book</span>
         </Link>

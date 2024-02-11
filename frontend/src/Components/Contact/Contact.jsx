@@ -1,17 +1,19 @@
 import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import img from "../../assets/bgcon.jpg";
+import { useTranslation } from 'react-i18next'; // Import useTranslation hook
 import { useLocalContext } from "../../context/contextProvider";
 
 const Contact = () => {
+  const { t } = useTranslation(); // Hook to access translation function
   const [state, setState] = useState({
     name: "",
     email: "",
     subject: "",
     message: "",
   });
-const {sendEmail}=useLocalContext()
+  const { sendEmail } = useLocalContext();
+
   const inputHandle = (e) => {
     setState({
       ...state,
@@ -21,7 +23,7 @@ const {sendEmail}=useLocalContext()
 
   const submit = async (e) => {
     e.preventDefault();
-    await  sendEmail(state.email,state.name,state.subject,state.message)
+    await sendEmail(state.email, state.name, state.subject, state.message);
     setState({
       name: "",
       email: "",
@@ -29,27 +31,26 @@ const {sendEmail}=useLocalContext()
       message: "",
     });
 
-    toast.success("Email sent successfully");
-    
+    toast.success(t('emailSentSuccess')); // Use translation function for toast message
   };
 
   return (
     <div className="bg-gray-200 flex justify-center mb-20" id="contact-us">
-      <div className="flex lg:flex-row flex-col bg-white shadow-xl rounded-lg lg:w-[45%] w-[100%]   my-20 ">
+      <div className="flex lg:flex-row flex-col bg-white shadow-xl rounded-lg lg:w-[45%] w-[100%] my-20 ">
         <div className=" ">
           <form onSubmit={submit} className="flex flex-col px-8 gap-8 py-5">
             <div>
               <h1 className="text-[35px] text-[#10275b] font-bold py-4">
-                Contact us
+                {t('contactUs')}
               </h1>
               <p className="text-[18px] pb-3">
-                We're open for any suggestion or just to have a chat
+                {t('contactUsDescription')}
               </p>
             </div>
 
             <div className="flex flex-col gap-2">
               <label htmlFor="name" className="text-[15px] text-[#80808096]">
-                Name*
+                {t('name')}*
               </label>
               <input
                 type="text"
@@ -58,13 +59,13 @@ const {sendEmail}=useLocalContext()
                 onChange={inputHandle}
                 value={state.name}
                 required
-                placeholder="Your name"
+                placeholder={t('yourName')}
                 className=" outline-none border-b-2 border-[#00000046]  py-2 w-[100%]"
               />
             </div>
             <div className="flex flex-col gap-2">
               <label htmlFor="email" className="text-[15px] text-[#80808096]">
-                Email*
+                {t('email')}*
               </label>
               <input
                 type="text"
@@ -73,14 +74,13 @@ const {sendEmail}=useLocalContext()
                 onChange={inputHandle}
                 value={state.email}
                 required
-                placeholder="Your Email"
+                placeholder={t('yourEmail')}
                 className=" outline-none border-b-2 border-[#00000046]  py-2 w-[100%]"
               />
             </div>
-
             <div className="flex flex-col gap-2">
               <label htmlFor="subject" className="text-[15px] text-[#80808096]">
-                Subject*
+                {t('subject')}*
               </label>
               <input
                 type="text"
@@ -89,14 +89,13 @@ const {sendEmail}=useLocalContext()
                 onChange={inputHandle}
                 value={state.subject}
                 required
-                placeholder="Your Subject"
+                placeholder={t('yourSubject')}
                 className=" outline-none border-b-2 border-[#00000046]  py-2 w-[100%]"
               />
             </div>
-
             <div className="flex flex-col gap-2">
               <label htmlFor="message" className="text-[15px] text-[#80808096]">
-                Message*
+                {t('message')}*
               </label>
               <textarea
                 name="message"
@@ -106,23 +105,18 @@ const {sendEmail}=useLocalContext()
                 required
                 cols="10"
                 rows="3"
-                placeholder="Enter your message"
+                placeholder={t('yourMessage')}
                 className=" outline-none border-b-2 border-[#00000046]  py-2 w-[100%]"
               ></textarea>
             </div>
-
             <div>
               <button className="bg-[#f8aa48] font-semibold text-white h-[50px] w-[160px] rounded-md shadow-lg font-poppins">
-                Send Message
+                {t('sendMessage')}
               </button>
             </div>
           </form>
         </div>
-        {/* <div className="flex-1">
-          <img src={img} alt="" className=" rounded-e-lg hidden lg:block" />
-        </div> */}
       </div>
-
       {/* Toast container */}
       <ToastContainer position="top-right" autoClose={3000} />
     </div>
@@ -130,5 +124,3 @@ const {sendEmail}=useLocalContext()
 };
 
 export default Contact;
-
-
