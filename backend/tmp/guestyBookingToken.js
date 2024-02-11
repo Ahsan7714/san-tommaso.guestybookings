@@ -2,8 +2,8 @@ const fs = require('fs');
 const path = require('path');
 const axios = require('axios');
 
-const clientId = '0oae4z1uqaTOWNG8Q5d7';
-const clientSecret = 'v-MykY5TDcx9XKdBUCNMbJs4XiAvQYHDRCcGEbdryhmsPLzFF1Gv6O5H3xxS_dmn';
+const clientId = '0oaesl1l38cqmL3Am5d7';
+const clientSecret = '7hzhiNZmeIFrA7yhOAaTv15SqvOcuhrbw1jNIbo6i7ufbKNVHkjL6tcAflKfIy53';
 
 
 const bookingConfigFilePath = path.join(__dirname, 'bookingConfig.json');
