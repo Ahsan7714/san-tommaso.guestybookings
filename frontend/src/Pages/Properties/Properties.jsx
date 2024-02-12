@@ -9,7 +9,7 @@ import Contact from "../../Components/Contact/Contact";
 import Loader from "../../Components/Loader/Loader";
 
 const Properties = () => {
-  const { allProperties, loading } = useLocalContext();
+  const { allProperties, loading,getProperties } = useLocalContext();
   
   
   
@@ -20,6 +20,11 @@ const Properties = () => {
   const sortedProperties = [...allProperties].sort((a, b) => {
     return a.accommodates - b.accommodates;
   });
+  useEffect(() => {
+    getProperties();
+  }
+  , []);
+  
 
   const universalDescription =
     "This Property is amazing and you will love it. It is located in the heart of the city and you will love it. The reasons to choose this property are also countless. Beautiful valley, modern architecture and many more. Nature is just side by you. You will love it. Just try it once else you will have a regret to not visit the heaven on earth.";
