@@ -6,10 +6,9 @@ app.use(express.json());
 require("dotenv").config({ path: "./config/.env" });
 app.use(cors(
     {
-        origin:["*"],
-        // origin:,
-        withCredentials:true,
-        credentials:true  
+        origin:["*","https://it.booking.agriturismo-santommaso.com"],
+        credentials:true,
+        methods:["GET,HEAD,PUT,PATCH,POST,DELETE"],
     }
     
 
