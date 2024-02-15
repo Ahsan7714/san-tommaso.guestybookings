@@ -5,7 +5,7 @@ const app = express();
 app.use(express.json());
 require("dotenv").config({ path: "./config/.env" });
 app.use(cors({
-    origin: "*",
+    origin: /^(https?:\/\/(?:.+\.)?agriturismo-santommaso\.com(?::\d{1,5})?)$/,
     credentials: true,
     methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
 }));
