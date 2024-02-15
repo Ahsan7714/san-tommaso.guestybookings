@@ -6,7 +6,7 @@ app.use(express.json());
 require("dotenv").config({ path: "./config/.env" });
 app.use(cors(
     {
-        origin:["https://www.agriturismo-santommaso.com","https://booking-through-aqib.vercel.app","http://localhost:5173","https://it.agriturismo-santommaso.com","https://it.agriturismo-santommaso.com","https://booking.agriturismo-santommaso.com"
+        origin:["https://www.agriturismo-santommaso.com","https://booking-through-aqib.vercel.app","http://localhost:5173","https://it.agriturismo-santommaso.com","https://it.agriturismo-santommaso.com","https://booking.agriturismo-santommaso.com","https://it.booking.agriturismo-santommaso.com"
     
 
 ],
