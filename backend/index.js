@@ -5,10 +5,11 @@ const app = express();
 app.use(express.json());
 require("dotenv").config({ path: "./config/.env" });
 app.use(cors({
-    origin: ["https://booking.agriturismo-santommaso.com", "https://it.booking.agriturismo-santommaso.com"],
+    origin: "*",
     credentials: true,
     methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
 }));
+
 
 const routes = require('./routes/routes');
 // create a hello route
